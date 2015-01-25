@@ -3,9 +3,7 @@
      class plugins {
 
        /**
-       * @class :  plugin class
-       * @pluginfolder : plugins folder
-       * @framework : OZSAFRAMEWROK
+       * Class  plugin class
        * @author OzsaFramework
        */
 

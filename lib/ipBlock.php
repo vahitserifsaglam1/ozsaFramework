@@ -1,14 +1,14 @@
 <?php
 
   class ipBlock {
-       public  function setIp($ip)
+       public  static function setIp($ip)
        {
            $insert = $db->query("INSERT INTO blockip SET ipAdress = '$ip' ");
            return ($insert) ? true:false;
        }  
-      public  function ipBlock($status = false)
+      public static function ipBlocker($status = false)
       {
-           global $pdo;
+           global $db;
            $ip =self::getIp();
           if($status){
               $kontrol = $pdo->query("SELECT ipAdress From blockIp where ipAdress= '$ip' ")->rowCount();
@@ -32,5 +32,9 @@
               $ip = getenv("REMOTE_ADDR");
           }
           return $ip;
+      }
+      public static function Install()
+      {
+        
       }
   }

@@ -1,31 +1,21 @@
 <?php
- function __autoload($classname)
- {
- 	 if(!class_exists($classname))
- 	 {
- 	 	 $include = "lib/{$classname}.php";
-     if (file_exists($include))
-        {
-             include_once($include);
-	    }
- 	 }
-    
-}
- include "error/error.php";
+ include "error/Error.php";
  set_error_handler("myErrorHandler");
- include "lib/db-config.php";
- include "lib/controller.php";
- include "lib/functions.php";
- include "lib/hook.php";
- include "sessionCookie.php";
- include "lib/ob.php";
- include "lib/set.php";
- include "lib/get.php";
+ include "db-config.php";
+ include "System/controller.php";
+ include "plugins/functions.php";
+ include "plugins/hook.php";
+ include "Lib/ipBlock.php";
+ include "Lib/sessionCookie.php";
+ include "Lib/ob.php";
+ include "Lib/file.php";
+ include "Lib/set.php";
+ include "Lib/get.php";
  include "plugins/default.php";
- include "lib/security.php";
- include "lib/form.php";
- include "lib/View.php";
- $bootstrap = new bootstrap();
- 
+ include "Lib/security.php";
+ include "Lib/form.php";
+ include "Lib/View.php";
+ include "System/Core.php";
+ new bootstrap();
 
 

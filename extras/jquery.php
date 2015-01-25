@@ -1,16 +1,19 @@
 <?php
 
- class jq {
+ class Jquery {
     public static $queryString;
 
-     public static function init()
+     public static function extract()
      {
           echo  "<script> \n
              $(function(){ ";
              echo self::$queryString;
           echo "}); </script>";
      }
-
+      public static function clear()
+      {
+        self::$queryString = "";
+      }
       public static function post($url,$formid,$returnid = ".sonuc",$return = false){ 
 
         if(is_array($formid))
@@ -27,16 +30,19 @@
           $metin ="
 
              var url = '".$url."';
-             var data = '".$string."'
+             var data = '".$string."';
 
-             $.post(url,data,function (data){
-                $('".$returnid."').html(data);
-             })
-
-           ";
-           return ($return)?  $metin : self::$queryString .= $metin;
-      }
-     public static function Func($name,$variables,$func,$return = true)
+             $.post(url,data,"; 
+              if(strstr($returnid, "{")){
+                $metin .= $returnid.")";
+              }else{
+                   $metin  .= "$('".$returnid."').html(data);";
+              }
+                 if($return) return $metin;else self::$queryString .= $metin;
+             }
+           
+          
+     public static function func($name,$variables,$func,$return = true)
      {
          if(is_array($variables)){
              foreach($variables as $key)
@@ -49,7 +55,7 @@
          $metin = "function $name($variables){
            $func
          }";
-         return ($return)? $metin : self::$queryString .= $metin;
+         if($return) return $metin;else self::$queryString .= $metin;
      }
      public static function get($url,$formid,$returnid = ".sonuc",$return = false)
      {
@@ -67,23 +73,24 @@
 
          $metin ="
 
-             var url = '".$url."';
-             var data = '".$string."'
+            var url = '".$url."';
+             var data = '".$string."';
 
-             $.get(url,data,function (data){
-                $('".$returnid."').html(data);
-             })
-
-           ";
-            return ($return)? $metin : self::$queryString .= $metin;
-     }
-
+             $.get(url,data,"; 
+              if(strstr($returnid, "{")){
+                $metin .= $returnid.")";
+              }else{
+                   $metin  .= "$('".$returnid."').html(data);";
+              }
+                  if($return) return $metin;else self::$queryString .= $metin;
+             }
+          
      public static function addClass($class,$newclass,$return = false)
      {
          $metin =  "
                $('".$class."').addClass('".$newclass."');
           ";
-          return ($return)? $metin : self::$queryString .= $metin;
+          if($return) return $metin;else self::$queryString .= $metin;
      }
 
      public static function removeClass($class,$removedclass,$return = false)
@@ -94,7 +101,7 @@
             $('".$class."').removeClass('".$removedclass."');
 
          ";
-          return ($return)? $metin : self::$queryString .= $metin;
+          if($return) return $metin;else self::$queryString .= $metin;
      }
 
      public static function toggleClass($class,$toggleClass,$return = false)
@@ -102,16 +109,7 @@
       $metin = "
           $('".$class."').toggleClass('".$toggleClass."');
       ";
-         return ($return)? $metin : self::$queryString .= $metin;
-     }
-
-     /**
-     * @param $id
-     * @param array $animate
-     */
-     public static function animate($id,$animate = array())
-     {
-
+          if($return) return $metin;else self::$queryString .= $metin;
      }
      /**
      * @param $url
@@ -122,7 +120,7 @@
          $metin =  "
           $('".$returnid."').load('".$url."');
          ";
-          return ($return)? $metin : self::$queryString .= $metin;
+           if($return) return $metin;else self::$queryString .= $metin;
      }
 
      public static function setAttr($id,$attr,$value,$return = false)
@@ -130,22 +128,21 @@
           $metin =  "
            $('".$id."').attr('".$id."','".$attr."','".$value."');
           ";
-          return ($return)? $metin :  self::$queryString .= $metin;
+           if($return) return $metin;else self::$queryString .= $metin;
      }
      /**
      * @param $id
      * @param $html
      */
 
-     public static function html($id,$html)
+     public static function html($id,$html,$return = false)
 
      {
 
           $metin = "
            $('".$id."').html('".$html."');";
            
-            return ($return)? $metin :  self::$queryString .= $metin;
-
+             if($return) return $metin;else self::$queryString .= $metin;
      }
 
  }

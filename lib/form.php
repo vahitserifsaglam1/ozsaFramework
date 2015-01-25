@@ -1,15 +1,22 @@
 <?php 
 
-  class form
+  class Form
  {
  	public static $formString;
     public static $formClass;
     public static $functions;
 
- 	public static function open($name,$paramatres)
+ 	public static function open($name,$paramatres,$type='POST')
     {
-        $rended = render($paramatres," ");
-        $msg = "<form name='$name' ".$rended.">";
+
+        if(is_array($paramatres))
+        {
+          $rended = render($paramatres," ");
+          $msg = "<form id='$name' ".$rended." type='$type'>".PHP_EOL;
+        }else{
+          $msg = "<form id='$name' action='$paramatres' type='$type'>".PHP_EOL;
+        }
+        
         echo $msg;
     }
       public static function submit($params)
@@ -17,31 +24,38 @@
           if( is_array($params) )
           {
                $params = reder($params);
-              return "<input type='submit' $params >";
+              return "<input type='submit' $params >".PHP_EOL;
           }else{
-              return "<input type='submit' value='$params' />";
+              return "<input type='submit' value='$params' />".PHP_EOL;
           }
       }
       public static function input($name,$params)
       {
           if(is_array($params))
           {
-              return  "<input name='$name' $params >";
+              return  "<input name='$name' $params >".PHP_EOL;
           }else{
-              return "<input type='text' name='$name' value='$params' >";
+              return "<input type='text' name='$name' value='$params' >".PHP_EOL;
           }
       }
       public static function text($name,$value)
       {
-           return "<input type='text' name='$name' value='$value' />";
+           
+           if(is_array($value))
+           {
+             $value = render($value);
+             return "<input type='text' name='$name' $value />".PHP_EOL;
+           }else{
+            return "<input type='text' name='$name' value='$value' />".PHP_EOL;
+           }
       }
       public static function textarea($name,$params,$value = "")
       {
           if(is_array($params))
           {
-              echo "<textarea name = '$name' $params >$value</textarea>";
+              echo "<textarea name = '$name' $params >$value</textarea>".PHP_EOL;
           }else{
-              echo "<textarea name='$name'>$params</textarea>";
+              echo "<textarea name='$name'>$params</textarea>".PHP_EOL;
           }
       }
       public static function makro($name,$return)
@@ -60,25 +74,25 @@
           if(is_array($params))
           {
               $params = render($params);
-              $msg.= "<select name='$name' $params >";
+              $msg.= "<select name='$name' $params >".PHP_EOL;
           }
           else{
-              $msg .= "<select name='$name' $params >";
+              $msg .= "<select name='$name' $params >".PHP_EOL;
           }
 
           if(is_array($options))
           {
               foreach($options as $key => $value)
               {
-                  $msg .= "<options value='$key'>$value</options>";
+                  $msg .= "<options value='$key'>$value</options>".PHP_EOL;
               }
           }
-          $msg .= "</select>";
+          $msg .= "</select>".PHP_EOL;
           return $msg;
       }
       public static function close()
       {
-          echo "</formm>";
+          echo "</form>";
       }
       public static function __callStatic($name,$parametres)
       {

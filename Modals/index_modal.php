@@ -1,11 +1,10 @@
 <?php
- /**
- * Class index_modal
- * @return bool
- * @param  $page
-  */
- class index_modal extends mainController{
+/**
+* Classs index_modal
+*/
+
+ class index_Modal extends mainController{
      public function __construct(){
-       echo "asdasd";
+       
      }
  }

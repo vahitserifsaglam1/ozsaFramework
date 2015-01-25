@@ -14,6 +14,7 @@
             {
             	$request[]=$options;
             }
+            
             $response = call_user_func_array('http_post_fields', $request);
             $n = preg_match("/HTTP\/1.1 302 Found/", $response, $matches);
            if($n<1) return true;

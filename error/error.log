@@ -1,0 +1,4 @@
+[25.01.15 21:57]>> Undefined variable: return : 8 : C:\xampp\htdocs\php\ozsaFrameWork\extras\jquery.php : 151 
+[25.01.15 21:58]>> Undefined variable: return : 8 : C:\xampp\htdocs\php\ozsaFrameWork\extras\jquery.php : 151 
+[25.01.15 22:13]>> Use of undefined constant veri - assumed 'veri' : 8 : C:\xampp\htdocs\php\ozsaFrameWork\Views\index.php : 12 
+[25.01.15 22:16]>> Undefined variable: self : 8 : C:\xampp\htdocs\php\ozsaFrameWork\extras\jquery.php : 15 

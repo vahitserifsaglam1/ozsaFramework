@@ -1,8 +1,8 @@
 <?php 
  // include configs
- include "../../db-config.php";
+ include "../db-config.php";
  //include curl class
- include "../curl.php"; 
+ include "../extras/curl.php"; 
 
      $curl = new Zebra_cURL();
 

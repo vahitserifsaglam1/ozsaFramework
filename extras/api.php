@@ -1,5 +1,5 @@
 <?php 
-  include "db-config.php";
+  include "../db-config.php";
            class api extends pdo{
                public $type;
                public $select;

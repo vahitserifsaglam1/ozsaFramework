@@ -13,7 +13,7 @@
       * @return bool|PDOStatement
       */
 
-     public function select($select,$table,$where,$order = "")
+     public static function select($select,$table,$where,$order = "")
      {
          $query = "SELECT $select FROM $table WHERE $where";
          if($order != "")
@@ -31,7 +31,7 @@
       * @return bool
       */
 
-     public function update($table,$values = array(),$where = array())
+     public static  function update($table,$values = array(),$where = array())
      {
           $values = $this->render($values,",");
           $where =  $this->render($where," AND ");
@@ -47,7 +47,7 @@
       * @return bool
       */
 
-     public function insert($table,$values)
+     public static function insert($table,$values)
      {
          $values = $this->render($values);
          $query = "INSERT $table SET $values";
@@ -61,7 +61,7 @@
       * @return bool
       */
 
-     public function delete($table,$where)
+     public static function delete($table,$where)
      {
          $where = $this->render($where);
 
@@ -69,30 +69,10 @@
 
          return (parent::query($query)) ? true:false;
      }
+     
+     
 
-     /**
-      * @param $table
-      * @param array $where
-      * @return int
-      */
-
-     public function rowCount($table,$where = array())
-     {
-         if(is_array($where))
-         {
-             $where = $this->render($where," AND ");
-         }
-
-         $query = "SELECT * WHERE TABLE FROM $table WHERE $where";
-         return parent::query($query)->rowCount();
-     }
-
-     /**
-      * @param array $values
-      * @param string $end
-      */
-
-     public function  render($values = array(),$end = ",")
+     public function render($values = array(),$end = ",")
      {
          $d = "";
          foreach ($values as $key => $value)

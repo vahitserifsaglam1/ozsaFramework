@@ -24,14 +24,14 @@
                      break;
 
                  case E_USER_WARNING:
-                     echo "<b>Uyarı : </b> [$errno] $errstr<br />\n";
+                     echo "<b>Uyarı : </b> [$errno] $errstr [On Line:[$errline] File:[$errfile]]<br />\n";
                      break;
 
                  case E_USER_NOTICE:
-                     echo "<b>Bilgi : </b> [$errno] $errstr<br />\n";
+                     echo "<b>Bilgi : </b> [$errno] $errstr [On Line:[$errline] File:[$errfile]]<br />\n";
                      break;
                  default:
-                     echo "Hata Mesaji: [$errno] $errstr<br />\n";
+                     echo "Hata Mesaji: [$errno] $errstr    [On Line:[$errline] File:[$errfile]]<br />\n";
                      break;
              }
              $time = date('d.m.y H:i');
