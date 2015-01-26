@@ -1,5 +1,5 @@
 <?php
-class Mobile_Detect
+class Detect
 {
  const DETECTION_TYPE_MOBILE  = 'mobile';
  const DETECTION_TYPE_EXTENDED= 'extended';

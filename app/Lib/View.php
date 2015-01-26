@@ -4,7 +4,7 @@
    class View{
    	  public static function render($path,$allInclude = false)
    	  {
-   	  	 $path = "Views/".$path.".php";
+   	  	 $path = "app/Views/".$path.".php";
    	  	  if(file_exists($path))
    	  	  {
               if($allInclude)

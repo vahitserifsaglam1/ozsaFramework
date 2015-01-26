@@ -15,7 +15,7 @@
      * @param array $array
      * @return object
      */
-    public static function obje($array = array()){
+    public static function arrayToObject($array = array()){
          if(is_array($array)){
               return (object) $array;
          }else{
@@ -27,7 +27,7 @@
      * @param $object
      * @return array
      */
-    public  static  function arry($object){
+    public  static  function ObjectToArray($object){
         if(is_object($object)){
             return (array) $object;
         }else {

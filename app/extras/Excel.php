@@ -6,7 +6,7 @@
  * @author  Vahit şerif sağlam
  * @version  1.0
  */
-    class excel {
+    class Excel {
         /**
          * @var string
          */

@@ -12,7 +12,7 @@
 
          public function __construct(){
 
-             $this->pluginsFolder = "plugins/";
+             $this->pluginsFolder = "app/plugins/";
 
          }
          public function setPluginFolder($folder){
@@ -41,7 +41,7 @@
 
          }
          public function checkPlugins(){
-           $cek = glob("plugins/*",GLOB_ONLYDIR);
+           $cek = glob("app/plugins/*",GLOB_ONLYDIR);
               foreach($cek as $key){
                   $yap =  $this->installPlugin($key);
                   $data[$key] = ($yap) ? true:false;

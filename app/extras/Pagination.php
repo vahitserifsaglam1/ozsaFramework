@@ -12,7 +12,7 @@
       private static $recods;
       private static $activePage;
       private static $url;
-      public static $file = "Views/css/pagination.css";
+      public static $file = "app/Views/css/pagination.css";
       private static $init  = false;
 
       public static  function init($paginationClass = "pagination",$pagiClass = "pagi")

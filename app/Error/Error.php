@@ -3,6 +3,7 @@
   {
       public static function newError($error)
       {
+         public static $errorFile = "error/error.log";
          if(is_array($error))
          {
 
@@ -34,18 +35,27 @@
                      echo "Hata Mesaji: [$errno] $errstr    [On Line:[$errline] File:[$errfile]]<br />\n";
                      break;
              }
-             $time = date('d.m.y H:i');
-             $hata = (is_array($error)) ? "[$time]>> $errstr : $errno : $errfile : $errline ".PHP_EOL:"[$time]>> $error ".PHP_EOL;
-             if(!file_exists("error/error.log")){
-                 touch("error/error.log");
-             }
-             $ac = fopen("error/error.log","a");
-             $yaz = fwrite($ac,$hata);
-             fclose($ac);
+             self::setLog($errstr,$errno,$errline,$errfile);
          }else{
              echo "<br><b>HATA :</b> $error</br>";
          }
       }
+      public static function setLog($errstr,$errno,= "",$errline= "",$errfile = "")
+      {
+             $time = date('d.m.y H:i');
+             $hata = (is_array($error)) ? "[$time]>> $errstr : $errno : $errfile : $errline ".PHP_EOL:"[$time]>> $error ".PHP_EOL;
+             $file = self::$errorFile;
+             if(!file_exists($file)){
+                 touch($file);
+             }
+             $ac = fopen($file,"a");
+             $yaz = fwrite($ac,$hata);
+             fclose($ac);
+      }
+  }
+  public static useFiles($file = "error/error.log")
+  {
+   self::$logFile = $file;
   }
   function myErrorHandler($errno, $errstr, $errfile, $errline){
        error::newError(array($errstr,$errno,$errline,$errfile));

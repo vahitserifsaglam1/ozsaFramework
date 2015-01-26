@@ -10,20 +10,20 @@ class bootstrap {
           @$arg = $url[2];
           if(count($url) == 1 && $url[0] == "")
           {
-              include "Controller/index.php";
+              include "app/Controller/index.php";
               new index();
-              include "Modals/index_Modal.php";
+              include "app/Modals/index_Modal.php";
               new index_Modal();          
           }else{
           if(isset($controller))
           { 
-              $controllerFile =  "Controller/$controller.php";
+              $controllerFile =  "app/Controller/$controller.php";
               if(file_exists($controllerFile)){
                   if(class_exists($controller)) $controller = new $controller();
               }
 
               @$modalname = $modal."_Modal";
-              @$modalFile = "Modals/$modalname.php";
+              @$modalFile = "app/Modals/$modalname.php";
 
               if(file_exists($modalFile))
               {

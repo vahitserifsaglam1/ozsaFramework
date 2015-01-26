@@ -8,6 +8,7 @@
      }
      public static function select($table,$where,$order = "")
      {
+         if(!self::$db) self::init();
          if(is_array($where))
            {
             $where = self::render($where," AND ");
@@ -24,6 +25,7 @@
      }
      public static  function update($table,$values = array(),$where = array())
      {
+         if(!self::$db) self::init();
           $values = self::render($values,",");
           $where =  self::render($where," AND ");
 
@@ -33,6 +35,7 @@
      }
      public static function insert($table,$values)
      {
+         if(!self::$db) self::init();
          $values = self::render($values);
          $query = "INSERT $table SET $values";
            return (self::$db->query($query)) ? true:false;
@@ -47,6 +50,7 @@
     
      public static function render($values = array(),$end = ",")
      {
+         if(!self::$db) self::init();
          $d = "";
          foreach ($values as $key => $value)
          {
@@ -57,6 +61,7 @@
      }
      public static function __callStatic($name,$params)
      {
+         if(!self::$db) self::init();
           return call_user_func_array(array(self::$db,$name),$params);
      }
  }
