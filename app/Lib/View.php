@@ -9,9 +9,9 @@
    	  	  {
               if($allInclude)
               {
-                  include "Views/header.php";
+                  include "app/Views/header.php";
                   include $path;
-                  include "Views/footer.php";
+                  include "app/Views/footer.php";
               }else{
                   include $path;
               }

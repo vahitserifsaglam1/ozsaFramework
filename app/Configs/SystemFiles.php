@@ -1,23 +1,24 @@
 <?php
 
-  $SystemFiles = array (
-       'Error/Error.php',
-       'Configs/Configs.php',
-       'System/MainController.php',
-       'plugins/functions.php',
-       'plugins/hook.php',
-       'Lib/sessionCookie.php',
-       'Lib/ob.php',
-       'Lib/file.php',
-       'Lib/db.php',
-       'System/New.php',
-       'Lib/set.php',
-       'Lib/get.php',
-       'plugins/default.php',
-       'Lib/security.php',
-       'Lib/form.php',
-       'Lib/View.php',
-       'System/Core.php'
-  );
+$SystemFiles = array (
+    'app/Error/Error.php',
+    'app/Configs/Configs.php',
+    'System/MainController.php',
+    'app/plugins/functions.php',
+    'app/plugins/hook.php',
+    'app/Lib/sessionCookie.php',
+    'app/Lib/ob.php',
+    'app/Lib/file.php',
+    'app/Lib/db.php',
+    'app/Lib/Add.php',
+    'app/Lib/set.php',
+    'app/Lib/get.php',
+    'app/Lib/ipBlock.php',
+    'app/plugins/default.php',
+    'app/Lib/security.php',
+    'app/Lib/form.php',
+    'app/Lib/View.php',
+    'System/Core.php'
+);
 
 ?>

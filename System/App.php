@@ -9,7 +9,6 @@
 
            foreach($SystemFiles as $key)
            {
-                $key = "app/".$key;
                 if(file_exists($key))
                 {
                      include $key;
