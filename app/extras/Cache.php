@@ -1,46 +1,13 @@
 <?php
-
-
-/**
- * Interface phpCacheInterface
- */
-interface phpCacheInterface{
-
-    public function get($name);
-
-    public function set($name,$value,$time);
-
-    public function delete($name);
-
-    public function flush();
-
-    public function check($name);
-
-}
+include "app/Configs/Interfaces/phpCacheInterface.php";
 
 class Cache implements phpCacheInterface{
 
     public static $cacheFile;
-    /**
-     * @var $cacheFile;
-     */
     private static $_cache;
-    /**
-     * @var $_cache
-     */
     private static $cache;
-
-    /**
-     * @var $cache
-     */
-
     private static $cacheType;
-
-    /**
-     * @param string $cacheFile
-     */
     public static  $cacheFiles;
-
     public static function init ( $cacheFile = "cache"){
         if(!file_exists($cacheFile)) mkdir($cacheFile,0777);
         if(extension_loaded('memcache')){ self::$_cache = new Memcache; self::$_cache->connect('127.0.0.1', 11211);}
@@ -71,30 +38,18 @@ class Cache implements phpCacheInterface{
         return  self::$_cache->flush();
     }
     public function check($name){ self::$_cache->check($name);}
-
 }
-
-/**
- * Class ozsaCACHE
- */
-class ozsaCACHE implements phpCacheInterface{
+class ozsaCache implements phpCacheInterface{
     public  $cacheFiles;
     private $cacheFile;
     public function __construct($cache){
         $this->cacheFile = $cache;
     }
-
-    /**
-     * @param $name
-     * @return array|bool
-     */
     public function get($name)
     {
-
         $file =$this->cacheFiles[$name]['newFilePath'];
         $time = $this->cacheFiles[$name]['time'];
         if(file_exists($file)){
-
             $value = file_get_contents($file);
             $value = json_decode($value);
 
@@ -112,12 +67,6 @@ class ozsaCACHE implements phpCacheInterface{
         $file = $this->cacheFiles[$name]['newFilePath'];
         return (file_exists($file)) ? true:false;
     }
-
-    /**
-     * @param $name
-     * @param $value
-     * @param int $time
-     */
     public function set($name,$value,$time = 3600)
     {
         $newCacheFile = $this->cacheFile."/".md5($name).".json";
@@ -147,11 +96,6 @@ class ozsaCACHE implements phpCacheInterface{
             $this->set($name,$value,$time);
         }
     }
-
-    /**
-     * @param $name
-     * @return bool
-     */
     public function delete($name)
     {
         $file = $this->cacheFiles[$name]['newFilePath'];
@@ -163,10 +107,6 @@ class ozsaCACHE implements phpCacheInterface{
             return false;
         }
     }
-
-    /**
-     * @return bool
-     */
     public function flush()
     {
           $filePath = $this->filePath;
@@ -183,6 +123,5 @@ class ozsaCACHE implements phpCacheInterface{
              }
           }
     }
-
 }
 ?>

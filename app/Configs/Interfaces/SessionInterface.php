@@ -1,9 +1,4 @@
 <?php
-
-/**
- * Interface SessionInterface
- */
-
 interface SessionInterface
 {
     public static function set($name,$value,$time);

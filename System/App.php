@@ -18,6 +18,14 @@
                }
            }
        }
+      public static function InitSystemClasses()
+      {
+        include "app/Configs/SystemInits.php";
+          foreach($SystemInits as $key)
+          {
+              if(class_exists($key))$key::init();
+          }
+      }
   }
 
 
