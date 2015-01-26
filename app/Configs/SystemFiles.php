@@ -9,6 +9,8 @@ $SystemFiles = array (
     'app/Lib/sessionCookie.php',
     'app/Lib/ob.php',
     'app/Lib/file.php',
+    'app/Lib/Session.php',
+    'app/Lib/Cookie.php',
     'app/Lib/db.php',
     'app/Lib/Add.php',
     'app/Lib/set.php',

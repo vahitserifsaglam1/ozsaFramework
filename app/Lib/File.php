@@ -54,6 +54,16 @@ class Once
           $path = "app/".$path;
           if(file_exists($path)){ if(is_dir($path))rmdir($path);else unlink($path);}else{return false;}
       }
+      public static function scanDir($dir)
+      {
+           $pattern = $dir."*";
+           return  glob($pattern,GLOB_ONLYDIR);
+      }
+      public static function scanType($dir,$type)
+      {
+          $pattern = $dir.".{$type}";
+          return glob($pattern,GLOB_BRACE);
+      }
       public static function check($path)
       {
           $path = "app/".$path;

@@ -20,6 +20,10 @@ class get{
           return $_POST;
       }
     }
+    public static function content($file)
+    {
+        return file_get_contents($file);
+    }
     public static  function getVal($val = false){
         global $_GET;
         if($val){

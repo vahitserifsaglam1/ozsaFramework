@@ -22,7 +22,11 @@
              error::newError("HATA :  $array Bir dizi değil");
          }
     }
-
+    public static function content($file,$content)
+    {
+        $yaz = file_put_contents($file,$content);
+        return $yaz;
+    }
     /**
      * @param $object
      * @return array
