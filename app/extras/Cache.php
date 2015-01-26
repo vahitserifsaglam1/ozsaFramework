@@ -8,7 +8,7 @@ class Cache implements phpCacheInterface{
     private static $cache;
     private static $cacheType;
     public static  $cacheFiles;
-    public static function init ( $cacheFile = "cache"){
+    public static function init ( $cacheFile = "Cache"){
         if(!file_exists($cacheFile)) mkdir($cacheFile,0777);
         if(extension_loaded('memcache')){ self::$_cache = new Memcache; self::$_cache->connect('127.0.0.1', 11211);}
         else
