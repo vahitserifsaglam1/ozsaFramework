@@ -17,19 +17,32 @@ class bootstrap {
           }else{
           if(isset($controller))
           { 
-              include "Controller/$controller.php";
-              new $controller();
-
-              if(isset($arg))
-              {
-                 $modalname = $modal."_Modal";
-                 include "Modals/$modalname.php";
-                 new  $modalname($arg);
-               }else{
-                 $modalname = $modal."_Modal";
-                include "Modals/$modalname.php";
-                new $modalname();
+              $controllerFile =  "Controller/$controller.php";
+              if(file_exists($controllerFile)){
+                  if(class_exists($controller)) $controller = new $controller();
               }
+
+              @$modalname = $modal."_Modal";
+              @$modalFile = "Modals/$modalname.php";
+
+              if(file_exists($modalFile))
+              {
+                  if(isset($arg))
+                  {
+
+                      if(class_exists($modalname)) new  $modalname($arg);
+
+                  }else{
+
+                      if(class_exists($modalname)) new  $modalname();
+
+                  }
+              }
+
+              else{
+                  if(isset($arg)) $controller->$modal($arg);
+              }
+
           }
        }
     }

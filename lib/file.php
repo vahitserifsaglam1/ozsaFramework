@@ -1,14 +1,19 @@
 <?php
-  class Once
-  {
-     public static function  __callStatic($name,$params = array())
-     {
+class Once
+{
+    public static function  __callStatic($name,$params = array())
+    {
+
         $file = $name."/".$params[0];
+        if(!strstr($params[0],"."))
+        {
+            $file .= ".php";
+        }
         return include $file;
-     }
-  }
-  class Fıle{
-      public static function readFile($path)
+    }
+}
+  class File{
+      public static function open($path)
       {
           if(file_exists($path))
           {
@@ -18,9 +23,10 @@
               return $oku;
           }else{
               error::newError("$path Böyle bir dosya bulunamadı");
+              return false;
           }
       }
-      public  static function writeFile($path,$write)
+      public  static function write($path,$write)
       {
           if(file_exists($path)){
               $ac = fopen($path,"w");
@@ -31,7 +37,11 @@
           }
 
       }
-      public static function checkDir($path)
+      public static function delete($path)
+      {
+          if(file_exists($path)){ if(is_dir($path))rmdir($path);else unlink($path);}else{return false;}
+      }
+      public static function check($path)
       {
          if(file_exists($path))
            {

@@ -1,12 +1,7 @@
 <?php 
-
   class Form
  {
- 	public static $formString;
-    public static $formClass;
-    public static $functions;
-
- 	public static function open($name,$paramatres,$type='POST')
+ 	public static function open($name,$paramatres,$type='POST',$return = false)
     {
 
         if(is_array($paramatres))
@@ -17,13 +12,13 @@
           $msg = "<form id='$name' action='$paramatres' type='$type'>".PHP_EOL;
         }
         
-        echo $msg;
+        if($return) return $msg;else echo $msg;
     }
       public static function submit($params)
       {
           if( is_array($params) )
           {
-               $params = reder($params);
+               $params = render($params);
               return "<input type='submit' $params >".PHP_EOL;
           }else{
               return "<input type='submit' value='$params' />".PHP_EOL;
@@ -33,6 +28,7 @@
       {
           if(is_array($params))
           {
+              $params = render($params);
               return  "<input name='$name' $params >".PHP_EOL;
           }else{
               return "<input type='text' name='$name' value='$params' >".PHP_EOL;
@@ -90,9 +86,9 @@
           $msg .= "</select>".PHP_EOL;
           return $msg;
       }
-      public static function close()
+      public static function close($return = false)
       {
-          echo "</form>";
+          if($return) return "</form>";else echo "<form>";
       }
       public static function __callStatic($name,$parametres)
       {
@@ -103,5 +99,4 @@
 
       }
  }
-
 ?>

@@ -1,5 +1,5 @@
  <?php
-      $post_list_limit = 50; 
+       
       $authorWebSite = "http://www.ozsabilisim.org";
       $frameWorkVersion = "1.0";
       $standartControllerError = true;
