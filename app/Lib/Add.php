@@ -1,6 +1,12 @@
 <?php
   class Add
   {
+      /**
+       * @param $name
+       * @param $params
+       * @return string
+       */
+
        public static function __callStatic($name,$params)
        {
            $msg = "";

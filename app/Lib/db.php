@@ -6,6 +6,7 @@
       global $db;
       self::$db = $db;
      }
+
      public static function select($table,$where,$order = "")
      {
          if(!self::$db) self::init();

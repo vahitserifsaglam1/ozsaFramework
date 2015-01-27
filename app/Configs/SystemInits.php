@@ -1,6 +1,6 @@
 <?php
- $SystemInits = array (
+ /*$SystemInits = array (
      'Session',
       'DB',
        'Cache'
- );
+ ); */

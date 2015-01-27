@@ -17,7 +17,7 @@ class Session implements SessionInterface
      */
     private static $nameHast = 'md5';
 
-    public  static $sessionFolder = 'Sessions';
+    public  static $sessionFolder = 'Stroge/Sessions';
 
     public static function init()
     {

@@ -1,5 +1,5 @@
 <?php
-include $appPath."/Configs/Interfaces/phpCacheInterface.php";
+include "app/Configs/Interfaces/phpCacheInterface.php";
 
 class Cache implements phpCacheInterface{
 
@@ -8,7 +8,7 @@ class Cache implements phpCacheInterface{
     private static $cache;
     private static $cacheType;
     public static  $cacheFiles;
-    public static function init ( $cacheFile = "Cache"){
+    public static function init ( $cacheFile = "Stoge/Cache"){
         if(!file_exists($cacheFile)) mkdir($cacheFile,0777);
         if(extension_loaded('memcache')){ self::$_cache = new Memcache; self::$_cache->connect('127.0.0.1', 11211);}
         else

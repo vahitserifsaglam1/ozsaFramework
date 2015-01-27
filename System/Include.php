@@ -2,7 +2,7 @@
   error_reporting(E_ALL);
   include "System/App.php";
   App::IncludeSystemFiles();
-  App::InitSystemClasses();
+  #App::InitSystemClasses();
   $db = new mainController();
   new bootstrap();
 

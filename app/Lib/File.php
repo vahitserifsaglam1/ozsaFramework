@@ -1,5 +1,6 @@
 <?php
-class File{
+
+class File {
     public static function render($path,$app=true)
     {
         if($app) $path = "app/".$path;
