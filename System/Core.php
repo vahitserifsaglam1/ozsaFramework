@@ -19,30 +19,27 @@ class bootstrap {
           { 
               $controllerFile =  "app/Controller/$controller.php";
               if(file_exists($controllerFile)){
-                  if(class_exists($controller)) $controller = new $controller();
-              }
+                  if(class_exists($controller)){
+                      $modalfile = "app/Modals/$controller"."_modal.php";
+                      $modalname = $controller."_modal";
+                      if(method_exists($controller,$modal)){
+                          if(isset($arg)){ $controller = new $controller(); $controller->$modal($arg);
 
-              @$modalname = $modal."_Modal";
-              @$modalFile = "app/Modals/$modalname.php";
-
-              if(file_exists($modalFile))
-              {
-                  if(isset($arg))
-                  {
-
-                      if(class_exists($modalname)) new  $modalname($arg);
-
-                  }else{
-
-                      if(class_exists($modalname)) new  $modalname();
-
+                          if(file_exists($modalfile)){include $modalfile; new $modalname();} }
+                          else{$controller = new $controller($arg);}
+                      }else{
+                          if(file_exists($modalfile)){include $modalfile;
+                            if(isset($arg))
+                            {
+                                $modaln = new $modalname();
+                                $modaln->$modal($arg);
+                            }else{
+                                $modaln = new $modalname($arg);
+                            }
+                          }
+                      }
                   }
               }
-
-              else{
-                  if(isset($arg)) $controller->$modal($arg);
-              }
-
           }
        }
     }
