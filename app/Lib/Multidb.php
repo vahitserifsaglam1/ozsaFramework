@@ -7,9 +7,7 @@ Class Multidb
     public $querySring;
     public function __construct()
     {
-
-        $GLOBALS['database'];
-        extract($variable);
+        global $host,$dbname,$username,$password,$dataType,$charset,$appPath;
         $this->type = $dataType;
 
         switch ($dataType)
@@ -20,15 +18,14 @@ Class Multidb
 
                 break;
             case 'sqlite':
-                include "app/extras/class/sqlite.php";
-                $db = sqlite($dbname,0666,$sqliteerror);
-
+                include $appPath."extras/class/sqlite.php";
+                $db = sqlite($dbname,0666,true);
                 break;
             case 'mysqli':
                 $db = new mysqli($host,$username,$password);
                 break;
             case 'mysql':
-                include "app/extras/class/mysql.php";
+                include $appPath."xtras/class/mysql.php";
                 $db = new mysql($host,$dbname,$username,$password);
                 break;
         }

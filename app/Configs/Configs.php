@@ -9,6 +9,7 @@ $GLOBALS['database'] =  array(
     'dbname' => 'cmv',
     'username' => 'root',
     'password' => "",
-    'dataType' => 'mysql', # Desteklenen 'pdo','mysqli','mysql'
+    'dataType' => 'PDO', # Desteklenen 'PDO','mysqli','mysql'
     'charset' => 'utf-8'
 );
+ extract($GLOBALS['database']);

@@ -3,7 +3,7 @@
   class ipBlock {
        public  static function setIp($ip)
        {
-           $insert = $db->query("INSERT INTO blockip SET ipAdress = '$ip' ");
+           $insert = $db->query("INSERT INTO IpBlock SET ipAdress = '$ip' ");
            return ($insert) ? true:false;
        }  
       public static function ipBlocker($status = false)
@@ -11,7 +11,7 @@
            global $db;
            $ip =self::getIp();
           if($status){
-              $kontrol = $pdo->query("SELECT ipAdress From blockIp where ipAdress= '$ip' ")->rowCount();
+              $kontrol = $pdo->query("SELECT ipAdress From IpBlock where ipAdress= '$ip' ")->rowCount();
               if($kontrol){
                   error::newError("Ip Adresiniz engellenmiştir");
                   die();
