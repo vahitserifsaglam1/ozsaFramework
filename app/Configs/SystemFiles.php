@@ -1,20 +1,6 @@
 <?php
 $SystemFiles = array (
-    $appPath.'Lib/Multidb.php',
     $SystemPath.'MainController.php',
-    $appPath.'plugins/hook.php',
-    $appPath.'Lib/get.php',
-    #$appPath.'Lib/ob.php',
-    $appPath.'Lib/file.php',
-    $appPath.'Lib/Session.php',
-    $appPath.'Lib/Cookie.php',
-    $appPath.'plugins/functions.php',
-    #$appPath.'extras/Cache.php',
-    #$appPath.'Lib/Add.php',
-    #$appPath.'Lib/ipBlock.php',
-    $appPath.'plugins/default.php',
-    $appPath.'Lib/security.php',
-    $appPath.'Lib/form.php',
     $appPath.'Lib/View.php',
     $SystemPath.'Once.php',
     $SystemPath.'Core.php'

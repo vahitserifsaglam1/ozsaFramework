@@ -1,11 +1,9 @@
 <?php
 error_reporting(E_ALL);
+include "vendor/autoload.php";
 if($HomePage != "index.php") include $HomePage;
-include $appPath.'Error/Error.php';
-require $SystemPath."App.php";
 require $appPath."Configs/Configs.php";
-App::IncludeSystemFiles();
-$db = new Multidb();
+require $SystemPath."App.php";
 new bootstrap();
 
 

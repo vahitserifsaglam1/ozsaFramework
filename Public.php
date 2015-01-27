@@ -12,6 +12,6 @@ $PublicFiles = array(
 $PublicFiles['ViewsPath'] = $PublicFiles['appPath'].'Views/';
 $PublicFiles['ModalsPath'] = $PublicFiles['appPath'].'Modals/';
 extract($PublicFiles);
-   include $SystemPath."/Include.php";
+include $SystemPath."/Include.php";
 ?>
 

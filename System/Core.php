@@ -4,7 +4,7 @@ class bootstrap {
        public  function __construct(){
           @$url = $_GET['url'];
           $url = explode("/",$url);
-          set::variable('url',$url);
+          $GLOBALS['url'] = $url;
           @$controller = $url[0];
           @$modal = $url[1];
           @$arg = $url[2];

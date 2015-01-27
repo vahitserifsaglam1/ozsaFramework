@@ -1,5 +1,8 @@
 <?php
-
+function tirnak($param)
+{
+    return "'".security_render($param)."'";
+}
   function security_render($val){
      return  security::render($val);
   }
