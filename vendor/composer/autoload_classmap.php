@@ -27,7 +27,5 @@ return array(
     'Lib\\set\\set' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Lib/set/set.php',
     'Session\\Session' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Session/Session.php',
     'Lib\\Security\\Security' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Lib/Security/Security.php',
-    'Multidb\\Multidb' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Multidb/Multidb.php',
-    'Multidb\\mysql\\mysql' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Multidb/mysql/mysql.php',
-    'Multidb\\sqlite\\mysql' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Multidb/sqlite/sqlite.php',
+    'Multidb\\Multidb' => $vendorDir . '/vahitserifsaglam1/ozsa-src/Multidb/Multidb.php'
 );
