@@ -5,6 +5,8 @@ Class Multidb
     public $db;
     public $type;
     public $querySring;
+    public static $dbStatic;
+    public static $typeStatic;
     public function __construct()
     {
         global $host,$dbname,$username,$password,$dataType,$charset,$appPath;
@@ -30,7 +32,9 @@ Class Multidb
                 break;
         }
         $this->db = $db;
+        self::$dbStatic = $db;
         $this->db->query("SET NAMES $charset");
+        self::$typeStatic = $dataType;
     }
     public function __call($name,$params)
     {
@@ -41,6 +45,22 @@ Class Multidb
             if( method_exists($type,$name))
             {
                 return call_user_func_array( array($this->db,$name),$params);
+            }else{
+                error::newError(" $name adlı bir method $type tipinde bulunamadı");
+            }
+        }else{
+
+        }
+    }
+    public static function __callStatic($name,$params)
+    {
+        $type = self::$typeStatic;
+
+        if($type != 'Sqlite' )
+        {
+            if( method_exists($type,$name))
+            {
+                return call_user_func_array( array(self::$dbStatic,$name),$params);
             }else{
                 error::newError(" $name adlı bir method $type tipinde bulunamadı");
             }
