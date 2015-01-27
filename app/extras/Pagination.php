@@ -12,11 +12,12 @@
       private static $recods;
       private static $activePage;
       private static $url;
-      public static $file = "app/Views/css/pagination.css";
+      public static $file;
       private static $init  = false;
 
       public static  function init($paginationClass = "pagination",$pagiClass = "pagi")
       {
+           self::$file = "app/Views/css/pagination.css";
            self::$init = true;
            self::$url = get::variable("url");
            self::$paginationClass = $paginationClass;

@@ -5,7 +5,7 @@
   	{
   		global $standartControllerError;
         
-  		 if($standartControllerError == true)
+  		 if($frameWorkOption['standartControllerError'] == true)
   		 {
   		 	error::newError("$controller Controller dosyanız bulunamamıştır bu yüzden standart controller dosyanız çağrıldı".PHP_EOL.'Bu hatayı almak istemiyorsanız db-config.php de $standartControllerError u değiştirmeniz gerekir');
   		 }

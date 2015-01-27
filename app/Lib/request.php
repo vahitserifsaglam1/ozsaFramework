@@ -37,6 +37,11 @@
                 return  $ex;
             }
     	}
+        public static function ajax()
+        {
+            return isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' ;
+        }
         public static function  __callString($name,$param)
        {
           return call_user_func_array(array('Http_Request',$name),$param);

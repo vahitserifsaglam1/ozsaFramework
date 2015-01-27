@@ -4,14 +4,15 @@
    class View{
    	  public static function render($path,$allInclude = false)
    	  {
-   	  	 $path = "app/Views/".$path.".php";
+         $ViewPath = "app/Views/";
+   	  	 $path = $ViewPath.$path.".php";
    	  	  if(file_exists($path))
    	  	  {
               if($allInclude)
               {
-                  include "app/Views/header.php";
+                  include $ViewPath."header.php";
                   include $path;
-                  include "app/Views/footer.php";
+                  include $ViewPath."footer.php";
               }else{
                   include $path;
               }

@@ -1,6 +1,6 @@
 <?php
 
-  class Curl
+  class Curl_basic
   {
       public static $options;
       public static $ch;

@@ -17,7 +17,7 @@
    	     	 self::$host = $host;
    	     	 self::$port = $port;
                 
-                 include "app/extras/class/class.phpmailer.php";
+                 include $PublicFiles['app']."extras/class/class.phpmailer.php";
              self::$mailer = new PHPMailer();
            
    	     }

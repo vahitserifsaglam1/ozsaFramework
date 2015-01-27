@@ -5,6 +5,7 @@
   {
        public static function IncludeSystemFiles()
        {
+
            include "app/Configs/SystemFiles.php";
 
            foreach($SystemFiles as $key)

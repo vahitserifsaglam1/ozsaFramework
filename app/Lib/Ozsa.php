@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL);
 Class Ozsa
 {
     public static function encode($array)
@@ -11,7 +10,7 @@ Class Ozsa
                 $ozsa .= $key."/";
                 if(is_array($value))
                 {
-                    $ozsa .=self::export_array($value);
+                    $ozsa .= self::export_array($value);
                 }else{
                     $ozsa .= $value;
                 }

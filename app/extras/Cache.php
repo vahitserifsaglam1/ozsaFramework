@@ -1,5 +1,5 @@
 <?php
-include "app/Configs/Interfaces/phpCacheInterface.php";
+include $appPath."/Configs/Interfaces/phpCacheInterface.php";
 
 class Cache implements phpCacheInterface{
 

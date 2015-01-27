@@ -4,8 +4,8 @@
       {
 
           public function __construct(){
-              global $host,$dbname,$username,$password;
-              parent::__construct("mysql:host=$host;dbname=$dbname",$username,$password);
+              global $database;
+              parent::__construct("mysql:host=".$database['host'].";dbname=".$database['dbname'],$database['username'],$database['password']);
               parent::query("SET NAMES UTF8");
           }
 

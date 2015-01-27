@@ -1,10 +1,13 @@
  <?php
-       
-      $authorWebSite = "http://www.ozsabilisim.org";
-      $frameWorkVersion = "1.0";
-      $standartControllerError = true;
-      $host = "localhost";
-      $dbname = "cmv";
-      $username = "root";
-      $password = "";
-      $engineType = "pdo"; # mysqli,mysql
+      $frameWorkOptions = array(
+          'authorWebSite' => "http://www.ozsabilisim.org",
+           'frameWorkVersion' => '1.1.1',
+            'standartControllerError' => true
+      );
+      $database = array(
+         'host' => "localhost",
+          'dbname' => 'cmv',
+            'username' => 'root',
+              'password' => "", 
+                'database' => 'pdo', # Desteklenen 'pdo','mysqli','mysql'
+      	);
