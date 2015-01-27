@@ -1,0 +1,26 @@
+[
+    {
+        "name": "vahitserifsaglam1/ozsa-src",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vahitserifsaglam1/ozsa-src.git",
+            "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vahitserifsaglam1/ozsa-src/zipball/6bec21822ab3ace3648d2ed12a436113d4cf838c",
+            "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.0.0"
+        },
+        "time": "2015-01-27 21:34:02",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "description": "Ozsa framework library"
+    }
+]

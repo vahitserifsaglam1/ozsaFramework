@@ -1,0 +1,44 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "a2859b947b920eef55cfd19900d8c5ab",
+    "packages": [
+        {
+            "name": "vahitserifsaglam1/ozsa-src",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vahitserifsaglam1/ozsa-src.git",
+                "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vahitserifsaglam1/ozsa-src/zipball/6bec21822ab3ace3648d2ed12a436113d4cf838c",
+                "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Ozsa framework library",
+            "time": "2015-01-27 21:34:02"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "vahitserifsaglam1/ozsa-src": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.0.0"
+    },
+    "platform-dev": []
+}

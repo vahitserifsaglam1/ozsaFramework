@@ -1,0 +1,8 @@
+{
+    "name": "vahitserifsaglam1/ozsa-src",
+    "description": "Ozsa framework library",
+
+    "require": {
+        "php": ">=5.0.0"
+    }
+}
