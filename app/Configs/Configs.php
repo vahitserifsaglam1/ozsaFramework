@@ -1,5 +1,5 @@
 <?php
-$frameWorkOptions = array(
+$GLOBALS['frameWorkOptions'] = array(
     'authorWebSite' => "http://www.ozsabilisim.org",
     'frameWorkVersion' => '1.1.1',
     'standartControllerError' => true

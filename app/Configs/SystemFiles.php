@@ -2,6 +2,7 @@
 $SystemFiles = array (
     'app/Error/Error.php',
     'app/Configs/Configs.php',
+    'app/Lib/Multidb.php',
     'System/MainController.php',
     'app/plugins/functions.php',
     'app/plugins/hook.php',
@@ -10,7 +11,6 @@ $SystemFiles = array (
     'app/Lib/Session.php',
     'app/Lib/Cookie.php',
     #'app/extras/Cache.php',
-    'app/Lib/db.php',
     #'app/Lib/Add.php',
     'app/Lib/set.php',
     'app/Lib/get.php',

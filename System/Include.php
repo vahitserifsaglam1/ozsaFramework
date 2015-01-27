@@ -3,7 +3,7 @@
   include "System/App.php";
   App::IncludeSystemFiles();
   #App::InitSystemClasses();
-  $db = new mainController();
+  $db = new Multidb();
   new bootstrap();
 
 

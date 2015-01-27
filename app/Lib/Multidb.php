@@ -8,7 +8,7 @@ Class Multidb
     public function __construct()
     {
 
-        $variable =  get::variable('database');
+        $GLOBALS['database'];
         extract($variable);
         $this->type = $dataType;
 
@@ -33,6 +33,7 @@ Class Multidb
                 break;
         }
         $this->db = $db;
+        $this->db->query("SET NAMES $charset");
     }
     public function __call($name,$params)
     {
