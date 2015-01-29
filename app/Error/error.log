@@ -1,11 +1,1 @@
-[26.01.15 01:06]>> call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object : 2 : C:\xampp\htdocs\php\ozsaFrameWork\extras\Curl.php : 9 
-[26.01.15 01:06]>> call_user_func_array() expects parameter 1 to be a valid callback, non-static method Zebra_cURL::get() should not be called statically : 2048 : C:\xampp\htdocs\php\ozsaFrameWork\extras\Curl.php : 8 
-[26.01.15 01:07]>> Undefined variable: curl : 8 : C:\xampp\htdocs\php\ozsaFrameWork\extras\Curl.php : 9 
-[26.01.15 12:01]>> Non-static method Zebra_cURL::get() should not be called statically : 2048 : C:\xampp\htdocs\php\ozsaFrameWork\Views\index.php : 6 
-[26.01.15 15:42]>> curl_setopt_array(): Array keys must be CURLOPT constants or equivalent integer values : 2 : C:\xampp\htdocs\php\ozsaFrameWork\extras\Curl.php : 28 
-[26.01.15 15:49]>> include(extras/pagination): failed to open stream: No such file or directory : 2 : C:\xampp\htdocs\php\ozsaFrameWork\Lib\file.php : 7 
-[26.01.15 15:49]>> include(): Failed opening 'extras/pagination' for inclusion (include_path='.;C:\xampp\php\PEAR') : 2 : C:\xampp\htdocs\php\ozsaFrameWork\Lib\file.php : 7 
-[26.01.15 16:12]>> Use of undefined constant deneme - assumed 'deneme' : 8 : C:\xampp\htdocs\php\ozsaFrameWork\Views\index.php : 6 
-[26.01.15 16:38]>> Array to string conversion : 8 : C:\xampp\htdocs\php\ozsaFrameWork\Lib\form.php : 31 
-[26.01.15 16:41]>> Use of undefined constant text - assumed 'text' : 8 : C:\xampp\htdocs\php\ozsaFrameWork\Views\index.php : 9 
-[26.01.15 16:41]>> Use of undefined constant gönder - assumed 'gönder' : 8 : C:\xampp\htdocs\php\ozsaFrameWork\Views\index.php : 9 
+﻿

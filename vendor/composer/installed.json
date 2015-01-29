@@ -1,26 +1,62 @@
 [
     {
-        "name": "vahitserifsaglam1/ozsa-src",
+        "name": "wixel/gump",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/vahitserifsaglam1/ozsa-src.git",
-            "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c"
+            "url": "https://github.com/Wixel/GUMP.git",
+            "reference": "5687aac3ff1a17d8baaea6b65e12c080e62e8878"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vahitserifsaglam1/ozsa-src/zipball/6bec21822ab3ace3648d2ed12a436113d4cf838c",
-            "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c",
+            "url": "https://api.github.com/repos/Wixel/GUMP/zipball/5687aac3ff1a17d8baaea6b65e12c080e62e8878",
+            "reference": "5687aac3ff1a17d8baaea6b65e12c080e62e8878",
             "shasum": ""
         },
-        "require": {
-            "php": ">=5.0.0"
-        },
-        "time": "2015-01-27 21:34:02",
+        "time": "2014-11-24 11:34:42",
         "type": "library",
         "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "gump.class.php"
+            ]
+        },
         "notification-url": "https://packagist.org/downloads/",
-        "description": "Ozsa framework library"
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Colleen Emryss",
+                "homepage": "http://skitter.tv"
+            },
+            {
+                "name": "Mark Slingsby",
+                "homepage": "http://www.rsaweb.co.za"
+            },
+            {
+                "name": "Roy de Kleijn",
+                "homepage": "http://roydekleijn.com"
+            },
+            {
+                "name": "Christian Klisch",
+                "homepage": "http://www.christian-klisch.de/"
+            },
+            {
+                "name": "Inge Brattaas",
+                "homepage": "http://res.no/"
+            },
+            {
+                "name": "Sean Nieuwoudt",
+                "homepage": "http://wixelhq.com"
+            },
+            {
+                "name": "Rob Crowe",
+                "homepage": "http://vivalacrowe.com"
+            }
+        ],
+        "description": "A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+        "homepage": "http://wixelhq.com/"
     }
 ]

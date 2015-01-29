@@ -4,41 +4,75 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a2859b947b920eef55cfd19900d8c5ab",
+    "hash": "4d32dcdb566ba9d60b56b24b30be4ac3",
     "packages": [
         {
-            "name": "vahitserifsaglam1/ozsa-src",
+            "name": "wixel/gump",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vahitserifsaglam1/ozsa-src.git",
-                "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c"
+                "url": "https://github.com/Wixel/GUMP.git",
+                "reference": "5687aac3ff1a17d8baaea6b65e12c080e62e8878"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vahitserifsaglam1/ozsa-src/zipball/6bec21822ab3ace3648d2ed12a436113d4cf838c",
-                "reference": "6bec21822ab3ace3648d2ed12a436113d4cf838c",
+                "url": "https://api.github.com/repos/Wixel/GUMP/zipball/5687aac3ff1a17d8baaea6b65e12c080e62e8878",
+                "reference": "5687aac3ff1a17d8baaea6b65e12c080e62e8878",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.0.0"
-            },
             "type": "library",
+            "autoload": {
+                "files": [
+                    "gump.class.php"
+                ]
+            },
             "notification-url": "https://packagist.org/downloads/",
-            "description": "Ozsa framework library",
-            "time": "2015-01-27 21:34:02"
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colleen Emryss",
+                    "homepage": "http://skitter.tv"
+                },
+                {
+                    "name": "Mark Slingsby",
+                    "homepage": "http://www.rsaweb.co.za"
+                },
+                {
+                    "name": "Roy de Kleijn",
+                    "homepage": "http://roydekleijn.com"
+                },
+                {
+                    "name": "Christian Klisch",
+                    "homepage": "http://www.christian-klisch.de/"
+                },
+                {
+                    "name": "Inge Brattaas",
+                    "homepage": "http://res.no/"
+                },
+                {
+                    "name": "Sean Nieuwoudt",
+                    "homepage": "http://wixelhq.com"
+                },
+                {
+                    "name": "Rob Crowe",
+                    "homepage": "http://vivalacrowe.com"
+                }
+            ],
+            "description": "A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+            "homepage": "http://wixelhq.com/",
+            "time": "2014-11-24 11:34:42"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "vahitserifsaglam1/ozsa-src": 20
+        "wixel/gump": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {
-        "php": ">=5.0.0"
-    },
+    "platform": [],
     "platform-dev": []
 }

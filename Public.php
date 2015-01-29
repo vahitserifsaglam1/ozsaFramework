@@ -1,17 +1,16 @@
-<?php
-         /** ********************************************
-               *      Standart Dosyaların Ayarlanması
-        **********************************************/
+<?php 
 
-$PublicFiles = array(
-    'appPath' => 'app/',
-    'SystemPath' => 'System/',
-    'base' =>  __DIR__,
-    'HomePage' => 'index.php',
-);
-$PublicFiles['ViewsPath'] = $PublicFiles['appPath'].'Views/';
-$PublicFiles['ModalsPath'] = $PublicFiles['appPath'].'Modals/';
-extract($PublicFiles);
-include $SystemPath."/Include.php";
+ $pathOptions = array (
+          'base' => dirname(__FILE__),
+
+ 	      'HomePage' => 'index.php',
+
+ 	      'appPath' => 'app/',
+
+ 	      'SystemPath' => 'System/',
+
+ 	      );
+   
+   require_once $pathOptions['SystemPath']."Include.php";
+
 ?>
-

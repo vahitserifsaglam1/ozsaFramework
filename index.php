@@ -1,8 +1,3 @@
 <?php
- session_start();
- ob_start();
- require 'Public.php';
-
-
-
-
+ require_once 'Public.php';
+?>

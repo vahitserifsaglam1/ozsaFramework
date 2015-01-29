@@ -1,15 +1,14 @@
 {
-    "name": "vahitserifsaglam1/ozsaFramework",
+    "name": "vahitserifsaglam1/framework",
     "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
 
-    "require": {
-        "php": ">=5.0.0",
-         "vahitserifsaglam1/ozsa-src": "dev-master"
-    },
     "autoload": {
     "classmap" : [
-        "vendor/vahitserifsaglam1/ozsa-src",
-        "app/"
+        "vendor/src/ozsa-src",
+        "vendor/wixel/gump"
     ]
-}
+},
+    "require": {
+        "wixel/gump": "dev-master"
+    }
 }
