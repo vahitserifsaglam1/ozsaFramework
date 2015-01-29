@@ -11,21 +11,22 @@
            'dbname' => 'CMV',
             'username' => 'root',
               'password' => '',
-                'type' => 'mysql'
+                'type' => 'PDO',
+                  'charset' => 'utf-8'
        ),
       'Session' => array
       (
           'type' => 'Ozsa',
-            'SessionFolder' => $pathOptions['appPath'].'Stroge/Session'
+            'SessionFolder' => APP_PATH.'Stroge/Session'
       ),
       'Cookie' => array(
             'type'=>'Php',
-              'CookieFolder' => $pathOptions['appPath'].'Stroge/Session'
+              'CookieFolder' => APP_PATH.'Stroge/Session'
       ),
      'Error' => array
      (
          'Reporting' => 0,
-          'logFilePath' => $pathOptions['appPath'].'Error/error.log',
+          'logFilePath' => APP_PATH.'Error/error.log',
            'writeLog' => true
      )
      ,'Validate' =>

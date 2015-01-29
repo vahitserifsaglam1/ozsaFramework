@@ -9,11 +9,11 @@ class Session
 
     public  static $sessionFolder;
 
-    public static function init($appLocation,$configs)
+    public static function init($configs)
     {
 
         self::$sessionType = $configs['type'];
-        self::$sessionFolder = $appLocation.'Stroge/Session';
+        self::$sessionFolder = APP_PATH.'Stroge/Session';
         if(!file_exists(self::$sessionFolder) ) file::makeDir(self::$sessionFolder);chmod(self::$sessionFolder,0777);
     }
 

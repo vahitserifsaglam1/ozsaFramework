@@ -1,13 +1,15 @@
 <?php
     define('OZSA_START',microtime(true));
 
-    define('APP_PATH',dirname(__DIR__));
+    define('APP_PATH',$pathOptions['appPath']);
+
+    define('SYSTEM_PATH',$pathOptions['SystemPath']);
    
-    $dbConfigs = require_once $pathOptions['appPath']."Configs/Configs.php";
+    $dbConfigs = require_once APP_PATH."Configs/Configs.php";
 
-    require_once APP_PATH."/".$pathOptions['appPath']."Error/errorException.php";
+    require_once APP_PATH."Error/errorException.php";
 
-    require_once APP_PATH."/".$pathOptions['appPath']."Lib/Functions.php";
+    require_once APP_PATH."Lib/Functions.php";
 
     require_once __DIR__."/autoload.php";
 

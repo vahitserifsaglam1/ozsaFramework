@@ -16,6 +16,7 @@
             $this->sessionStart();
             $this->getRequest();
             $this->installValidator();
+            $this->databaseInstaller();
         }
         public function  installValidator()
         {
@@ -29,9 +30,15 @@
             }
 
         }
+        public function databaseInstaller()
+        {
+            new \DB($this->settings['configs']['db']);
+
+        }
        public function setErrorReporting()
        {
            error_reporting($this->setting['Error']['Reporting']);
+           return null;
        }
         public function sessionStart()
         {
@@ -39,13 +46,13 @@
             if (session_start()) {
                 setcookie($session_name, session_id(), null, '/', null, null, true);
             }
-            \Session::init($this->settings['path']['appPath'],$this->settings['configs']['Session']);
+            \Session::init($this->settings['configs']['Session']);
             return null;
         }
         public function cookieStart()
         {
 
-            \Cookie::init($this->settings['path']['appPath'],$this->settings['configs']['Session']);
+            \Cookie::init($this->settings['configs']['Cookie']);
             return null;
         }
         public function getRequest()
@@ -53,9 +60,9 @@
 
 
               $configs = $this->settings['path'];
-              $appPath =  rtrim($configs['appPath'],'/');
+              $appPath =  rtrim(APP_PATH,"/");
 
-              $systemPath =  rtrim($configs['SystemPath'],'/');
+              $systemPath =  rtrim(SYSTEM_PATH,'/');
 
               if(!isset($_GET['url'])) $_GET['url'] = "index";
               if(!strstr($_GET['url'],'/')) $_GET['url'] .= "/";

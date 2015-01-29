@@ -16,6 +16,7 @@
           {
               $this->post = $_POST;
           }
+          if($_GET['url'] == 'public.php') unset($_GET['url']);
       }
       public function returnPost(){
           return $this->post;
