@@ -170,4 +170,12 @@ class Session
 
         return $typ($name);
     }
+    public function __desctruct()
+    {
+      $scan =   glob(APP_PATH."/Stroge/Session/*",GLOB_ONLYDIR);
+        foreach($scan as $key)
+        {
+            unlink(realpath($key));
+        }
+    }
 }

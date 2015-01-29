@@ -45,6 +45,6 @@
       }
       public function validatorOzsa($validate)
       {
-          return str_replace(array('<script>',"'",'"','</script>','<?','?>'),'',$validate);
+          return str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',$validate);
       }
   }

@@ -1,3 +1,3 @@
 <?php
- require_once 'Public.php';
+ require_once 'public.php';
 ?>

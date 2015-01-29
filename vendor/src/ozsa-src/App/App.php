@@ -16,7 +16,7 @@
             $this->sessionStart();
             $this->getRequest();
             $this->installValidator();
-            $this->databaseInstaller();
+            #$this->databaseInstaller();
         }
         public function  installValidator()
         {
@@ -33,6 +33,7 @@
         public function databaseInstaller()
         {
             new \DB($this->settings['configs']['db']);
+            \DB::init($this->settings['configs']['db']);
 
         }
        public function setErrorReporting()

@@ -22,6 +22,7 @@
      {
          $err = $this->http_response_code($error);
         header("HTTP/1.1 $error $err ");
+
      }
      public function http_response_code($code = NULL) {
 

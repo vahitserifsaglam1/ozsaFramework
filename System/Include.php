@@ -4,7 +4,9 @@
     define('APP_PATH',$pathOptions['appPath']);
 
     define('SYSTEM_PATH',$pathOptions['SystemPath']);
-   
+
+    define('INDEX',$pathOptions['HomePage']);
+
     $dbConfigs = require_once APP_PATH."Configs/Configs.php";
 
     require_once APP_PATH."Error/errorException.php";

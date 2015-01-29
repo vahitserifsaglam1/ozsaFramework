@@ -17,6 +17,7 @@ return array(
     'Human\\Ajax' => $vendorDir . '/src/ozsa-src/Validate/Human.php',
     'Human\\Validate' => $vendorDir . '/src/ozsa-src/Validate/Human.php',
     'Ip\\Get' => $vendorDir . '/src/ozsa-src/Ip/Ip.php',
+    'MainController' => $vendorDir . '/src/ozsa-src/Controller/MainController.php',
     'Multidb\\sqlite\\sqlite\\sqlite' => $vendorDir . '/src/ozsa-src/multidb/sqlite/sqlite.php',
     'Ozsa' => $vendorDir . '/src/ozsa-src/Ozsa/Ozsa.php',
     'OzsaCache' => $vendorDir . '/src/ozsa-src/Cache/Cache.php',
