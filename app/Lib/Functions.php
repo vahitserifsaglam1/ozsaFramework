@@ -1,10 +1,14 @@
 <?php
-   set_error_handler('MyErrorHandler',E_ALL);
+   set_exception_handler("default_exception_handler");
 
-   function MyErrorHandler($errstr, $errno, $errline, $errfile)
+  function default_exception_handler(Exception $e)
+  {
+      new MyException($e->getMessage(),$e->getCode(),$e->getFile(),$e->getLine());
+  }
+  set_error_handler('MyErrorHandler',E_ALL);
+  function MyErrorHandler($errstr, $errno, $errline, $errfile)
    {
-       global $errorConfigs;
-       error::newError(array($errstr, $errno, $errline, $errfile));
+       error::newError(array($errstr,$errno,$errline,$errfile));
    }
 
    function error_logOzsa($errstr, $errno = false , $errline = false , $errfile = false)

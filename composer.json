@@ -5,7 +5,8 @@
     "autoload": {
     "classmap" : [
         "vendor/src/ozsa-src",
-        "vendor/wixel/gump"
+        "vendor/wixel/gump",
+        "vendor/redbeanphp"
     ]
 },
     "require": {
