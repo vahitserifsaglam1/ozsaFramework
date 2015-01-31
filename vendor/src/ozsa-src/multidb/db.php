@@ -12,10 +12,10 @@ Class DB {
     public static $dbErrors;
 
     public static $typeStatic;
-    public function __construct($options)
+    public function __construct()
 
     {
-
+        $options  = require APP_PATH.'Configs/Configs.php';
         extract($options['db']);
 
         $this->dbType = $type;
@@ -49,8 +49,7 @@ Class DB {
 
     public function __call($name,$param)
     {
-        if(method_exists($this->dbConf,$param))return call_user_func_array(array($this->dbConf,$name),$param);
-        else error::newError(" $type veritabanında $name adında bir fonksiyon yok");return false;
+        return call_user_func_array(array($this->dbConf,$name),$param);
     }
     public static function __callStatic($name,$param)
     {

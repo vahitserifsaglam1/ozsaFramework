@@ -1,8 +1,20 @@
 <?php
 
+/**
+ * Class Validator
+ * ********************************************************
+ * OzsaFramework validator sınıfı
+ * gump validator sınıfı kullanılır;
+ * @author Ozsaframework
+ * *******************************************************
+ */
   class Validator
   {
       public  $gump;
+      public  $autoValidate;
+      /**
+       * @param $options
+       */
       public function __construct($options)
       {
 
@@ -24,6 +36,13 @@
           }
 
       }
+
+      /**
+       * @param $veri
+       * @param $param
+       * @return bool
+       * @throws Exception
+       */
       public function validate($veri,$param)
       {
           $files = $this->validateParams;
@@ -43,8 +62,56 @@
           }
 
       }
+
+      /**
+       * @param $validate
+       * @return mixed
+       */
       public function validatorOzsa($validate)
       {
-          return str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',$validate);
+          if(is_array($validate))
+          {
+              foreach($validate as $key => $value)
+              {
+
+                  if(is_array($value))
+                  {
+                      $this->validatorOzsa($value);
+                  }else{
+
+                      $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($value)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+
+              }
+          }
+          }else{
+              $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($validate)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+          }
+           return $return;
+      }
+
+      /**
+       * @param $validate
+       * @return mixed
+       */
+      public static function validateOzsa($validate)
+      {
+          if(is_array($validate))
+          {
+              foreach($validate as $key => $value)
+              {
+
+                  if(is_array($value))
+                  {
+                      self::validatorOzsa($value);
+                  }else{
+
+                      $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($value)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+
+                  }
+              }
+          }else{
+              $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($validate)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+          }
+          return $return;
       }
   }

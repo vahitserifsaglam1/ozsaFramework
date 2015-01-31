@@ -4,7 +4,7 @@
       public $_modal;
       public function __construct()
       {
-         $this->dbA =  parent::__construct(require APP_PATH.'Configs/Configs.php');
+         $this->dbA =  parent::__construct();
 
       }
       public function _modal($name)

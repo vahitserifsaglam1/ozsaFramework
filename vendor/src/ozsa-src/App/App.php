@@ -12,13 +12,18 @@
         {
             $this->settings = array('path' => $pathOptions,
             'configs'=> $configs);
+            $this->validateAssets();
             $this->cookieStart();
             $this->sessionStart();
             $this->getRequest();
-            $this->installValidator();
+            #$this->installValidator();
             #$this->databaseInstaller();
         }
-        public function  installValidator()
+        public function validateAssets()
+        {
+             $assets = new \App\Assets(true);
+        }
+      /*  public function  installValidator()
         {
              $options = $this->settings['configs']['Validate'];
              $validator = new \Validator($options);
@@ -29,7 +34,7 @@
                 $validator->validatorOzsa($params);
             }
 
-        }
+        }*/
         public function databaseInstaller()
         {
             new \DB($this->settings['configs']['db']);
@@ -61,13 +66,27 @@
 
 
               $configs = $this->settings['path'];
-              $appPath =  rtrim(APP_PATH,"/");
+              $appPath =  rtrim(APP_PATH,'/');
 
               $systemPath =  rtrim(SYSTEM_PATH,'/');
 
-              if(!isset($_GET['url'])) $_GET['url'] = "index";
+              if(!isset($_GET['url'])) $_GET['url'] = 'index';
+              if(strstr($_GET['url'],'.php')) $_GET['url'] = str_replace('.php','',$_GET['url']);
+
               if(!strstr($_GET['url'],'/')) $_GET['url'] .= "/";
-              @list($view,$function,$params) = explode("/",$_GET['url']);
+
+              $ex = explode("/",$_GET['url']);
+
+              @$view = $ex[0];
+
+              if(isset($ex[1]))$function = $ex[1];
+              if(isset($ex[2])){
+                  unset($ex[0]);
+                  unset($ex[1]);
+                  $params=$ex;
+
+              }else { $params = array(); }
+
               $render = new \Router();
 
               if( $view != $appPath && $view != $systemPath && $_SERVER['REQUEST_URI'] != 'public.php')
@@ -76,7 +95,7 @@
                   $path  =  $appPath."/Controller/$view.php";
                   include $path;
                   $class = new $view();
-                  call_user_func(array($class,$function),$params);
+                  if(isset($function))call_user_func_array(array($class,$function),$params);
 
                   $render->render($appPath."/Views/".$view.".php",$configs);
 

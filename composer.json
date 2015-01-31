@@ -1,6 +1,6 @@
 {
     "name": "vahitserifsaglam1/framework",
-    "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+    "description": "Basic framework",
 
     "autoload": {
     "classmap" : [
@@ -10,6 +10,8 @@
     ]
 },
     "require": {
+    	"propel/propel": "dev-master",
         "wixel/gump": "dev-master"
+        
     }
 }

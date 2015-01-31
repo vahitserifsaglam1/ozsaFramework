@@ -22,7 +22,8 @@
          $path = $errorConfigs['logFilePath'];
            if($errorConfigs['writeLog'])
            {
-             $ac = fopen($path,"a");
+             $ac = fopen
+             ($path,"a");
                $yaz = fwrite($ac,$content);
                 fclose($ac);
            }

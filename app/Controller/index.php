@@ -5,6 +5,11 @@
        {
           parent::__construct();
        }
+      public function oku()
+      {
+
+
+      }
 
   }
 

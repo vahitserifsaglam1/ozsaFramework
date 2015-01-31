@@ -4,8 +4,8 @@
         {
             public static function render($path,$allInclude = false)
             {
-                global $pathOptions;
-                $ViewsPath = $pathOptions['appPath']."Views/";
+
+                $ViewsPath = APP_PATH."Views/";
                 $path = $ViewsPath.$path.".php";
                 if(file_exists($path))
                 {
