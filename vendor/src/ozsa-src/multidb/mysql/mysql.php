@@ -72,6 +72,13 @@ class mysql
      * @param array $exec
      * @return bool|mysql
      */
+    public function ret($aranan,$degiscek,$metin = '')
+    {
+         if($metin ==  '') $metin = $this->queryString;
+         $validate = Validator::validateOzsa($degiscek);
+         $yeni = str_replace($aranan,$degiscek,$metin);
+         return $yeni;
+    }
     public function execute($exec = array())
     {
         $query = $this->queryString;
@@ -108,7 +115,14 @@ class mysql
         $cek =  mysql_num_rows($this->queryString);
         if($cek && $cek>0) return $cek;else return false;
     }
+    public function bind($string = '',$href = '')
+    {
+           $metin = $this->ret($string,$href);
 
+           $this->queryString = $metin;
+
+           return $this;
+    }
     public function __destruct()
     {
         mysql_close($this->con);

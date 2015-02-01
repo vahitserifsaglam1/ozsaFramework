@@ -26,6 +26,16 @@
     */
 
     define('INDEX',$pathOptions['HomePage']);
+/**
+ *  Public dosyasının ayarlanması
+ */
+    define('_PUBLIC',$pathOptions['PublicFiles']);
+/**
+ *
+ * View Dosyasının ayarlanması
+ *
+ */
+    define('VIEW_PATH',APP_PATH.'Views/');
     
     /**
     *  Ayar Dosyaları

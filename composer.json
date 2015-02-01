@@ -6,12 +6,13 @@
     "classmap" : [
         "vendor/src/ozsa-src",
         "vendor/wixel/gump",
-        "vendor/redbeanphp"
+        "vendor/twig"
     ]
 },
     "require": {
     	"propel/propel": "dev-master",
-        "wixel/gump": "dev-master"
+        "wixel/gump": "dev-master",
+        "twig/twig" : "dev-master"
         
     }
 }

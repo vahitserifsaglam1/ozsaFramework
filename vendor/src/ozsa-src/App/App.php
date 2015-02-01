@@ -43,7 +43,8 @@
         }
        public function setErrorReporting()
        {
-           error_reporting($this->setting['Error']['Reporting']);
+
+           error_reporting($this->settings['configs']['Error']['Reporting']);
            return null;
        }
         public function sessionStart()
@@ -97,7 +98,7 @@
                   $class = new $view();
                   if(isset($function))call_user_func_array(array($class,$function),$params);
 
-                  $render->render($appPath."/Views/".$view.".php",$configs);
+                 # $render->render($appPath."/Views/".$view.".php",$configs);
 
               }else{
 

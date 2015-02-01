@@ -3,20 +3,152 @@
  Class Router
 
  {
+      public static $js = array();
+      public static $css = array();
+      public static $template = array();
+      public static $files = array();
+      protected static $templateInstalled = false;
+      public static $templateArray;
+
       public function __construct()
       {
 
       }
-     public function render($path,$params = '')
+     public static function setTemplateArrays($array,$file)
+     {
+         self::$templateArray[$file] = $array;
+         self::templateInstall();
+
+     }
+     public static function templateInstall()
+     {
+         if(!self::$templateInstalled)
+         {
+             Ozsa\Template\Engine::Installer();
+             self::$templateInstalled = true;
+         }
+         foreach(self::$templateArray as $key => $value)
+         {
+
+
+                  self::templateLoader(array(),$key,$value);
+
+
+         }
+
+     }
+     public static function render($path,array $params = array(),$rendefiles = '', array $templateArray = array())
      {
 
          if(isset($params) && !empty($params))
          {
              extract($params);
          }
+         if(is_array($rendefiles))
+         {
+             $rende = self::renderFiles($rendefiles);
+
+             extract($rende);
+
+         }
          ob_start();
+         if( isset($files) && is_string($files) )
+         {
+             file_put_contents($path,$files);
+         }
+         if( isset($template) && is_array($template) )
+         {
+             Ozsa\Template\Engine::Installer();
+             self::$templateInstalled = true;
+             self::templateLoader(array(),$template,$templateArray);
+         }
          include $path;
+
          return null;
+     }
+     public static function templateLoader($options = array(),$file,$arrays)
+     {
+          Ozsa\Template\Engine::templateInstaller($options,$arrays,$file);
+     }
+     public static function renderFiles(array $filess = array())
+     {
+
+         $files = array(
+             'css' => array(),
+             'templates' => array(),
+             'js' => array(),
+             'files' => array()
+         );
+
+        foreach($filess as $key => $value)
+        {
+
+            foreach ( $value as $k )
+            {
+
+                $files[$key][] = $k;
+            }
+        }
+
+         return self::createHead($filess);
+     }
+
+     public static function createHead($files)
+ {
+
+       if(isset($files['css']))self::$css = self::createCss($files['css']);
+       if(isset($files['js'])) self::$js = self::createJs($files['js']);
+       if(isset($files['template'])) self::$template = self::createTemplate($files['template']);
+       if(isset($files['files']) )self::$files = self::createFiles($files['files']);
+
+      return array(
+          'css' => self::$css,
+          'js' => self::$js,
+          'templates' =>self::$template,
+          'files' => self::$files
+      );
+
+ }
+      public static function createFiles($files)
+      {
+
+          $s = '<?php ';
+
+          foreach($files as $file)
+          {
+              $s .= 'include "'._PUBLIC."files/".$file.'";';
+          }
+          $s .= '?>';
+          return $s;
+      }
+      public static function createCss($files)
+      {
+           $s = '';
+           foreach($files as $key)
+           {
+               $s .= '<link type="text/css" href="'._PUBLIC.'css/'.$key.'"/>'."\n";
+           }
+
+          return $s;
+      }
+     public static function createJs($files)
+     {
+         $s = '';
+         foreach($files as $key)
+         {
+             $s .= '<script type="text/javascript" href="'._PUBLIC.'js/'.$key.'" /></script>'."\n";
+         }
+         return $s;
+     }
+     public  static function createTemplate($files)
+     {
+        $s = array();
+          foreach($files as $key)
+          {
+               $s = _PUBLIC.'templates/'.$key;
+          }
+         return $s;
+
      }
      public function error($error = '404')
      {
@@ -85,5 +217,10 @@
 
          return $code;
 
+     }
+     public static function __callStatic($name,$params)
+     {
+
+         return call_user_func_array(array('Router',$name),$params);
      }
  }
