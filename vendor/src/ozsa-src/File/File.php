@@ -1,7 +1,23 @@
 <?php
 
  Class file{
+
      public $in;
+     public static $handle;
+
+     public static function includeFile($path)
+     {
+         if(!in_array($path,self::$handle))
+         {
+             return require $path;
+         }
+     }
+
+      public static function lock($path)
+      {
+          self::$handle[] = $path;
+      }
+
      public static function makeDir($path)
      {
          if(is_dir($path)) {mkdir($path);}else touch($path);
@@ -51,4 +67,5 @@
              unlink($key);
          }
      }
+
  }

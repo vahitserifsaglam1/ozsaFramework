@@ -1,9 +1,39 @@
 <?php
 
+/**
+ * Class ORM
+ *
+ *   *******************************************
+ *
+ *    Ozsaframe Work basit ama hızlı bir orm sınıfı
+ *
+ *
+ *   *****************************************
+ *
+ * @packpage Ozsaframework
+ * @version 1.1
+ *
+ *
+ */
 
  class ORM
  {
-
+     /**
+      * @var $tableNames
+      * @var $columns
+      * @var $queryHistory
+      * @var $dbDatabase
+      * @var $mixed
+      * @var $set
+      * @var $get
+      * @var $limit
+      * @var $where
+      * @var $selectedTable
+      * @var $like
+      * @var $join
+      * @var $string
+      * @access protected
+      */
      protected $tableNames;
      protected $columns;
      protected $queryHistory;
@@ -17,9 +47,16 @@
      protected $like;
      protected $join;
      protected $string;
+     protected $setLog = false;
 
-     public function __construct($table = '')
+     /**
+      * @param string $table
+      * @throws Exception
+      * @return mixed
+      */
+     public function __construct($table = '',$setlog = false)
      {
+         $this->setLog = $setlog;
          $options = require APP_PATH.'Configs/Configs.php';
          $options = $options['db'];
          extract($options);
@@ -42,7 +79,9 @@
          return  $this->returnTables();
      }
 
-
+     /**
+      * @return mixed
+      */
      public function returnTables()
      {
            $tableQuery = $this->dbDatabase->query("SHOW TABLES");
@@ -63,6 +102,12 @@
          return $this->mixed = $tableName;
 
      }
+
+     /**
+      * @param $set
+      * @param $value
+      * @return $this
+      */
      public function addSet($set,$value)
      {
 
@@ -70,6 +115,10 @@
          return $this;
 
      }
+
+     /**
+      * @param $select
+      */
     public function AddSelect($select)
     {
         foreach ($select as $selectedKey)
@@ -77,16 +126,31 @@
             $this->get[$this->selectedTable] = $selectedKey;
         }
     }
+
+     /**
+      * @param $value
+      * @return $this
+      */
      public function addGet($value)
      {
          $this->get[$this->selectedTable][] = $value;
          return $this;
      }
+
+     /**
+      * @param array $veriler
+      * @return $this
+      */
      public function AddLimit($veriler = array())
      {
          $this->limit[$this->selectedTable] = $veriler;
          return $this;
      }
+
+     /**
+      * @param array $veriler
+      * @return $this
+      */
      public function AddWhere($veriler = array())
      {
        
@@ -94,6 +158,12 @@
         $this->where[$this->selectedTable] = $veriler;
          return $this;
      }
+
+     /**
+      * @param $name
+      * @param $params
+      * @return $this
+      */
      public function __call($name,$params)
      {
 
@@ -105,17 +175,35 @@
          return $this;
 
      }
+
+     /**
+      * @return mixed
+      */
      public function returnTableNames()
      {
          return $this->tableNames;
      }
+
+     /**
+      * @return mixed
+      */
      public function returnColumns(){
          return $this->columns;
      }
+
+     /**
+      * @return mixed
+      */
      public function returnMixed()
      {
          return $this->mixed;
      }
+
+     /**
+      * @param array $array
+      * @param $end
+      * @return string
+      */
      public function mixer(array $array,$end)
      {
          $s = "";
@@ -134,6 +222,10 @@
 
      }
 
+     /**
+      * @param $array
+      * @return string
+      */
      public function wherer($array)
      {
          $s = "";
@@ -143,6 +235,11 @@
          }
          return rtrim($s," AND");
      }
+
+     /**
+      * @param array $array
+      * @return string
+      */
      public function liker(array $array)
      {
 
@@ -153,6 +250,11 @@
              return $like;
 
      }
+
+     /**
+      * @param $join
+      * @return string
+      */
      public function joiner($join)
      {
          foreach($join as $joinKey => $joinVal)
@@ -162,6 +264,11 @@
 
          return $val;
      }
+
+     /**
+      * @param $limit
+      * @return string
+      */
      public function limiter($limit)
      {
          $limitbaslangic = $limit[0];
@@ -169,6 +276,11 @@
 
          return $limitbaslangic.','.$limitson.' ';
      }
+
+     /**
+      * @param array $select
+      * @return string
+      */
      public function selecter(array $select)
      {
 
@@ -179,7 +291,11 @@
           }
          return rtrim($s,',');
      }
-     public function save()
+
+     /**
+      * @return PDOStatement
+      */
+     public function create()
      {
           $table = $this->selectedTable;
 
@@ -188,6 +304,10 @@
          return $this->query($msg);
 
      }
+
+     /**
+      * @return PDOStatement
+      */
      public function update()
      {
          $table = $this->selectedTable;
@@ -196,6 +316,10 @@
           $msg = ' UPDATE '.$table.' SET '.$this->mixer($this->set[$table],', ').' WHERE '.$this->wherer($where);
           return $this->query($msg);
      }
+
+     /**
+      * @return PDOStatement
+      */
      public function delete()
      {
          $table = $this->selectedTable;
@@ -203,7 +327,11 @@
          $msg = 'DELETE FROM '.$table.' WHERE '.$this->wherer($where);
          return $this->query($msg);
      }
-     public function select()
+
+     /**
+      * @return $this
+      */
+     public function read()
      {
          $table = $this->selectedTable;
          $where = $this->where[$table];
@@ -275,6 +403,11 @@
         return $this;
 
      }
+
+     /**
+      * @param $msg
+      * @return PDOStatement
+      */
      public function query($msg)
      {
 
@@ -282,24 +415,67 @@
           {
               $return =  $this->dbDatabase->query($msg);
           }
+         if($this->setLog)
+         {
+             $this->setHistoryLog($msg);
+         }
           if($return) {$this->string = $return;}else{$this->string = false;}
           return $return;
      }
+
+     /**
+      * @param int $type
+      * @return mixed
+      */
      public function fetch($type = PDO::FETCH_OBJ)
      {
 
                return $this->string->fetch($type);
 
      }
+
+     /**
+      * @return mixed
+      */
      public function fetchAll()
      {
               return   $this->string->fetchAll();
      }
+
+     /**
+      * @param $join
+      * @return $this
+      */
      public function AddJoin($join)
      {
         $this->join[$this->selectedTable] = $join;
          return $this;
      }
+
+     /**
+      * @param $log
+      * @return null
+      */
+     protected function setHistoryLog($log)
+     {
+         if($this->setLog)
+         {
+             $time = date("H:i");
+             $date = date("d.m.Y");
+             $msg = 'Query History >> [ time : '.$time.' ; date : '.$date. ' ] >'.$log." \n";
+             $path = APP_PATH.'Logs/ormlog.log';
+
+             $ac = fopen($path,"a");
+             $yaz  = fwrite($ac,$msg);
+             fclose($ac);
+         }
+         return null;
+
+     }
+
+     /**
+      *  @return null
+      */
      public function flush()
      {
          $this->set = array();
@@ -311,8 +487,14 @@
          $this->join = array();
          $this->limit = array();
          $this->like = array();
-
+         return null;
      }
+
+     /**
+      * @param $selected
+      * @return $this
+      */
+
      public function setSelected($selected)
      {
        $this->selectedTable = $selected;

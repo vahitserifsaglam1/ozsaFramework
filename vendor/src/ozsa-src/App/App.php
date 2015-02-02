@@ -78,6 +78,8 @@
 
               $ex = explode("/",$_GET['url']);
 
+              define('URL',$ex);
+
               @$view = $ex[0];
 
               if(isset($ex[1]))$function = $ex[1];

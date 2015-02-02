@@ -18,7 +18,7 @@ class error
             
             if($errno)
             {
-               new MyException($errstr,$errno,$errfile,$errline);
+               new MyException($errno,$errstr,$errline,$errfile);
             }else{
 
              new MyException($errstr,1);
@@ -26,7 +26,7 @@ class error
             }
             
            
-            error_logOzsa($errstr, $errno, $errline, $errfile);
+            error_logOzsa($errno,$errstr,$errline,$errfile);
         
     }
 

@@ -39,7 +39,7 @@ Class DB {
 
                 break;
             case 'sqlite':
-                $dbConf = new \sqlite($dbname);
+                $dbConf = new \sqlite($database);
         }
         self::$typeStatic = $type;
         $this->dbConf = $dbConf;

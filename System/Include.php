@@ -7,6 +7,7 @@
     *
     * Sunucunun Yüklenme Zamanı
     */
+
     define('OZSA_START',microtime(true));
 
      /**
@@ -26,32 +27,43 @@
     */
 
     define('INDEX',$pathOptions['HomePage']);
-/**
- *  Public dosyasının ayarlanması
- */
+
+    /**
+    *   Public dosyasının ayarlanması
+    */
+
     define('_PUBLIC',$pathOptions['PublicFiles']);
-/**
- *
- * View Dosyasının ayarlanması
- *
- */
+
+    /**
+    *
+    * View Dosyasının ayarlanması
+    *
+    */
+
     define('VIEW_PATH',APP_PATH.'Views/');
     
     /**
     *  Ayar Dosyaları
     */
+
     $dbConfigs = require_once APP_PATH."Configs/Configs.php";
+
      /**
      * Hata Sınıfı
      */
+
     require_once APP_PATH."Error/errorException.php";
+
     /**
     * Fonksion dosyaları
     */
+
     require_once APP_PATH."Lib/Functions.php";
+
     /**
     * Yükle dosyasınn çağrılması
     */
+
     require_once __DIR__."/autoload.php";
 
 

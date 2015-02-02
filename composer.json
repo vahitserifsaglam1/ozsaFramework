@@ -6,13 +6,16 @@
     "classmap" : [
         "vendor/src/ozsa-src",
         "vendor/wixel/gump",
-        "vendor/twig"
+        "vendor/twig",
+        "vendor/predis/predis",
+        "vendor/redbeanphp"
     ]
 },
     "require": {
     	"propel/propel": "dev-master",
         "wixel/gump": "dev-master",
-        "twig/twig" : "dev-master"
+        "twig/twig" : "dev-master",
+        "predis/predis": "1.1.*@dev"
         
     }
 }

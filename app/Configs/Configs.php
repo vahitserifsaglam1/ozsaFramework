@@ -12,21 +12,22 @@
             'username' => 'root',
               'password' => '',
                 'type' => 'PDO',
-                  'charset' => 'utf-8'
+                  'charset' => 'utf-8',
+           'sqlite' => array(
+               'database' => 'dbname'
+           )
        ),
+
       'Session' => array
       (
           'type' => 'Ozsa',
             'SessionFolder' => APP_PATH.'Stroge/Session'
       ),
-      'Cookie' => array(
-            'type'=>'Php',
-              'CookieFolder' => APP_PATH.'Stroge/Session'
-      ),
+
      'Error' => array
      (
          'Reporting' => 0,
-          'logFilePath' => APP_PATH.'Error/error.log',
+          'logFilePath' => APP_PATH.'Logs/error.log',
            'writeLog' => true
      )
      ,'Validate' =>

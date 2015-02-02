@@ -2,10 +2,12 @@
 
   class MainController extends DB {
       public $_modal;
+      public $dbA;
+      public $_assets;
       public function __construct()
       {
          $this->dbA =  parent::__construct();
-
+         $this->_assets = new App\Assets();
       }
       public function _modal($name)
       {

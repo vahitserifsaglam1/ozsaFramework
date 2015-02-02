@@ -1,19 +1,51 @@
 <?php
-   namespace File\Excel;
+   namespace File;
+
+/**
+ * Class Excel
+ * @package File
+ *
+ *  ****************************
+ *
+ *  OzsaFramework excel oluşturma sınıfı
+ *
+ *
+ *   *************************
+ *
+ *
+ *  ///////////////////////
+ *
+ *  bu sınıfla tek bir girişle excel,xml,word,pdf belgeleri oluşturabilirsiniz
+ *
+ *
+ *  //////////////////////
+ */
+
     class Excel {
         /**
          * @var string
          */
         public $fileName;
-
+        /**
+         * @var string
+         */
         public $ext;
-
+        /**
+         * @var string
+         */
         public $tableNames;
-
+        /**
+         * @var string
+         */
         public $tableValues;
-
+        /**
+         * @var string
+         */
         public $type;
 
+        /**
+         * @return mixed $this;
+         */
         public function __construct(){
             $this->fileName = "excel_class";
             $this->ext = ".xls";
@@ -124,6 +156,10 @@
 
             }
         }
+
+        /**
+         * @return $this
+         */
         public function createXml()
         {
             $fileName = $this->fileName.".xml";
@@ -151,6 +187,10 @@
             return $this;
 
         }
+
+        /**
+         * @return mixed $this
+         */
         public  function  createWord()
         {
             $content = $this->content;
@@ -165,16 +205,19 @@
             }else{
                 $this->error = "içeriğiniz bir sting değil; içerik türü : ".var_dump($content);
             }
-
+            return $this;
 
         }
+
+        /**
+         * @return $this
+         */
         public function createPdf()
         {
             $content = $this->content;
             $newFileName = $this->fileName.".pdf";
             $desc = "ozsaClass";
             if(is_string($content) || is_numeric($content)) {
-                include "class/fpdf.php";
                 $fpdf = new FPDF();
                 $fpdf->AddPage();
                 $fpdf->SetFont('Arial', 'b', 10);
@@ -183,7 +226,7 @@
             }else{
                 $this->error = "içeriğiniz bir sting değil; içerik türü : ".var_dump($content);
             }
+            return $this;
         }
     }
-$excel = new excelXMl();
 ?>

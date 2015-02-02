@@ -1,18 +1,6 @@
 <?php
-
-/**
- * Class Form
- */
 class Form
 {
-    /**
-     * @param $name
-     * @param $paramatres
-     * @param string $type
-     * @param bool $return
-     * @return string
-     */
-
     public static function open($name,$paramatres,$type='POST',$return = false)
     {
 
@@ -26,12 +14,6 @@ class Form
 
         if($return) return $msg;else echo $msg;
     }
-
-    /**
-     * @param $params
-     * @return string
-     */
-
     public static function submit($params)
     {
         if( is_array($params) )
@@ -42,13 +24,6 @@ class Form
             return "<input type='submit' value='$params' />".PHP_EOL;
         }
     }
-
-    /**
-     * @param $name
-     * @param $params
-     * @return string
-     */
-
     public static function input($name,$params)
     {
         if(is_array($params))
@@ -59,13 +34,6 @@ class Form
             return "<input type='text' name='$name' value='$params' >".PHP_EOL;
         }
     }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return string
-     */
-
     public static function text($name,$value)
     {
 
@@ -77,13 +45,6 @@ class Form
             return "<input type='text' name='$name' value='$value' />".PHP_EOL;
         }
     }
-
-    /**
-     * @param $name
-     * @param $params
-     * @param string $value
-     */
-
     public static function textarea($name,$params,$value = "")
     {
         if(is_array($params))
@@ -93,12 +54,6 @@ class Form
             echo "<textarea name='$name'>$params</textarea>".PHP_EOL;
         }
     }
-
-    /**
-     * @param $name
-     * @param $return
-     */
-
     public static function makro($name,$return)
     {
         if(is_callable($return))
@@ -109,14 +64,6 @@ class Form
         }
 
     }
-
-    /**
-     * @param $name
-     * @param $params
-     * @param $options
-     * @return string
-     */
-
     public static function select($name,$params,$options)
     {
         $msg = "";
@@ -139,23 +86,10 @@ class Form
         $msg .= "</select>".PHP_EOL;
         return $msg;
     }
-
-    /**
-     * @param bool $return
-     * @return string
-     */
-
     public static function close($return = false)
     {
         if($return) return "</form>";else echo "<form>";
     }
-
-    /**
-     * @param $name
-     * @param $parametres
-     * @return mixed
-     */
-
     public static function __callStatic($name,$parametres)
     {
         if(isset(self::$functions[$name]))

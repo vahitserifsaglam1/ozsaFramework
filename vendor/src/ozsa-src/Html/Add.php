@@ -1,10 +1,34 @@
 <?php
+
+/**
+ * Class Add
+ *
+ *  ******************************
+ *
+ *   OzsaFramework Add sınıfı : işlev ;
+ *
+ *   Add::div
+ *
+ *   Add::p
+ *
+ *   Add::a
+ *
+ *   Add dan sonraki fonksiyon ismiyle yeni bir html elementi oluşturur
+ */
 class Add
 {
     /**
      * @param $name
      * @param $params
      * @return string
+     *
+     *
+     *   $name = div,a,p
+     *
+     *
+     *   Örnek Çıktı
+     *
+     *  <div class = 'form-class'>$content</div>
      */
 
     public static function __callStatic($name,$params)
