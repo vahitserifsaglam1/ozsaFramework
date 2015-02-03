@@ -5,131 +5,220 @@ namespace Html;
  * Class Pagination
  * @package Html
  */
-class Pagination
-{
-    private static $paginationClass;
-    private static $pClass;
-    private static $max;
-    private static  $min;
-    private static $recods;
-    private static $activePage;
-    private static $url;
-    public static $file;
-    private static $init  = false;
-
-    public static  function init($paginationClass = "pagination",$pagiClass = "pagi")
+    class Pagination
     {
-        self::$file = _PUBLIC."css/pagination.css";
-        self::$init = true;
-        self::$url = URL;
-        self::$paginationClass = $paginationClass;
-        self::$pClass = $pagiClass;
-        if(self::$url[0] == "")
-        {
-            self::$url = array(
-                'index'
-            ,1
-            );
-        }else{
+        public $homeClass;
+        public $linkClass;
+        public $max = false;
+        public $min = false;
+        public $records = false;
+        public $activePage;
+        public $url;
+        public $file;
+        public $endUrl;
+        public $configs;
+        public $standartLink;
 
+        /**
+         * @param string $homeClass
+         * @param string $linkClass
+         * @param bool $records
+         * @param bool $min
+         * @param bool $max
+         */
+
+        public function __construct($homeClass = 'pagi',$linkClass = 'pagination',$records = false,$min = false,$max = false)
+        {
+            $configs = require APP_PATH.'Configs/Pagination.php';
+            $this->configs = $configs;
+            $this->homeClass = $homeClass;
+            $this->linkClass = $linkClass;
+            $this->min = $min;
+            $this->max = $max;
+            $this->records = $records;
+            $this->url = \Ozsa\App::urlParse();
+            $sonurl = array_pop($this->url);
+            $this->endUrl = $sonurl;
+            $this->urlParser();
+            $this->standartLinkCreator();
+            return $this;
         }
 
-        if(count(self::$url) > 2)
+        /**
+         * @param bool $return
+         * @return string
+         */
+
+        public function execute( $return = false )
         {
-            $page = self::$url[2];
-        }elseif(count(self::$url) == 2){
-            $page = self::$url[1];
-        }else{
-            $page = 1;
+           $msg = '';
+
+            $msg .= $this->homeCreator();
+
+            $msg .= $this->linkCreator();
+
+            $msg .= $this->homeEndCreator();
+
+            if($return) return $msg;else echo $msg;
         }
-        self::$activePage = $page;
-    }
 
-    public static  function setRecods($int = 1)
-    {
-        self::$recods = $int;
-
-    }
-    public static  function page($page)
-    {
-        self::$activePage = $page;
-
-    }
-    public static function setMax($max)
-    {
-        self::$max = $max;
-
-    }
-    public static function setMin($min)
-    {
-        self::$min = $min;
-    }
-    public static function execute($return = false)
-    {
-
-        if(!self::$init) self::init();
-        $url =   self::$url;
-        $paginationClass =   self::$paginationClass;
-        $pClass=   self::$pClass;
-        $page =   self::$activePage;
-        $sorgu=  "<div class='$paginationClass'>".PHP_EOL;
-        $recods = self::$recods;
-        if( self::$max)
+        /**
+         * @return string
+         */
+        public function homeCreator()
         {
-            $max = self::$min;
-        }else{
-            $max = 100;
+           $return = '<div class = "'.$this->homeClass.'">'."\n";
+            return $return;
         }
-        if(  self::$min)
+
+        /**
+         * @return string
+         */
+
+        public function homeEndCreator()
         {
-            $min = self::$min;
+            return '</div>';
         }
-        else{$min = 15; }
-        if( $max && $min )
+
+        /**
+         * ****
+         */
+        public function linkCreator()
         {
-            $minpage = ($page-$min);
-            $minpage =   ($minpage<1)? 1:$minpage;
-            $maxpage = ($minpage+$max);
-            $maxpage =  ($maxpage>$recods) ? $recods:$maxpage;
-            $m = $url[0];
-            if(isset($url[2]))
-            {
-                if(is_string($url[1]))
-                {
-                    $m .= "/".$url[1]."/";
-                }
-            }
-            else
-            {
-                if( isset($url[1]) )
+            $msg = '';
+            $page = $this->activePage;
+            $min = $this->min;
+            $max = $this->max;
+            $records = $this->records;
+            ////////////////////////////
+            // Buraya ayar dosyasından veriler çekilecek
+            ////////////////////////////
+            if (!$min) $min = $this->configs['min'];
+            if (!$max) $max = $this->configs['max'];
+            ///////////////////////////////
+            // 1den küçük,büyük kontrolu
+            ///////////////////////////////
 
-                {
+            $minpage = ($page - $min);
+            $minpage = ($minpage < 1) ? 1 : $minpage;
+            $maxpage = ($minpage + $max);
+            $maxpage = ($maxpage > $records) ? $records : $maxpage;
 
-                    $m .= "/";
-                }
-            }
+            //////////////////////////
+
+            $end = $this->endUrl;
+
+            /////////////////////////
+
             for($i = $minpage;$i<=$maxpage;$i++)
             {
 
-                $link = $m.$i;
-                $query =  "<div class='$pClass' style='float:left;'><a href='$link'>".$i."</a></div>";
-                if($page == $i)
-                {
-                    $query = "<div class='$pClass active' style='float:left' ><a href='$link'>".$i."</a></div>";
-                }
-                $sorgu .= $query;
+                 $end = $end.'/'.$i;
+
+                 $msg .=  $this->linkAndMessageCreator($i,$end);
 
             }
+            return $msg;
+        }
+
+
+
+        /**
+         * @return string
+         */
+
+       public function standartLinkCreator()
+        {
+            $msg = '';
+            foreach($this->url as $key )
+            {
+                $msg .= $key.'/';
+
+            }
+            $this->standartLink = $msg;
+            return $msg;
+        }
+
+        /**
+         * @param $i
+         * @param $link
+         * @return string
+         */
+
+        public function linkAndMessageCreator($i,$link)
+        {
+                $msg = '<a class="'.$this->linkClass.'" href="'.$this->standartLink.$i.'">'.$i.'</a>';
+                return $msg;
+        }
+
+        /**
+         * @return null
+         */
+
+        public function urlParser()
+        {
+            $url = $this->url;
+            if(count($url) == 1 && $url[0] == '')
+            {
+                $url[0] = "index";
+            }
+            $this->url = $url;
+            return null;
 
         }
 
-        $sorgu .= "</div>";
-        if($return)
+        /**
+         * @param bool $records
+         * @param bool $page
+         * @return $this
+         */
+
+        public function setRecords($records = false,$page = false)
         {
-            return $sorgu;
-        }else{
-            echo $sorgu;
+            if(!isset($this->records)) $this->records = $records;
+            if(!isset($this->activePage)) $this->activePage = $page;
+            return $this;
+        }
+
+        /**
+         * @param $max
+         * @return $this
+         */
+
+        public function setMax($max)
+        {
+            if(!isset($this->max)) $this->max = $max;
+            return $this;
+        }
+
+        /**
+         * @param $min
+         * @return $this
+         */
+
+        public function setMin($min)
+        {
+            if(!isset($this->min)) $this->min = $min;
+            return $this;
+        }
+
+        /**
+         * @param $min
+         * @param $max
+         * @return $this
+         */
+
+        public function setMaxAndMin($min,$max)
+        {
+            if(!isset($this->min))
+            {
+                $this->min = $min;
+            }
+            if(!isset($this->max))
+            {
+                $this->max = $max;
+            }
+            return $this;
         }
 
     }
-}

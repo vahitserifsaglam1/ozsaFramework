@@ -20,11 +20,67 @@
 
      public static function makeDir($path)
      {
-         if(is_dir($path)) {mkdir($path);}else touch($path);
+         $path = str_replace("\\", "/", $path);
+         $path = explode("/", $path);
+
+         $rebuild = '';
+         foreach($path AS $p) {
+
+             // Check for Windows drive letter
+             if(strstr($p, ":") != false) {
+                 $rebuild = $p;
+                 continue;
+             }
+             $rebuild .= "/$p";
+             //echo "Checking: $rebuild\n";
+             if(!is_dir($rebuild)) mkdir($rebuild);
+         }
      }
-     public static function delete($path)
+     public static function listing($path) {
+         $arr = array();
+         if(is_dir($path)) {
+             // Open the source directory to read in files
+             $i = new DirectoryIterator($path);
+             foreach($i as $f) {
+                 if(!$f->isDot())
+                     $arr[] = $f->getFilename();
+             }
+             return $arr;
+         }
+         return false;
+     }
+     public static function delete($src)
      {
-        if(is_dir($path)) rmdir($path);else unlink($path);
+         if (is_dir($src) && $src != "") {
+             $result = self::Listing($src);
+
+             // Bring maps to back
+             // This is need otherwise some maps
+             // can't be deleted
+             $sort_result = array();
+             foreach ($result as $item) {
+                 if ($item['type'] == "file") {
+                     array_unshift($sort_result, $item);
+                 } else {
+                     $sort_result[] = $item;
+                 }
+             }
+
+             // Start deleting
+             while (file_exists($src)) {
+                 if (is_array($sort_result)) {
+                     foreach ($sort_result as $item) {
+                         if ($item['type'] == "file") {
+                             @unlink($item['fullpath']);
+                         } else {
+                             @rmdir($item['fullpath']);
+                         }
+                     }
+                 }
+                 @rmdir($src);
+             }
+             return !file_exists($src);
+         }
      }
      public static function getContent($path)
      {
@@ -34,7 +90,7 @@
      {
          return file_put_contents($path,$content);
      }
-     public static function chech($path)
+     public static function chechk($path)
      {
          if(file_exists($path)) return true;
      }

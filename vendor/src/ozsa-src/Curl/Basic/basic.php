@@ -1,7 +1,23 @@
 <?php
 
  namespace Curl\Basic;
-
+ /**
+  * Class Curl
+  * @package Curl\Basic
+  *
+  *  *********************************
+  *
+  *  Ozsaframework basit curl sınıfı, static ;
+  *
+  *
+  *  ///////////////////////////////
+  *
+  *   Curl::init();
+  *
+  *   Curl::setOpt(OPT_NAME,OPT_VALUE);
+  *
+  *  Curl::get('http://www.google.com');
+  */
  class Curl
  {
      public static $options;

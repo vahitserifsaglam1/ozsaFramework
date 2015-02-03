@@ -1,0 +1,2 @@
+>>System Error :: Message => include(app/Controller/counter.php): failed to open stream: No such file or directory | ErrorNo => 2 | ErrorFile => 103 | ErrorLine  => C:\xampp\htdocs\Phpframework\vendor\src\ozsa-src\App\App.php |  [ Time : 00:51 | Date : 03.02.2015 ] 
+>>System Error :: Message => include(): Failed opening 'app/Controller/counter.php' for inclusion (include_path='.;C:\xampp\php\PEAR') | ErrorNo => 2 | ErrorFile => 103 | ErrorLine  => C:\xampp\htdocs\Phpframework\vendor\src\ozsa-src\App\App.php |  [ Time : 00:51 | Date : 03.02.2015 ] 

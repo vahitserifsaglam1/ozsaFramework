@@ -36,6 +36,7 @@ namespace Ozsa\Template;
       */
      public static function templateInstaller($options = array(),array $array,$file)
      {
+
          $options[] = array(
              'debug' => false,
              'charset' => 'utf-8',

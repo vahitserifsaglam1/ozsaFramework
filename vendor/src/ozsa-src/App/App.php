@@ -59,8 +59,12 @@
         public function cookieStart()
         {
 
-            \Cookie::init($this->settings['configs']['Cookie']);
+            \Cookie::init(require APP_PATH.'Configs/cookieConfigs.php');
             return null;
+        }
+        public static function urlParse()
+        {
+            return explode("/",$_GET['url']);
         }
         public function getRequest()
         {
@@ -78,7 +82,7 @@
 
               $ex = explode("/",$_GET['url']);
 
-              define('URL',$ex);
+              define('URL',$_GET['url']);
 
               @$view = $ex[0];
 

@@ -9,12 +9,13 @@ class Cookie
 
     public  static $CookieFolder;
 
-    public static function init()
+    public static $filesystem;
+    public static function init($configs)
     {
-        $configs = require APP_PATH.'Configs/cookieConfigs.php';
+
         self::$cookieType = $configs['type'];
-        self::$CookieFolder = APP_PATH.'Stroge/Cookie';
-        if(!file_exists(self::$CookieFolder) ) file::makeDir(self::$CookieFolder);chmod(self::$CookieFolder,0777);
+        self::$CookieFolder = $configs['CookieFolder'];
+        if(!file_exists(self::$CookieFolder) )  file::makeDir(self::$CookieFolder);chmod(self::$CookieFolder,0777);
     }
 
     public static function get($name)

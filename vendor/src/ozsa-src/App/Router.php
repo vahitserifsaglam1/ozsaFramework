@@ -42,26 +42,47 @@
 
          if(isset($params) && !empty($params))
          {
-             extract($params);
+             $params = $params;
          }
          if(is_array($rendefiles))
          {
              $rende = self::renderFiles($rendefiles);
 
-             extract($rende);
 
+         }else{
+             $rende = array();
          }
+         $extra = array_merge($params,$rende);
+
+         extract($extra);
+
          ob_start();
+
          if( isset($files) && is_string($files) )
          {
              file_put_contents($path,$files);
          }
-         if( isset($template) && is_array($template) )
+         if(isset($rendefiles['templates'])) $templates = $rendefiles['templates'];
+
+         if(isset($templates))
          {
+
              Ozsa\Template\Engine::Installer();
              self::$templateInstalled = true;
-             self::templateLoader(array(),$template,$templateArray);
+             if( is_array($templates) )
+             {
+
+                 foreach($templates as $tfiles)
+                 {
+
+                         Ozsa\Template\Engine::templateInstaller(array(),$templateArray,$tfiles);
+
+                 }
+
+             }
          }
+
+
          include $path;
 
          return null;
@@ -72,10 +93,8 @@
      }
      public static function renderFiles(array $filess = array())
      {
-
          $files = array(
              'css' => array(),
-             'templates' => array(),
              'js' => array(),
              'files' => array()
          );
@@ -90,23 +109,24 @@
             }
         }
 
-         return self::createHead($filess);
+         return self::createHead($files);
      }
 
      public static function createHead($files)
  {
 
+
        if(isset($files['css']))self::$css = self::createCss($files['css']);
        if(isset($files['js'])) self::$js = self::createJs($files['js']);
-       if(isset($files['template'])) self::$template = self::createTemplate($files['template']);
        if(isset($files['files']) )self::$files = self::createFiles($files['files']);
 
-      return array(
+      $return =  array(
           'css' => self::$css,
           'js' => self::$js,
-          'templates' =>self::$template,
           'files' => self::$files
       );
+
+     return $return;
 
  }
       public static function createFiles($files)
@@ -139,16 +159,6 @@
              $s .= '<script type="text/javascript" href="'._PUBLIC.'js/'.$key.'" /></script>'."\n";
          }
          return $s;
-     }
-     public  static function createTemplate($files)
-     {
-        $s = array();
-          foreach($files as $key)
-          {
-               $s = _PUBLIC.'templates/'.$key;
-          }
-         return $s;
-
      }
      public function error($error = '404',$message)
      {

@@ -11,15 +11,14 @@
           $this->microtime[$name] = microtime();
           return $this;
       }
-      public function elapsed_time($start,$finish)
+      public function elapsed_time($baslangic,$son,$decimals =4 )
       {
-          $start = $this->microtime[$start];
-          $finish = $this->microtime[$finish];
-          list($start1,$start2) = explode(' ',$this->microtime[$start]);
-          list($finish2,$finish3) = explode(' ',$this->microtime[$finish]);
+
+          list($start1,$start2) = explode(' ',$this->microtime[$baslangic]);
+          list($finish2,$finish3) = explode(' ',$this->microtime[$son]);
           $start = $start1 + $start2;
           $finish = $finish2 + $finish3;
-          return number_format(($finish-$start));
+          return number_format(($finish-$start),$decimals);
       }
      public function memory($name)
      {
