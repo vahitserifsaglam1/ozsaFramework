@@ -10,9 +10,9 @@ class Cookie
     public  static $CookieFolder;
 
     public static $filesystem;
-    public static function init($configs)
+    public static function init()
     {
-
+        $configs = require APP_PATH.'Configs/cookieConfigs.php';
         self::$cookieType = $configs['type'];
         self::$CookieFolder = $configs['CookieFolder'];
         if(!file_exists(self::$CookieFolder) )  file::makeDir(self::$CookieFolder);chmod(self::$CookieFolder,0777);

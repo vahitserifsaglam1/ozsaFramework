@@ -30,6 +30,7 @@ Class DB {
                 }catch (PDOException $e)
                 {
                     $this->dbError = $e->getMessage();
+                    throw new Exception($e->getMessage());
                 }
 
                 break;

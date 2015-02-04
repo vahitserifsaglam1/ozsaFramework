@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * Class Ozsa
+ *
+ *
+ *  ***********************
+ *
+ *
+ *  Ozsa Veri depolama sınıfı
+ *
+ *
+ *  *********************************
+ *
+ *
+ */
 Class Ozsa
 {
     public static function encode($array)

@@ -64,6 +64,7 @@
          if(class_exists('PDO')){
              try{
                  $this->dbDatabase = new PDO("mysql:host=$host;dbname=$dbname;",$username,$password);
+
              }catch(PDOException $e)
              {
                  throw new Exception($e->getMessage());
@@ -86,21 +87,37 @@
      {
            $tableQuery = $this->dbDatabase->query("SHOW TABLES");
 
+             $tableName = '';
            while($tableFetch = $tableQuery->fetch(PDO::FETCH_BOTH))
            {
               $tableName[$tableFetch[0]] = array();
                $this->tableNames[] = $tableFetch[0];
 
+
                $qur = $this->dbDatabase->query("describe $tableFetch[0]");
                while($columns = $qur->fetch(PDO::FETCH_ASSOC))
                {
 
-                  $tableName[$tableFetch[0]][]= $columns['Field'];
-                   $this->columns[]= $columns['Field'];
+                  $tableName[$tableFetch[0]][]= $columns;
+                   $this->columns[]= $columns;
                }
            }
-         return $this->mixed = $tableName;
+        $this->mixed = $tableName;
 
+         $this->createJson();
+         return $this->mixed;
+
+
+     }
+
+     public function createJson()
+     {
+         $path = APP_PATH.'Configs/orm.json';
+
+         $json = json_encode($this->mixed);
+
+         if(!file_exists($path)) touch($path);
+         file_put_contents($path,$json);
      }
 
      /**

@@ -1,7 +1,6 @@
 <?php namespace Ozsa;
 
  class Benchmark
-
  {
       public $memoryusage;
       public $microtime;

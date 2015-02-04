@@ -23,17 +23,20 @@
           }
 
       }
+
+      /**
+       * @param $name
+       * @param $params
+       * @return mixed
+       *
+       *   Controllerda çalıştırılan ifade db>modol>asset sıralaması ile çağırılır
+       */
       public function __call($name,$params)
       {
           if(method_exists($this->dbA,$name)) return call_user_func_array(array($this->dbA,$name),$params);
-          elseif(method_exists($this->_modal,$name)) return call_user_func_array(array($this->_modal),$name);
-          elseif( method_exists($this->dbA,$name) &&  method_exists($this->_modal,$name)) error::newError(" $name fonksiyon
-          hem dn hemde modal da bulunmakda lütfen modal olarak kullanırken _modal diye çağırınız");
-          else return null;
+          elseif(method_exists($this->_modal,$name)) return call_user_func_array(array($this->_modal,$name),$params);
+          elseif( method_exists($this->_assets,$name)) return call_user_func_array(array($this->_assets,$name),$params);
       }
-      public static function __callStatic($name,$params)
-      {
 
-      }
 
   }

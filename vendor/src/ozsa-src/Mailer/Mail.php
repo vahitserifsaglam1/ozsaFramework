@@ -66,9 +66,15 @@
       *
       */
 
-     public function __construct(PHPMailer $mail)
+     public function __construct($options = '')
      {
-           $configs = require APP_PATH.'Configs/mail.php';
+           $mail = new PHPMailer();
+           if($options !== '')
+           {
+               $this->configs = $options;
+           }else{
+               $configs = require APP_PATH.'Configs/mail.php';
+           }
            $this->password = $configs['password'];
            $this->username = $configs['username'];
            $this->host = $configs['host'];

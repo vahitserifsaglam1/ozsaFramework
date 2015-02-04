@@ -8,7 +8,7 @@ class MyException
     protected $file;
     protected $line;
     protected $template = 'Error/Css/Error.php';
-    public function __construct($message, $code = 0,$file = '',$line)
+    public function __construct($message = '', $code = 0,$file = '',$line = '')
     {
        $this->message = $message;
         $this->code = $code;

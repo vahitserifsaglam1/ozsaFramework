@@ -7,6 +7,7 @@
         private $request;
         private $data = null;
         public $validator;
+        public $boots;
 
         public function __construct($pathOptions,$configs)
         {
@@ -17,29 +18,11 @@
             $this->sessionStart();
             $this->getRequest();
             #$this->installValidator();
-            #$this->databaseInstaller();
+
         }
         public function validateAssets()
         {
              $assets = new \App\Assets(true);
-        }
-      /*  public function  installValidator()
-        {
-             $options = $this->settings['configs']['Validate'];
-             $validator = new \Validator($options);
-            if($options['autoValidate']){
-
-                $assets = new \App\Assets();
-                $params =  $assets->returnRequest();
-                $validator->validatorOzsa($params);
-            }
-
-        }*/
-        public function databaseInstaller()
-        {
-            new \DB($this->settings['configs']['db']);
-            \DB::init($this->settings['configs']['db']);
-
         }
        public function setErrorReporting()
        {
@@ -53,7 +36,6 @@
             if (session_start()) {
                 setcookie($session_name, session_id(), null, '/', null, null, true);
             }
-            \Session::init($this->settings['configs']['Session']);
             return null;
         }
         public function cookieStart()
@@ -108,9 +90,15 @@
 
               }else{
 
-                  $render->error('502');
+                  $response = new \Response(404,'bu sayfaya erişim hakınız yok','Lütfen koşarak uzaklaşın');
+
+                  $response->execute();
                   die();
               }
+        }
+        public function __destruct()
+        {
+            \Session::flush();
         }
 
     }

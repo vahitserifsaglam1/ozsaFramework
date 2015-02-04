@@ -18,7 +18,7 @@
   *
   *  Curl::get('http://www.google.com');
   */
- class Curl
+ class Curl implements \curlBasicInterface
  {
      public static $options;
      public static $ch;
@@ -110,5 +110,7 @@
              self::$options[$params[0]] = $params[1];
          }
      }
+
+
 
  }

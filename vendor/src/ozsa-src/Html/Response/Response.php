@@ -108,11 +108,12 @@
       * @return mixed $this
       */
 
-     public function __construct($code = false,$message = false,$body = false)
+     public function __construct($code = false,$message = false,$body = false,$page = '')
      {
           $this->body = $body;
           $this->message = $message;
           $this->code = $code;
+          $this->pages = $page;
          return $this;
      }
 
@@ -299,18 +300,27 @@
       */
 
      public function execute( ){
+
          if(isset($this->headerUrl))
          {
              $header = $this->refreshCreator();
          }
          $error = $this->code;
 
+
          $message = $this->returnErrorMessage($error);
 
          $this->setResponceCode($error);
 
-          $this->headerCreator($error,$message);
+         $this->headerCreator($error,$message);
 
+         if(isset($this->pages))
+         {
+              foreach($this->pages as $page )
+              {
+                  $this->headerPage($page);
+              }
+         }
 
          echo $this->body;
 
@@ -318,6 +328,28 @@
 
 
      }
+
+     /**
+      * @param $page
+      * @return mixed $this
+      */
+
+     public function setPage($page,$time)
+     {
+         if(!isset($this->pages[$page])) $this->pages[$page] = $time;
+         return $this;
+     }
+
+     /**
+      * @param $page
+      * @return $this
+      */
+
+     public function headerPage($page)
+     {
+         header('Refresh:'.$this->pages[$page].', url='.$page);
+     }
+
 
  }
 

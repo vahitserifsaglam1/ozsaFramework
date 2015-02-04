@@ -1,0 +1,1 @@
+{"post":[{"Field":"post_id","Type":"int(11)","Null":"NO","Key":"","Default":null,"Extra":""},{"Field":"post_name","Type":"text","Null":"NO","Key":"","Default":null,"Extra":""},{"Field":"post_value","Type":"text","Null":"NO","Key":"","Default":null,"Extra":""},{"Field":"post_content","Type":"text","Null":"NO","Key":"","Default":null,"Extra":""}]}
