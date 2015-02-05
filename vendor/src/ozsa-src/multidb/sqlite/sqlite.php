@@ -1,5 +1,5 @@
 <?php
-namespace Multidb\sqlite\sqlite;
+namespace mutlidb;
 class sqlite {
     public $file;
     public $db;

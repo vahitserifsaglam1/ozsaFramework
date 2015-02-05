@@ -11,7 +11,16 @@
 
       protected $assets;
 
-     protected $length;
+      protected $length;
+
+      protected $crypted;
+
+      const UPPER = MB_CASE_UPPER;
+
+      const TITLE  = MB_CASE_TITLE;
+
+      const LOWER = MB_CASE_LOWER;
+
 
       public function __construct( $string = null )
       {
@@ -43,7 +52,15 @@
       public function length()
       {
           $this->length = strlen($this->string);
+
           return $this;
+      }
+
+      public function convertCase($type = self::UPPER,$charset = 'UTF-8')
+      {
+         $metin = mb_convert_case($this->string, $type,$charset);
+              $this->string = $metin;
+                return $this;
       }
 
       public function sub( $baslangic = 0, $son = 10)
@@ -62,7 +79,7 @@
 
            return $this;
      }
-     public function  repeat( $metin , $sayi )
+     public function  repeat( $metin = '' , $sayi = 1 )
      {
           $metin = str_repeat( $metin , $sayi );
 
@@ -106,4 +123,25 @@
 
          return  $array;
      }
+     public function returnString()
+     {
+         return $this->string;
+     }
+
+     public function crypter( $metin, $kontrol = false )
+     {
+          if( !$kontrol )
+
+          {
+               $this->crypted = crypt($metin);
+          }
+         else{
+             if (crypt($kontrol, $this->crypted) == $this->crypted) {
+                  return true;
+             }else{
+                 return false;
+             }
+         }
+     }
+
  }

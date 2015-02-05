@@ -8,11 +8,13 @@
         private $data = null;
         public $validator;
         public $boots;
+        protected $adapters;
 
         public function __construct($pathOptions,$configs)
         {
-            $this->settings = array('path' => $pathOptions,
-            'configs'=> $configs);
+            $this->settings = ['path' => $pathOptions,
+            'configs'=> $configs];
+
             $this->validateAssets();
             $this->cookieStart();
             $this->sessionStart();
@@ -20,14 +22,16 @@
             #$this->installValidator();
 
         }
+
         public function validateAssets()
         {
              $assets = new \App\Assets(true);
         }
        public function setErrorReporting()
        {
+           $configs = require APP_PATH.'Configs/Error.php';
 
-           error_reporting($this->settings['configs']['Error']['Reporting']);
+           error_reporting($configs['Reporting']);
            return null;
        }
         public function sessionStart()

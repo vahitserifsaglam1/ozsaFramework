@@ -15,6 +15,7 @@ Class FileSystem {
 
     private static $instance;
 
+    public $dirs;
 
     private function __construct() {}
 
@@ -38,7 +39,24 @@ Class FileSystem {
 
 
     }
+    public function in($dirs)
+    {
+        $resolvedDirs = array();
 
+        foreach ((array) $dirs as $dir) {
+            if (is_dir($dir)) {
+                $resolvedDirs[] = $dir;
+            } elseif ($glob = glob($dir, GLOB_BRACE | GLOB_ONLYDIR)) {
+                $resolvedDirs = array_merge($resolvedDirs, $glob);
+            } else {
+                throw new \InvalidArgumentException(sprintf('The "%s" directory does not exist.', $dir));
+            }
+        }
+
+        $this->dirs = array_merge($this->dirs, $resolvedDirs);
+
+        return $this;
+    }
     public function Read($filename,$remote=false){
         if (!$remote){
             if (file_exists($filename)){

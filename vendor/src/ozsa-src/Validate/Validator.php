@@ -12,13 +12,13 @@
   {
       public  $gump;
       public  $autoValidate;
-      /**
-       * @param $options
-       */
+      public static $options;
+
       public function __construct($options)
       {
 
           $this->set = $options;
+          self::$options = $options;
           $this->gump = new GUMP;
           if($this->autoValidate)
           {
@@ -35,6 +35,17 @@
 
           }
 
+      }
+      public static function make($veri,array $filters = array(),array $rules = array())
+      {
+          $thi =  new static(self::$options);
+          $s = $veri->gump->filter($veri,$filters);
+
+          $validate = $thi->gump->validate(
+              $veri,$rules
+          );
+
+          if($validate) return true;else return $validate;
       }
 
       /**

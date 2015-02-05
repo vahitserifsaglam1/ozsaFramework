@@ -14,6 +14,7 @@
       public $post;
       public $get;
       public $files;
+      public $configs;
 
       /**
        * @param bool $validate
@@ -42,6 +43,11 @@
       /**
        * @return mixed
        */
+
+      public function setConfigs( array  $configs = array() )
+      {
+           $this->configs = $configs;
+      }
       public function returnPost(){
           return $this->post;
       }
@@ -94,6 +100,10 @@
           $_GET[] = $get;
           $this->get = $get;
           return $this;
+      }
+      public function getName()
+      {
+          return __CLASS__;
       }
 
       /**

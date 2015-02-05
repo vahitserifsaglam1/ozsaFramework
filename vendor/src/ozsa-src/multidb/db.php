@@ -15,15 +15,20 @@ Class DB {
     public function __construct()
 
     {
-        $options  = require APP_PATH.'Configs/Configs.php';
-        extract($options['db']);
+        $options  = require APP_PATH.'Configs/databaseConfigs.php';
+
+        ( $options['default'] == 'mysql' )  ? extract($options['Connections']['mysql']): extract($options['Connections']['sqlite']);
+
+
+        $type = $driver;
+
+        $fetch = $options['fetch'];
 
         $this->dbType = $type;
-        if($type == 'PDO') $exception = 'PDOException';else 'Exception';
 
         switch($this->dbType)
         {
-            case 'PDO':
+            case 'pdo':
                 try{
                     $dbConf = new PDO("mysql:host=$host;dbname=$dbname;",$username,$password);
 
@@ -36,11 +41,12 @@ Class DB {
                 break;
             case 'mysql':
 
-                $dbConf = new \mysql($host,$dbname,$username,$password);
+                $dbConf = new \mysql($host,$dbname,$username,$password,$fetch);
 
                 break;
-            case 'sqlite':
-                $dbConf = new \sqlite($database);
+            default:
+                $dbConf = new \mutlidb\sqlite($database);
+                break;
         }
         self::$typeStatic = $type;
         $this->dbConf = $dbConf;

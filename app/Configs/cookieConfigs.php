@@ -1,6 +1,10 @@
 <?php
 return
-    array(
-    'type'=>'Php',
+
+   [
+
+    'type'=>'php',
+
     'CookieFolder' => APP_PATH.'Stroge/Cookie'
-    );
+
+    ];
