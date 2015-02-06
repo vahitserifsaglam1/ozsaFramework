@@ -301,11 +301,14 @@
 
      public function execute( ){
 
+
+
          if(isset($this->headerUrl))
          {
              $header = $this->refreshCreator();
          }
          $error = $this->code;
+
 
 
          $message = $this->returnErrorMessage($error);
@@ -314,17 +317,27 @@
 
          $this->headerCreator($error,$message);
 
+
          if(isset($this->pages))
          {
-              foreach($this->pages as $page )
-              {
-                  $this->headerPage($page);
-              }
+             if(is_array( $this->pages ))
+
+             {
+                 foreach($this->pages as $page )
+                 {
+                     $this->headerPage($page);
+                 }
+             }
+
          }
 
          echo $this->body;
 
+         echo "<title>".$this->message."</title>";
+
          return $this;
+
+         die();
 
 
      }

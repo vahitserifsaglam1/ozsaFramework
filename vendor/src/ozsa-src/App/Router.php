@@ -82,6 +82,10 @@
              }
          }
 
+         if(!strstr($path,'.php'))
+         {
+             $path = VIEW_PATH.$path.'.php';
+         }
 
          include $path;
 

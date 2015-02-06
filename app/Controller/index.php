@@ -15,7 +15,7 @@
        public function __construct()
        {
           parent::__construct();
-          Router::render(VIEW_PATH.'index.php');
+          Router::render('index');
 
        }
 

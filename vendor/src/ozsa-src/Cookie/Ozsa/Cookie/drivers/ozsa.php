@@ -13,7 +13,7 @@
           $array['content'] = $value;
           $value = Ozsa::encode($array);
 
-          self::createSesssionFile($name,".ozsa",$value);
+          self::createCookieFile($name,".ozsa",$value);
 
       }
 
@@ -54,7 +54,7 @@
               unlink(self::$CookieFolder."/".$key);
           }
       }
-      public static function createSesssionFile($name,$ext,$content)
+      public static function createCookieFile($name,$ext,$content)
       {
           $name = self::createFileName($name);
 

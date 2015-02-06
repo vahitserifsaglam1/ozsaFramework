@@ -1,19 +1,18 @@
-<?php  namespace App;
+<?php
 
         class View
         {
             public static function render($path,$allInclude = false)
             {
+                $path = VIEW_PATH.$path.".php";
 
-                $ViewsPath = APP_PATH."Views/";
-                $path = $ViewsPath.$path.".php";
                 if(file_exists($path))
                 {
                     if($allInclude)
                     {
-                        include $ViewsPath."header.php";
+                        include VIEW_PATH."header.php";
                         include $path;
-                        include $ViewsPath."footer.php";
+                        include VIEW_PATH."footer.php";
                     }else{
                         include $path;
                     }

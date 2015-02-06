@@ -17,7 +17,7 @@ Class DB {
     {
         $options  = require APP_PATH.'Configs/databaseConfigs.php';
 
-        ( $options['default'] == 'mysql' )  ? extract($options['Connections']['mysql']): extract($options['Connections']['sqlite']);
+       extract( $options['Connections'][$options['default']]);
 
 
         $type = $driver;
@@ -26,11 +26,14 @@ Class DB {
 
         $this->dbType = $type;
 
+
+
         switch($this->dbType)
         {
             case 'pdo':
+
                 try{
-                    $dbConf = new PDO("mysql:host=$host;dbname=$dbname;",$username,$password);
+                    $dbConf = new PDO("$pdoType:host=$host;dbname=$dbname;",$username,$password);
 
                 }catch (PDOException $e)
                 {
@@ -62,7 +65,8 @@ Class DB {
     {
 
         if(method_exists(self::$typeStatic,$name)) return call_user_func_array(array(self::$dbStatic,$name),$param);
-        else error::newError(" $name fonksiyonu bulunamadı"); return false;
+        else
+            throw new Exception(" $name isminde bir method ".__CLASS__." içinde bulunamadı");
     }
 
 

@@ -15,6 +15,7 @@ class MyException
          $this->file = $file;
           $this->line = $line;
 
+
        include_once APP_PATH.$this->template;
     }
 

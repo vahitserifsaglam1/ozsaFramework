@@ -19,12 +19,13 @@
 
                   'mysql' =>  [
 
-                      'host' => 'localhost',
-                      'dbname' => 'MVC',
+                      'host'     => 'localhost',
+                      'dbname'   => 'MVC',
                       'username' => 'root',
                       'password' => '',
-                      'driver' => 'pdo',
-                      'charset' => 'utf-8'
+                      'driver'   => 'pdo',
+                      'charset'  => 'utf-8',
+                      'pdoType'  => 'mysql'
 
                   ],
 
@@ -32,7 +33,18 @@
 
                      'database' => 'dbname',
 
-                 ]
+                 ],
+
+                'mssql' => [
+
+                    'host'     => 'hostname',
+                    'dbname'   => 'dbname',
+                    'username' => 'root',
+                    'password' => '',
+                    'driver'   => 'pdo',
+                    'pdoType'  => 'dblib'
+
+                ]
 
              ],
 

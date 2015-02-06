@@ -16,10 +16,8 @@
             'configs'=> $configs];
 
             $this->validateAssets();
-            $this->cookieStart();
             $this->sessionStart();
             $this->getRequest();
-            #$this->installValidator();
 
         }
 
@@ -42,48 +40,60 @@
             }
             return null;
         }
-        public function cookieStart()
-        {
-
-            \Cookie::init(require APP_PATH.'Configs/cookieConfigs.php');
-            return null;
-        }
         public static function urlParse()
         {
             return explode("/",$_GET['url']);
         }
+
+        public function requestControl()
+        {
+
+            if(!isset($_GET['url'])) $_GET['url'] = 'index';
+            if(strstr($_GET['url'],'.php')) $_GET['url'] = str_replace('.php','',$_GET['url']);
+
+            if(!strstr($_GET['url'],'/')) $_GET['url'] .= "/";
+
+            $ex = explode("/",$_GET['url']);
+
+            define('URL',$_GET['url']);
+
+            return $ex;
+        }
+
+        public function paramsCheck( $ex )
+        {
+            if(isset($ex[1]))$function = $ex[1];
+            if(isset($ex[2])){
+                unset($ex[0]);
+                unset($ex[1]);
+                $params=$ex;
+
+            }else { $params = array(); }
+
+            return $params;
+        }
+
         public function getRequest()
         {
 
 
               $configs = $this->settings['path'];
+
               $appPath =  rtrim(APP_PATH,'/');
 
               $systemPath =  rtrim(SYSTEM_PATH,'/');
 
-              if(!isset($_GET['url'])) $_GET['url'] = 'index';
-              if(strstr($_GET['url'],'.php')) $_GET['url'] = str_replace('.php','',$_GET['url']);
-
-              if(!strstr($_GET['url'],'/')) $_GET['url'] .= "/";
-
-              $ex = explode("/",$_GET['url']);
-
-              define('URL',$_GET['url']);
+              $ex = $this->requestControl();
 
               @$view = $ex[0];
 
-              if(isset($ex[1]))$function = $ex[1];
-              if(isset($ex[2])){
-                  unset($ex[0]);
-                  unset($ex[1]);
-                  $params=$ex;
-
-              }else { $params = array(); }
+              $params = $this->paramsCheck( $ex );
 
               $render = new \Router();
 
-              if( $view != $appPath && $view != $systemPath && $_SERVER['REQUEST_URI'] != 'public.php')
+              if( $view != $appPath && $view != $systemPath && !strstr($_SERVER['REQUEST_URI'], 'public.php'))
               {
+
 
                   $path  =  $appPath."/Controller/$view.php";
                   include $path;
@@ -96,8 +106,9 @@
 
                   $response = new \Response(404,'bu sayfaya erişim hakınız yok','Lütfen koşarak uzaklaşın');
 
-                  $response->execute();
-                  die();
+                     $response ->reflesh("index.php")->execute();
+
+
               }
         }
         public function __destruct()

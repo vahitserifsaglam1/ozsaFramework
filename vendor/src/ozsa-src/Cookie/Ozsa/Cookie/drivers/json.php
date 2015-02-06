@@ -10,7 +10,7 @@
           $array['content'] = $value;
           $array = json_encode($array);
 
-          self::createSesssionFile($name,$array,".json");
+          self::createCookieFile($name,$array,".json");
 
       }
       public static function get($name)
@@ -42,7 +42,7 @@
               unlink(self::$CookieFolder."/".$key);
           }
       }
-      public static function createSesssionFile($name,$ext,$content)
+      public static function createCookieFile($name,$ext,$content)
       {
           $name = self::createFileName($name);
 

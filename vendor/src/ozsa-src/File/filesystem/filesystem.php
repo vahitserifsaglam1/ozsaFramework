@@ -17,6 +17,8 @@ Class FileSystem {
 
     public $dirs;
 
+    protected $mode;
+
     private function __construct() {}
 
 
@@ -39,6 +41,7 @@ Class FileSystem {
 
 
     }
+
     public function in($dirs)
     {
         $resolvedDirs = array();

@@ -49,6 +49,7 @@
        public function useBestAdapter()
        {
             $this->resetAdapterSelection();
+            return $this->sortAdapter();
        }
        public function resetAdapterSelection()
        {

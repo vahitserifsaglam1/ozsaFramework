@@ -13,6 +13,7 @@
       public  $gump;
       public  $autoValidate;
       public static $options;
+      public static $functions;
 
       public function __construct($options)
       {
@@ -46,6 +47,17 @@
           );
 
           if($validate) return true;else return $validate;
+      }
+
+      public static function makro($name,Callable $call)
+      {
+          $validate = new static(self::$options);
+          $validate = $validate->gump;
+          if(is_callable($call))
+          {
+              static::$functions[$name] = Closure::bind($call, null, get_class());
+          }
+
       }
 
       /**
@@ -124,5 +136,13 @@
               $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($validate)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
           }
           return $return;
+      }
+
+      public static function __callStatic($name,$params)
+      {
+          if(isset(static::$functions[$name]))
+          {
+              return call_user_func_array(static::$functions[$name],$params);
+          }
       }
   }

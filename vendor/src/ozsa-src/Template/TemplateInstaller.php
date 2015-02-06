@@ -37,12 +37,12 @@ namespace Ozsa\Template;
      public static function templateInstaller($options = array(),array $array,$file)
      {
 
-         $options[] = array(
+         $options[] = [
              'debug' => false,
              'charset' => 'utf-8',
              'cache' => './cache', // Store cached files under cache directory
              'strict_variables' => true,
-         );
+         ];
          $twig = new \Twig_Environment(self::$loader, $options);
 
          $return =  $twig->render($file,$array);
