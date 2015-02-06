@@ -10,15 +10,15 @@
  *
  *  ****************************
  */
-  class index extends MainController
-  {
-       public function __construct()
-       {
-          parent::__construct();
-          App\Router::render('index');
+class index extends MainController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        App\Router::render('index');
 
-       }
+    }
 
-  }
+}
 
 ?>

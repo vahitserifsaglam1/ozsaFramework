@@ -1,13 +1,13 @@
 <?php
 
 /**
-  *
-  *   Ayarlamaların yapılacağı dosyanın çağrılması
-  *
-  *
+ *
+ *   Ayarlamaların yapılacağı dosyanın çağrılması
+ *
+ *
  */
 
- $pathOptions = require_once 'public.php';
+$pathOptions = require_once 'public.php';
 
 /***
  *
@@ -15,5 +15,4 @@
  *
  */
 
- require_once $pathOptions['SystemPath']."Include.php";
-?>
+require_once $pathOptions['SystemPath'] . 'include.php';

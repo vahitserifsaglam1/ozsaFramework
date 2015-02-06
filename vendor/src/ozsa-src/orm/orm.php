@@ -15,509 +15,495 @@
  *
  *
  */
+class ORM
+{
+    /**
+     * @var $tableNames
+     * @var $columns
+     * @var $queryHistory
+     * @var $dbDatabase
+     * @var $mixed
+     * @var $set
+     * @var $get
+     * @var $limit
+     * @var $where
+     * @var $selectedTable
+     * @var $like
+     * @var $join
+     * @var $string
+     * @access protected
+     */
+    protected $tableNames;
+    protected $columns;
+    protected $queryHistory;
+    protected $dbDatabase;
+    protected $mixed;
+    protected $set;
+    protected $get;
+    protected $limit;
+    protected $where;
+    protected $selectedTable;
+    protected $like;
+    protected $join;
+    protected $string;
+    protected $setLog = false;
 
- class ORM
- {
-     /**
-      * @var $tableNames
-      * @var $columns
-      * @var $queryHistory
-      * @var $dbDatabase
-      * @var $mixed
-      * @var $set
-      * @var $get
-      * @var $limit
-      * @var $where
-      * @var $selectedTable
-      * @var $like
-      * @var $join
-      * @var $string
-      * @access protected
-      */
-     protected $tableNames;
-     protected $columns;
-     protected $queryHistory;
-     protected $dbDatabase;
-     protected $mixed;
-     protected $set;
-     protected $get;
-     protected $limit;
-     protected $where;
-     protected $selectedTable;
-     protected $like;
-     protected $join;
-     protected $string;
-     protected $setLog = false;
+    /**
+     * @param string $table
+     * @throws Exception
+     * @return mixed
+     */
+    public function __construct($table = '', $setlog = false)
+    {
+        $this->setLog = $setlog;
+        $options = require APP_PATH . 'Configs/databaseConfigs.php';
+        $options = $options['Connections']['mysql'];
+        extract($options);
 
-     /**
-      * @param string $table
-      * @throws Exception
-      * @return mixed
-      */
-     public function __construct($table = '',$setlog = false)
-     {
-         $this->setLog = $setlog;
-         $options = require APP_PATH.'Configs/databaseConfigs.php';
-         $options = $options['Connections']['mysql'];
-         extract($options);
+        if (class_exists('PDO')) {
+            try {
+                $this->dbDatabase = new PDO("mysql:host=$host;dbname=$dbname;", $username, $password);
 
-         if(class_exists('PDO')){
-             try{
-                 $this->dbDatabase = new PDO("mysql:host=$host;dbname=$dbname;",$username,$password);
+            } catch (PDOException $e) {
+                throw new Exception($e->getMessage());
+            }
 
-             }catch(PDOException $e)
-             {
-                 throw new Exception($e->getMessage());
-             }
+        } else {
+            throw new Exception('PDO sınıfınız bulunamadı');
+        }
 
-         }
-         else {
-             throw new Exception('PDO sınıfınız bulunamadı');
-         }
+        $this->selectedTable = $table;
 
-          $this->selectedTable = $table;
+        return $this->returnTables();
+    }
 
-         return  $this->returnTables();
-     }
+    /**
+     * @return mixed
+     */
+    public function returnTables()
+    {
+        $tableQuery = $this->dbDatabase->query("SHOW TABLES");
 
-     /**
-      * @return mixed
-      */
-     public function returnTables()
-     {
-           $tableQuery = $this->dbDatabase->query("SHOW TABLES");
-
-             $tableName = '';
-           while($tableFetch = $tableQuery->fetch(PDO::FETCH_BOTH))
-           {
-              $tableName[$tableFetch[0]] = array();
-               $this->tableNames[] = $tableFetch[0];
+        $tableName = '';
+        while ($tableFetch = $tableQuery->fetch(PDO::FETCH_BOTH)) {
+            $tableName[$tableFetch[0]] = array();
+            $this->tableNames[] = $tableFetch[0];
 
 
-               $qur = $this->dbDatabase->query("describe $tableFetch[0]");
-               while($columns = $qur->fetch(PDO::FETCH_ASSOC))
-               {
+            $qur = $this->dbDatabase->query("describe $tableFetch[0]");
+            while ($columns = $qur->fetch(PDO::FETCH_ASSOC)) {
 
-                  $tableName[$tableFetch[0]][]= $columns;
-                   $this->columns[]= $columns;
-               }
-           }
+                $tableName[$tableFetch[0]][] = $columns;
+                $this->columns[] = $columns;
+            }
+        }
         $this->mixed = $tableName;
 
-         $this->createJson();
-         return $this->mixed;
+        $this->createJson();
+        return $this->mixed;
 
 
-     }
+    }
 
-     public function createJson()
-     {
-         $path = APP_PATH.'Configs/orm.json';
+    public function createJson()
+    {
+        $path = APP_PATH . 'Configs/orm.json';
 
-         $json = json_encode($this->mixed);
+        $json = json_encode($this->mixed);
 
-         if(!file_exists($path)) touch($path);
-         file_put_contents($path,$json);
-     }
+        if (!file_exists($path)) touch($path);
+        file_put_contents($path, $json);
+    }
 
-     /**
-      * @param $set
-      * @param $value
-      * @return $this
-      */
-     public function addSet($set,$value)
-     {
+    /**
+     * @param $set
+     * @param $value
+     * @return $this
+     */
+    public function addSet($set, $value)
+    {
 
         $this->set[$this->selectedTable][] = array($value => $set);
-         return $this;
+        return $this;
 
-     }
+    }
 
-     /**
-      * @param $select
-      */
+    /**
+     * @param $select
+     */
     public function AddSelect($select)
     {
-        foreach ($select as $selectedKey)
-        {
+        foreach ($select as $selectedKey) {
             $this->get[$this->selectedTable] = $selectedKey;
         }
     }
 
-     /**
-      * @param $value
-      * @return $this
-      */
-     public function addGet($value)
-     {
-         $this->get[$this->selectedTable][] = $value;
-         return $this;
-     }
+    /**
+     * @param $value
+     * @return $this
+     */
+    public function addGet($value)
+    {
+        $this->get[$this->selectedTable][] = $value;
+        return $this;
+    }
 
-     /**
-      * @param array $veriler
-      * @return $this
-      */
-     public function AddLimit($veriler = array())
-     {
-         $this->limit[$this->selectedTable] = $veriler;
-         return $this;
-     }
+    /**
+     * @param array $veriler
+     * @return $this
+     */
+    public function AddLimit($veriler = array())
+    {
+        $this->limit[$this->selectedTable] = $veriler;
+        return $this;
+    }
 
-     /**
-      * @param array $veriler
-      * @return $this
-      */
-     public function AddWhere($veriler = array())
-     {
-       
-       if(in_array('like', $veriler)) $this->like[$this->selectedTable] = $veriler['like'];
+    /**
+     * @param array $veriler
+     * @return $this
+     */
+    public function AddWhere($veriler = array())
+    {
+
+        if (in_array('like', $veriler)) $this->like[$this->selectedTable] = $veriler['like'];
         $this->where[$this->selectedTable] = $veriler;
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @param $name
-      * @param $params
-      * @return $this
-      */
-     public function __call($name,$params)
-     {
+    /**
+     * @param $name
+     * @param $params
+     * @return $this
+     */
+    public function __call($name, $params)
+    {
 
-         $ac = substr($name,0,3);
-
-
-         if($ac == 'Get') { $this->addGet(str_replace("Get","",$name));}
-         elseif($ac == 'Set') { $this->addSet($params[0],str_replace("Set","",$name));}
-         return $this;
-
-     }
-
-     /**
-      * @return mixed
-      */
-     public function returnTableNames()
-     {
-         return $this->tableNames;
-     }
-
-     /**
-      * @return mixed
-      */
-     public function returnColumns(){
-         return $this->columns;
-     }
-
-     /**
-      * @return mixed
-      */
-     public function returnMixed()
-     {
-         return $this->mixed;
-     }
-
-     /**
-      * @param array $array
-      * @param $end
-      * @return string
-      */
-     public function mixer(array $array,$end)
-     {
-         $s = "";
-
-       foreach($array as $k )
-       {
-
-           foreach($k as $key => $value)
-           {
-               $s .= $key.'='. "'$value'".$end;
-           }
-
-       }
-         return rtrim($s,$end);
+        $ac = substr($name, 0, 3);
 
 
-     }
+        if ($ac == 'Get') {
+            $this->addGet(str_replace("Get", "", $name));
+        } elseif ($ac == 'Set') {
+            $this->addSet($params[0], str_replace("Set", "", $name));
+        }
+        return $this;
 
-     /**
-      * @param $array
-      * @return string
-      */
-     public function wherer($array)
-     {
-         $s = "";
-         foreach ( $array as $whereKey => $whereValue)
-         {
-              $s .= $whereKey.'='."'$whereValue' AND";
-         }
-         return rtrim($s," AND");
-     }
+    }
 
-     /**
-      * @param array $array
-      * @return string
-      */
-     public function liker(array $array)
-     {
+    /**
+     * @return mixed
+     */
+    public function returnTableNames()
+    {
+        return $this->tableNames;
+    }
 
-             foreach (  $array as $likeKey => $likeValue)
-             {
-                 $like = $likeKey.' LIKE '.$likeValue.' ';
-             }
-             return $like;
+    /**
+     * @return mixed
+     */
+    public function returnColumns()
+    {
+        return $this->columns;
+    }
 
-     }
+    /**
+     * @return mixed
+     */
+    public function returnMixed()
+    {
+        return $this->mixed;
+    }
 
-     /**
-      * @param $join
-      * @return string
-      */
-     public function joiner($join)
-     {
-         foreach($join as $joinKey => $joinVal)
-         {
-             $val = $joinKey.' '.$joinVal[0].' ON '.$joinVal[0].'.'.$joinVal[1].' = '.$this->selectedTable.'.'.$joinVal[2];
-         }
+    /**
+     * @param array $array
+     * @param $end
+     * @return string
+     */
+    public function mixer(array $array, $end)
+    {
+        $s = "";
 
-         return $val;
-     }
+        foreach ($array as $k) {
 
-     /**
-      * @param $limit
-      * @return string
-      */
-     public function limiter($limit)
-     {
-         $limitbaslangic = $limit[0];
-         $limitson = $limit[1];
+            foreach ($k as $key => $value) {
+                $s .= $key . '=' . "'$value'" . $end;
+            }
 
-         return $limitbaslangic.','.$limitson.' ';
-     }
+        }
+        return rtrim($s, $end);
 
-     /**
-      * @param array $select
-      * @return string
-      */
-     public function selecter(array $select)
-     {
 
-          $s = '';
-          foreach ( $select as $selectKey)
-          {
-              $s .= $selectKey.',';
-          }
-         return rtrim($s,',');
-     }
+    }
 
-     /**
-      * @return PDOStatement
-      */
-     public function create()
-     {
-          $table = $this->selectedTable;
+    /**
+     * @param $array
+     * @return string
+     */
+    public function wherer($array)
+    {
+        $s = "";
+        foreach ($array as $whereKey => $whereValue) {
+            $s .= $whereKey . '=' . "'$whereValue' AND";
+        }
+        return rtrim($s, " AND");
+    }
 
-         $msg = ' INSERT INTO '.$this->selectedTable.' SET '.$this->wherer($this->set[$table]);
+    /**
+     * @param array $array
+     * @return string
+     */
+    public function liker(array $array)
+    {
 
-         return $this->query($msg);
+        foreach ($array as $likeKey => $likeValue) {
+            $like = $likeKey . ' LIKE ' . $likeValue . ' ';
+        }
+        return $like;
 
-     }
+    }
 
-     /**
-      * @return PDOStatement
-      */
-     public function update()
-     {
-         $table = $this->selectedTable;
-         $where = $this->where[$table];
+    /**
+     * @param $join
+     * @return string
+     */
+    public function joiner($join)
+    {
+        foreach ($join as $joinKey => $joinVal) {
+            $val = $joinKey . ' ' . $joinVal[0] . ' ON ' . $joinVal[0] . '.' . $joinVal[1] . ' = ' . $this->selectedTable . '.' . $joinVal[2];
+        }
 
-          $msg = ' UPDATE '.$table.' SET '.$this->mixer($this->set[$table],', ').' WHERE '.$this->wherer($where);
-          return $this->query($msg);
-     }
+        return $val;
+    }
 
-     /**
-      * @return PDOStatement
-      */
-     public function delete()
-     {
-         $table = $this->selectedTable;
-         $where = $this->where[$table];
-         $msg = 'DELETE FROM '.$table.' WHERE '.$this->wherer($where);
-         return $this->query($msg);
-     }
+    /**
+     * @param $limit
+     * @return string
+     */
+    public function limiter($limit)
+    {
+        $limitbaslangic = $limit[0];
+        $limitson = $limit[1];
 
-     /**
-      * @return $this
-      */
-     public function read()
-     {
-         $table = $this->selectedTable;
-         $where = $this->where[$table];
-         $like  = $this->like[$table];
-         $join  = $this->join[$table];
-         $limit = $this->limit[$table];
+        return $limitbaslangic . ',' . $limitson . ' ';
+    }
 
-         //where baslangic
+    /**
+     * @param array $select
+     * @return string
+     */
+    public function selecter(array $select)
+    {
 
-          if(is_array($where))
-          {
-              $where = $this->wherer($where);
-          }
-         // where son
+        $s = '';
+        foreach ($select as $selectKey) {
+            $s .= $selectKey . ',';
+        }
+        return rtrim($s, ',');
+    }
 
-         // like baslangic
-         if(is_array($like))
-         {
-           $like =   $this->liker($like);
-         }
-         // like son
+    /**
+     * @return PDOStatement
+     */
+    public function create()
+    {
+        $table = $this->selectedTable;
 
-         //join baslangic
+        $msg = ' INSERT INTO ' . $this->selectedTable . ' SET ' . $this->wherer($this->set[$table]);
 
-         if(is_array($join))
-         {
-             $join = $this->joiner($join);
-         }
+        return $this->query($msg);
 
-         //join son
+    }
 
-         //select baslangic
+    /**
+     * @return PDOStatement
+     */
+    public function update()
+    {
+        $table = $this->selectedTable;
+        $where = $this->where[$table];
 
-            $select = $this->selecter($this->get[$table]);
+        $msg = ' UPDATE ' . $table . ' SET ' . $this->mixer($this->set[$table], ', ') . ' WHERE ' . $this->wherer($where);
+        return $this->query($msg);
+    }
 
-         //select son
+    /**
+     * @return PDOStatement
+     */
+    public function delete()
+    {
+        $table = $this->selectedTable;
+        $where = $this->where[$table];
+        $msg = 'DELETE FROM ' . $table . ' WHERE ' . $this->wherer($where);
+        return $this->query($msg);
+    }
 
-         //limit başlangıç
+    /**
+     * @return $this
+     */
+    public function read()
+    {
+        $table = $this->selectedTable;
+        $where = $this->where[$table];
+        $like = $this->like[$table];
+        $join = $this->join[$table];
+        $limit = $this->limit[$table];
 
-            $limit =  $this->limiter($limit);
+        //where baslangic
 
-         //limit son
+        if (is_array($where)) {
+            $where = $this->wherer($where);
+        }
+        // where son
 
-         $msg = 'SELECT '.$this->selecter($this->get[$table]).' FROM '.$this->selectedTable.' ';
+        // like baslangic
+        if (is_array($like)) {
+            $like = $this->liker($like);
+        }
+        // like son
 
-         if ( isset($join) && is_string($join) )
-         {
+        //join baslangic
+
+        if (is_array($join)) {
+            $join = $this->joiner($join);
+        }
+
+        //join son
+
+        //select baslangic
+
+        $select = $this->selecter($this->get[$table]);
+
+        //select son
+
+        //limit başlangıç
+
+        $limit = $this->limiter($limit);
+
+        //limit son
+
+        $msg = 'SELECT ' . $this->selecter($this->get[$table]) . ' FROM ' . $this->selectedTable . ' ';
+
+        if (isset($join) && is_string($join)) {
             $msg .= $join;
-         }
+        }
 
-         if ( isset ($where) && is_string($where) )
-         {
-              $msg .= ' WHERE '.$where;
-         }
+        if (isset ($where) && is_string($where)) {
+            $msg .= ' WHERE ' . $where;
+        }
 
-         if( isset($like) && is_string($like) )
-         {
-             if( isset( $where ) && is_string( $where )) $msg .= ' AND '.$like;
-             else $msg .= ' WHERE '.$like;
-         }
+        if (isset($like) && is_string($like)) {
+            if (isset($where) && is_string($where)) $msg .= ' AND ' . $like;
+            else $msg .= ' WHERE ' . $like;
+        }
 
-         if ( isset($limit ) && is_string($limit) )
-         {
-             $msg .= ' LIMIT '.$limit;
-         }
+        if (isset($limit) && is_string($limit)) {
+            $msg .= ' LIMIT ' . $limit;
+        }
 
-         $this->query($msg);
+        $this->query($msg);
 
         return $this;
 
-     }
+    }
 
-     /**
-      * @param $msg
-      * @return PDOStatement
-      */
-     public function query($msg)
-     {
+    /**
+     * @param $msg
+     * @return PDOStatement
+     */
+    public function query($msg)
+    {
 
-          if(is_string($msg))
-          {
-              $return =  $this->dbDatabase->query($msg);
-          }
-         if($this->setLog)
-         {
-             $this->setHistoryLog($msg);
-         }
-          if($return) {$this->string = $return;}else{$this->string = false;}
-          return $return;
-     }
+        if (is_string($msg)) {
+            $return = $this->dbDatabase->query($msg);
+        }
+        if ($this->setLog) {
+            $this->setHistoryLog($msg);
+        }
+        if ($return) {
+            $this->string = $return;
+        } else {
+            $this->string = false;
+        }
+        return $return;
+    }
 
-     /**
-      * @param int $type
-      * @return mixed
-      */
-     public function fetch($type = PDO::FETCH_OBJ)
-     {
+    /**
+     * @param int $type
+     * @return mixed
+     */
+    public function fetch($type = PDO::FETCH_OBJ)
+    {
 
-               return $this->string->fetch($type);
+        return $this->string->fetch($type);
 
-     }
+    }
 
-     /**
-      * @return mixed
-      */
-     public function fetchAll()
-     {
-              return   $this->string->fetchAll();
-     }
+    /**
+     * @return mixed
+     */
+    public function fetchAll()
+    {
+        return $this->string->fetchAll();
+    }
 
-     /**
-      * @param $join
-      * @return $this
-      */
-     public function AddJoin($join)
-     {
+    /**
+     * @param $join
+     * @return $this
+     */
+    public function AddJoin($join)
+    {
         $this->join[$this->selectedTable] = $join;
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @param $log
-      * @return null
-      */
-     protected function setHistoryLog($log)
-     {
-         if($this->setLog)
-         {
-             $time = date("H:i");
-             $date = date("d.m.Y");
-             $msg = 'Query History >> [ time : '.$time.' ; date : '.$date. ' ] >'.$log." \n";
-             $path = APP_PATH.'Logs/ormlog.log';
+    /**
+     * @param $log
+     * @return null
+     */
+    protected function setHistoryLog($log)
+    {
+        if ($this->setLog) {
+            $time = date("H:i");
+            $date = date("d.m.Y");
+            $msg = 'Query History >> [ time : ' . $time . ' ; date : ' . $date . ' ] >' . $log . " \n";
+            $path = APP_PATH . 'Logs/ormlog.log';
 
-             $ac = fopen($path,"a");
-             $yaz  = fwrite($ac,$msg);
-             fclose($ac);
-         }
-         return null;
+            $ac = fopen($path, "a");
+            $yaz = fwrite($ac, $msg);
+            fclose($ac);
+        }
+        return null;
 
-     }
+    }
 
-     /**
-      *  @return null
-      */
-     public function flush()
-     {
-         $this->set = array();
-         $this->get = array();
-         $this->mixed = array();
-         $this->columns = array();
-         $this->tableNames = array();
-         $this->where = array();
-         $this->join = array();
-         $this->limit = array();
-         $this->like = array();
-         return null;
-     }
+    /**
+     * @return null
+     */
+    public function flush()
+    {
+        $this->set = array();
+        $this->get = array();
+        $this->mixed = array();
+        $this->columns = array();
+        $this->tableNames = array();
+        $this->where = array();
+        $this->join = array();
+        $this->limit = array();
+        $this->like = array();
+        return null;
+    }
 
-     /**
-      * @param $selected
-      * @return $this
-      */
+    /**
+     * @param $selected
+     * @return $this
+     */
 
-     public function setSelected($selected)
-     {
-       $this->selectedTable = $selected;
-         $this->flush();
-         return $this;
-     }
- }
+    public function setSelected($selected)
+    {
+        $this->selectedTable = $selected;
+        $this->flush();
+        return $this;
+    }
+}
 
 

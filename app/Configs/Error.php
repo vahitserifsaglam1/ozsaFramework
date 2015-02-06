@@ -1,12 +1,12 @@
 <?php
 
 
-   return [
+return [
 
-       'logFilePath' => APP_PATH."Error/error.log",
+    'logFilePath' => APP_PATH . "Error/error.log",
 
-        'writeLog' => true,
+    'writeLog' => true,
 
-          'reporting' => E_ALL
+    'reporting' => E_ALL
 
- ];
+];

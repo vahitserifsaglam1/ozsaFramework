@@ -212,21 +212,21 @@ class SMTP
             case 'html':
                 //Cleans up output a bit for a better looking, HTML-safe output
                 echo htmlentities(
-                    preg_replace('/[\r\n]+/', '', $str),
-                    ENT_QUOTES,
-                    'UTF-8'
-                )
-                . "<br>\n";
+                        preg_replace('/[\r\n]+/', '', $str),
+                        ENT_QUOTES,
+                        'UTF-8'
+                    )
+                    . "<br>\n";
                 break;
             case 'echo':
             default:
                 //Normalize line breaks
                 $str = preg_replace('/(\r\n|\r|\n)/ms', "\n", $str);
                 echo gmdate('Y-m-d H:i:s') . "\t" . str_replace(
-                    "\n",
-                    "\n                   \t                  ",
-                    trim($str)
-                )."\n";
+                        "\n",
+                        "\n                   \t                  ",
+                        trim($str)
+                    ) . "\n";
         }
     }
 
@@ -260,7 +260,7 @@ class SMTP
         }
         // Connect to the SMTP server
         $this->edebug(
-            "Connection: opening to $host:$port, t=$timeout, opt=".var_export($options, true),
+            "Connection: opening to $host:$port, t=$timeout, opt=" . var_export($options, true),
             self::DEBUG_CONNECTION
         );
         $errno = 0;
@@ -335,7 +335,8 @@ class SMTP
             $this->smtp_conn,
             true,
             STREAM_CRYPTO_METHOD_TLS_CLIENT
-        )) {
+        )
+        ) {
             return false;
         }
         return true;
@@ -345,10 +346,10 @@ class SMTP
      * Perform SMTP authentication.
      * Must be run after hello().
      * @see hello()
-     * @param string $username    The user name
-     * @param string $password    The password
-     * @param string $authtype    The auth type (PLAIN, LOGIN, NTLM, CRAM-MD5)
-     * @param string $realm       The auth realm for NTLM
+     * @param string $username The user name
+     * @param string $password The password
+     * @param string $authtype The auth type (PLAIN, LOGIN, NTLM, CRAM-MD5)
+     * @param string $realm The auth realm for NTLM
      * @param string $workstation The auth workstation for NTLM
      * @access public
      * @return boolean True if successfully authenticated.
@@ -359,17 +360,18 @@ class SMTP
         $authtype = null,
         $realm = '',
         $workstation = ''
-    ) {
+    )
+    {
         if (!$this->server_caps) {
             $this->error = array('error' => 'Authentication is not allowed before HELO/EHLO');
             return false;
         }
 
         if (array_key_exists('EHLO', $this->server_caps)) {
-        // SMTP extensions are available. Let's try to find a proper authentication method
+            // SMTP extensions are available. Let's try to find a proper authentication method
 
             if (!array_key_exists('AUTH', $this->server_caps)) {
-                $this->error = array( 'error' => 'Authentication is not allowed at this stage' );
+                $this->error = array('error' => 'Authentication is not allowed at this stage');
                 // 'at this stage' means that auth may be allowed after the stage changes
                 // e.g. after STARTTLS
                 return false;
@@ -389,15 +391,15 @@ class SMTP
                     }
                 }
                 if (empty($authtype)) {
-                    $this->error = array( 'error' => 'No supported authentication methods found' );
+                    $this->error = array('error' => 'No supported authentication methods found');
                     return false;
                 }
-                self::edebug('Auth method selected: '.$authtype, self::DEBUG_LOWLEVEL);
+                self::edebug('Auth method selected: ' . $authtype, self::DEBUG_LOWLEVEL);
             }
 
             if (!in_array($authtype, $this->server_caps['AUTH'])) {
-                $this->error = array( 'error' => 'The requested authentication method "'
-                    . $authtype . '" is not supported by the server' );
+                $this->error = array('error' => 'The requested authentication method "'
+                    . $authtype . '" is not supported by the server');
                 return false;
             }
         } elseif (empty($authtype)) {
@@ -495,7 +497,7 @@ class SMTP
                 // send encoded credentials
                 return $this->sendCommand('Username', base64_encode($response), 235);
             default:
-                $this->error = array( 'error' => 'Authentication method "' . $authtype . '" is not supported' );
+                $this->error = array('error' => 'Authentication method "' . $authtype . '" is not supported');
                 return false;
         }
         return true;
@@ -506,7 +508,7 @@ class SMTP
      * Works like hash_hmac('md5', $data, $key)
      * in case that function is not available
      * @param string $data The data to hash
-     * @param string $key  The key to hash with
+     * @param string $key The key to hash with
      * @access protected
      * @return string
      */
@@ -810,9 +812,9 @@ class SMTP
 
     /**
      * Send a command to an SMTP server and check its return code.
-     * @param string $command       The command name - not sent to the server
+     * @param string $command The command name - not sent to the server
      * @param string $commandstring The actual command to send
-     * @param integer|array $expect     One or more expected integer success codes
+     * @param integer|array $expect One or more expected integer success codes
      * @access protected
      * @return boolean True on success.
      */
@@ -834,7 +836,7 @@ class SMTP
             $code_ex = (count($matches) > 2 ? $matches[2] : null);
             // Cut off error code from each response line
             $detail = preg_replace(
-                "/{$code}[ -]".($code_ex ? str_replace('.', '\\.', $code_ex).' ' : '')."/m",
+                "/{$code}[ -]" . ($code_ex ? str_replace('.', '\\.', $code_ex) . ' ' : '') . "/m",
                 '',
                 $this->last_reply
             );
@@ -1048,7 +1050,7 @@ class SMTP
             // Now check if reads took too long
             if ($endtime and time() > $endtime) {
                 $this->edebug(
-                    'SMTP -> get_lines(): timelimit reached ('.
+                    'SMTP -> get_lines(): timelimit reached (' .
                     $this->Timelimit . ' sec)',
                     self::DEBUG_LOWLEVEL
                 );

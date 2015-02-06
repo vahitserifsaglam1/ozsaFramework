@@ -1,23 +1,21 @@
 {
-    "name": "vahitserifsaglam1/framework",
-    "description": "Basic framework",
-
-    "autoload": {
-    "classmap" : [
-        "vendor/src/ozsa-src",
-        "vendor/wixel/gump",
-        "vendor/twig",
-        "vendor/predis/predis",
-        "vendor/redbeanphp",
-        "vendor/guzzlehttp"
+  "name": "vahitserifsaglam1/framework",
+  "description": "Basic framework",
+  "autoload": {
+    "classmap": [
+      "vendor/src/ozsa-src",
+      "vendor/wixel/gump",
+      "vendor/twig",
+      "vendor/predis/predis",
+      "vendor/redbeanphp",
+      "vendor/guzzlehttp"
     ]
-},
-    "require": {
-        "propel/propel": "dev-master",
-        "wixel/gump": "dev-master",
-        "twig/twig" : "dev-master",
-        "predis/predis": "1.1.*@dev",
-        "guzzlehttp/guzzle": "~5.0"
-        
-    }
+  },
+  "require": {
+    "propel/propel": "dev-master",
+    "wixel/gump": "dev-master",
+    "twig/twig": "dev-master",
+    "predis/predis": "1.1.*@dev",
+    "guzzlehttp/guzzle": "~5.0"
+  }
 }

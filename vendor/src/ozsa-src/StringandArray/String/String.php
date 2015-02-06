@@ -1,148 +1,146 @@
 <?php
 
 
-
- class String
- {
-
-
-      protected $string;
-
-      protected $director;
-
-      protected $assets;
-
-      protected $length;
-
-      protected $crypted;
-
-      const UPPER = MB_CASE_UPPER;
-
-      const TITLE  = MB_CASE_TITLE;
-
-      const LOWER = MB_CASE_LOWER;
+class String
+{
 
 
-      public function __construct( $string = null )
-      {
+    protected $string;
 
-          if( function_exists('mb_substr') )
-          {
-              if( null !== $string)
-              {
-                  $this->string = $string;
-              }
-          }else{
-              throw new Exception(' bu sınıf mbstring eklentisi gerektirir');
-          }
+    protected $director;
 
-      }
+    protected $assets;
 
-     public function append ( String $string = '' )
-     {
-          $this->string .= $string;
-         return $this;
-     }
+    protected $_length;
 
-      public function prepend ( String $substring = '' )
-      {
-          $this->string = $substring.$this->string;
-          return $this;
-      }
+    protected $crypted;
 
-      public function length()
-      {
-          $this->length = strlen($this->string);
+    const UPPER = MB_CASE_UPPER;
 
-          return $this;
-      }
+    const TITLE = MB_CASE_TITLE;
 
-      public function convertCase($type = self::UPPER,$charset = 'UTF-8')
-      {
-         $metin = mb_convert_case($this->string, $type,$charset);
-              $this->string = $metin;
-                return $this;
-      }
+    const LOWER = MB_CASE_LOWER;
 
-      public function sub( $baslangic = 0, $son = 10)
-      {
-         $metin =  substr($this->string,$baslangic,$son);
-          $this->string = $metin;
-          return $this;
 
-      }
+    public function __construct($string = null)
+    {
 
-     public function replace( $aranan , $degiscek )
-     {
-        $metin = str_replace($aranan,$degiscek,$this->string);
+        if (function_exists('mb_substr')) {
+            if (null !== $string) {
+                $this->string = $string;
+            }
+        } else {
+            throw new Exception(' bu sınıf mbstring eklentisi gerektirir');
+        }
 
-          $this->string = $metin;
+    }
 
-           return $this;
-     }
-     public function  repeat( $metin = '' , $sayi = 1 )
-     {
-          $metin = str_repeat( $metin , $sayi );
+    public function append(String $string = '')
+    {
+        $this->string .= $string;
+        return $this;
+    }
 
-            $this->string = $metin;
+    public function prepend(String $substring = '')
+    {
+        $this->string = $substring . $this->string;
+        return $this;
+    }
 
-             return $this;
-     }
+    public function length()
+    {
+        $this->_length = strlen($this->string);
 
-     public function matchAll( $pattern )
-     {
-        $bulunan =  preg_match_all( $pattern, $this->string );
+        return $this;
+    }
 
-          return $bulunan;
-     }
+    public function convertCase($type = self::UPPER, $charset = 'UTF-8')
+    {
+        $metin = mb_convert_case($this->string, $type, $charset);
+        $this->string = $metin;
+        return $this;
+    }
 
-      public function match( $pattern ) {
-          $bulunan =  preg_match( $pattern, $this->string );
+    public function sub($baslangic = 0, $son = 10)
+    {
+        $metin = substr($this->string, $baslangic, $son);
+        $this->string = $metin;
+        return $this;
 
-          return $bulunan;
-      }
-     public function type()
-     {
-         return gettype($this->string);
-     }
+    }
 
-     public function setString( $string )
-     {
-         $this->string = $string;
-         $this->length($string);
-     }
+    public function replace($aranan, $degiscek)
+    {
+        $metin = str_replace($aranan, $degiscek, $this->string);
 
-     public  function setType( $type )
-     {
-         return $type($this->string);
-     }
-     public function setArray()
-     {
-          $array = array();
+        $this->string = $metin;
 
-          $array[] = $this->string;
+        return $this;
+    }
 
-         return  $array;
-     }
-     public function returnString()
-     {
-         return $this->string;
-     }
+    public function  repeat($metin = '', $sayi = 1)
+    {
+        $metin = str_repeat($metin, $sayi);
 
-     public function crypter( $metin, $kontrol = false )
-     {
-          if( !$kontrol )
+        $this->string = $metin;
 
-          {
-               $this->crypted = crypt($metin);
-          }
-         else{
-             if (crypt($kontrol, $this->crypted) == $this->crypted) {
-                  return true;
-             }else{
-                 return false;
-             }
-         }
-     }
+        return $this;
+    }
 
- }
+    public function matchAll($pattern)
+    {
+        $bulunan = preg_match_all($pattern, $this->string);
+
+        return $bulunan;
+    }
+
+    public function match($pattern)
+    {
+        $bulunan = preg_match($pattern, $this->string);
+
+        return $bulunan;
+    }
+
+    public function type()
+    {
+        return gettype($this->string);
+    }
+
+    public function setString($string)
+    {
+        $this->string = $string;
+        $this->length($string);
+    }
+
+    public function setType($type)
+    {
+        return $type($this->string);
+    }
+
+    public function setArray()
+    {
+        $array = array();
+
+        $array[] = $this->string;
+
+        return $array;
+    }
+
+    public function returnString()
+    {
+        return $this->string;
+    }
+
+    public function crypter($metin, $kontrol = false)
+    {
+        if (!$kontrol) {
+            $this->crypted = crypt($metin);
+        } else {
+            if (crypt($kontrol, $this->crypted) == $this->crypted) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+}

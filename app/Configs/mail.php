@@ -20,18 +20,18 @@
  *
  *  ***************************************
  */
- return
+return
 
-     [
+    [
 
-     'username' => 'mailadresiniz@adres.com',
+        'username' => 'mailadresiniz@adres.com',
 
-     'password' => 'mailsifreniz',
+        'password' => 'mailsifreniz',
 
-     'port' => 587,
+        'port' => 587,
 
-     'host' => 'host',
+        'host' => 'host',
 
-     'secure' => 'tls',
+        'secure' => 'tls',
 
-   ];
+    ];

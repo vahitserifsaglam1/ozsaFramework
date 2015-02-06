@@ -1,70 +1,70 @@
 <?php
 
-    /**
-    *********************************************************
-    *  Gerekli sabitlerin tanımlanması ve gerekli dosyaların yüklenmezi
-    *******************************************************
-    *
-    * Sunucunun Yüklenme Zamanı
-    */
+/**
+ *********************************************************
+ *  Gerekli sabitlerin tanımlanması ve gerekli dosyaların yüklenmezi
+ *******************************************************
+ *
+ * Sunucunun Yüklenme Zamanı
+ */
 
-    define('OZSA_START',microtime(true));
+define('OZSA_START', microtime(true));
 
-     /**
-     *  Sınfılarda Kullanılacak app/ konumunun sabiti
-     */
+/**
+ *  Sınfılarda Kullanılacak app/ konumunun sabiti
+ */
 
-    define('APP_PATH',$pathOptions['appPath']);
-    
-    /**
-    *  Sınıflarda Kullanılacak olan System klasörünün sabiti
-    */
+define('APP_PATH', $pathOptions['appPath']);
 
-    define('SYSTEM_PATH',$pathOptions['SystemPath']);
+/**
+ *  Sınıflarda Kullanılacak olan System klasörünün sabiti
+ */
 
-    /**
-    *  Sınıflarda kullanılacak anasayfa nın tanımlanması
-    */
+define('SYSTEM_PATH', $pathOptions['SystemPath']);
 
-    define('INDEX',$pathOptions['HomePage']);
+/**
+ *  Sınıflarda kullanılacak anasayfa nın tanımlanması
+ */
 
-    /**
-    *   Public dosyasının ayarlanması
-    */
+define('INDEX', $pathOptions['HomePage']);
 
-    define('_PUBLIC',$pathOptions['PublicFiles']);
+/**
+ *   Public dosyasının ayarlanması
+ */
 
-    /**
-    *
-    * View Dosyasının ayarlanması
-    *
-    */
+define('_PUBLIC', $pathOptions['PublicFiles']);
 
-    define('VIEW_PATH',APP_PATH.'Views/');
-    
-    /**
-    *  Ayar Dosyaları
-    */
+/**
+ *
+ * View Dosyasının ayarlanması
+ *
+ */
 
-    $dbConfigs = require_once APP_PATH."Configs/Configs.php";
+define('VIEW_PATH', APP_PATH . 'Views/');
 
-     /**
-     * Hata Sınıfı
-     */
+/**
+ *  Ayar Dosyaları
+ */
 
-    require_once APP_PATH."Error/errorException.php";
+$dbConfigs = require_once APP_PATH . "Configs/Configs.php";
 
-    /**
-    * Fonksion dosyaları
-    */
+/**
+ * Hata Sınıfı
+ */
 
-    require_once APP_PATH."Lib/Functions.php";
+require_once APP_PATH . "Error/errorException.php";
 
-    /**
-    * Yükle dosyasınn çağrılması
-    */
+/**
+ * Fonksion dosyaları
+ */
 
-    require_once __DIR__."/autoload.php";
+require_once APP_PATH . "Lib/Functions.php";
+
+/**
+ * Yükle dosyasınn çağrılması
+ */
+
+require_once __DIR__ . "/autoload.php";
 
 
 ?>

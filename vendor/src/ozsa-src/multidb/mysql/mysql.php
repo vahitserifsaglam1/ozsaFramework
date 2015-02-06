@@ -32,13 +32,13 @@ class mysql
      * @param $password
      */
 
-    protected  $type;
+    protected $type;
 
 
-    public function __construct($host,$dbname,$username,$password,$type = '')
+    public function __construct($host, $dbname, $username, $password, $type = '')
     {
-        $this->con = mysql_connect($host,$username,$password);
-        if(!$this->con) $this->errorMessage = mysqli_connect_error();
+        $this->con = mysql_connect($host, $username, $password);
+        if (!$this->con) $this->errorMessage = mysqli_connect_error();
         mysql_select_db($dbname);
         $this->type = $type;
         return $this->con;
@@ -67,7 +67,7 @@ class mysql
      * @param $query
      * @return $this
      */
-    public  function prepare($query)
+    public function prepare($query)
     {
         $this->queryString = $query;
         return $this;
@@ -79,12 +79,12 @@ class mysql
      * @param string $metin
      * @return mixed
      */
-    public function ret($aranan,$degiscek,$metin = '')
+    public function ret($aranan, $degiscek, $metin = '')
     {
-         if($metin ==  '') $metin = $this->queryString;
-         $validate = Validator::validateOzsa($degiscek);
-         $yeni = str_replace($aranan,$degiscek,$metin);
-         return $yeni;
+        if ($metin == '') $metin = $this->queryString;
+        $validate = Validator::validateOzsa($degiscek);
+        $yeni = str_replace($aranan, $degiscek, $metin);
+        return $yeni;
     }
 
     /**
@@ -95,15 +95,14 @@ class mysql
     {
         $query = $this->queryString;
         preg_match_all("/[?@#$%^]/", $query, $dondu);
-        if( is_array($exec) )
-        {
-            $exec =  array_map('tirnak',$exec);
-            $yeni =  str_replace($dondu[0], $exec, $query);
+        if (is_array($exec)) {
+            $exec = array_map('tirnak', $exec);
+            $yeni = str_replace($dondu[0], $exec, $query);
             $query = mysql_query($yeni);
-            if(!$query) $this->$errorMessage = mysql_error();
+            if (!$query) $this->$errorMessage = mysql_error();
             $this->queryString = $yeni;
-            return ($query) ? $this:false;
-        }else{
+            return ($query) ? $this : false;
+        } else {
             error::newError("Doğru bir veri girilmemiş");
         }
     }
@@ -112,15 +111,15 @@ class mysql
      * @param $type
      * @return bool
      */
-    public function fetch( $type = '' )
+    public function fetch($type = '')
     {
-         if($type === '')
-         {
-              $type = $this->type;
-         }
-         $funcName = "mysql_fetch_".$type;
-         $return =  $funcName(mysql_query($this->queryString));
-        if($return) return $return;else $this->errorMessage = mysql_error();return false;
+        if ($type === '') {
+            $type = $this->type;
+        }
+        $funcName = "mysql_fetch_" . $type;
+        $return = $funcName(mysql_query($this->queryString));
+        if ($return) return $return; else $this->errorMessage = mysql_error();
+        return false;
     }
 
     /**
@@ -128,17 +127,19 @@ class mysql
      */
     public function rowCount()
     {
-        $cek =  mysql_num_rows($this->queryString);
-        if($cek && $cek>0) return $cek;else return false;
+        $cek = mysql_num_rows($this->queryString);
+        if ($cek && $cek > 0) return $cek; else return false;
     }
-    public function bind($string = '',$href = '')
+
+    public function bind($string = '', $href = '')
     {
-           $metin = $this->ret($string,$href);
+        $metin = $this->ret($string, $href);
 
-           $this->queryString = $metin;
+        $this->queryString = $metin;
 
-           return $this;
+        return $this;
     }
+
     public function __destruct()
     {
         mysql_close($this->con);
@@ -146,4 +147,3 @@ class mysql
 
 }
 
-?>
