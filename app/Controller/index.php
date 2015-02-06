@@ -15,7 +15,7 @@
        public function __construct()
        {
           parent::__construct();
-          Router::render('index');
+          App\Router::render('index');
 
        }
 

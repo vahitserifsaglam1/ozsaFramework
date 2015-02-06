@@ -1,5 +1,6 @@
 <?php
   namespace DB;
+
   class  predisInstaller
 
   {

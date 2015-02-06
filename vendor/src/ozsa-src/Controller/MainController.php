@@ -7,7 +7,7 @@
       public function __construct()
       {
          $this->dbA =  parent::__construct();
-         $this->_assets = new App\Assets();
+         $this->_assets = Desing\Single::make('\App\Assets');
       }
       public function _modal($name)
       {

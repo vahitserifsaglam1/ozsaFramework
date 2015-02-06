@@ -18,6 +18,7 @@ namespace Html;
         public $endUrl;
         public $configs;
         public $standartLink;
+        public $standartUrl;
 
         /**
          * @param string $homeClass
@@ -27,16 +28,20 @@ namespace Html;
          * @param bool $max
          */
 
-        public function __construct($homeClass = 'pagi',$linkClass = 'pagination',$records = false,$min = false,$max = false)
+        public function __construct( $page = null, $records = null )
         {
             $configs = require APP_PATH.'Configs/Pagination.php';
+            $standart = require APP_PATH.'Configs/Configs.php';
+            $this->standartUrl = $standart['URL'];
+
+            extract($configs);
             $this->configs = $configs;
             $this->homeClass = $homeClass;
             $this->linkClass = $linkClass;
             $this->min = $min;
             $this->max = $max;
             $this->records = $records;
-            $this->url = \Ozsa\App::urlParse();
+            $this->url = \App\App::urlParse();
             $sonurl = array_pop($this->url);
             $this->endUrl = $sonurl;
             $this->urlParser();
@@ -85,6 +90,7 @@ namespace Html;
          */
         public function linkCreator()
         {
+
             $msg = '';
             $page = $this->activePage;
             $min = $this->min;
@@ -110,12 +116,14 @@ namespace Html;
 
             /////////////////////////
 
+
+
             for($i = $minpage;$i<=$maxpage;$i++)
             {
 
                  $end = $end.'/'.$i;
 
-                 $msg .=  $this->linkAndMessageCreator($i,$end);
+                 $msg .=  $this->linkAndMessageCreator($this->standartUrl,$i,$end);
 
             }
             return $msg;
@@ -145,9 +153,10 @@ namespace Html;
          * @return string
          */
 
-        public function linkAndMessageCreator($i,$link)
+        public function linkAndMessageCreator($standart,$i,$link)
         {
-                $msg = '<a class="'.$this->linkClass.'" href="'.$this->standartLink.$i.'">'.$i.'</a>';
+
+                $msg = '<a class="'.$this->linkClass.'" href="'.$standart.$this->standartLink.$i.'">'.$i.'</a>';
                 return $msg;
         }
 

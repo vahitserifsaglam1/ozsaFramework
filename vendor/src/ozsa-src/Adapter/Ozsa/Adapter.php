@@ -1,5 +1,6 @@
 <?php
 
+  namespace Adapter\Ozsa;
 
    class Adapter
    {

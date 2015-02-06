@@ -1,4 +1,6 @@
 <?php
+
+
   class Cache {
 
       private  $_cache;

@@ -1,4 +1,7 @@
 <?php
+
+namespace Html;
+
 class Form
 {
     public static function open($name,$paramatres,$type='POST',$return = false)

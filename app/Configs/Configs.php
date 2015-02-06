@@ -2,6 +2,9 @@
 
  return [
 
+     'URL' => 'http://localhost/framework/',
+
+
      /**
       *
       *  Session Ayarları

@@ -1,4 +1,6 @@
-<?php namespace Ozsa;
+<?php
+
+namespace Ozsa;
 
  class Benchmark
  {

@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
  Class Router
 
@@ -24,7 +25,7 @@
      {
          if(!self::$templateInstalled)
          {
-             Ozsa\Template\Engine::Installer();
+             \Ozsa\Template\Engine::Installer();
              self::$templateInstalled = true;
          }
          foreach(self::$templateArray as $key => $value)
@@ -67,7 +68,7 @@
          if(isset($templates))
          {
 
-             Ozsa\Template\Engine::Installer();
+             \Ozsa\Template\Engine::Installer();
              self::$templateInstalled = true;
              if( is_array($templates) )
              {
@@ -75,7 +76,7 @@
                  foreach($templates as $tfiles)
                  {
 
-                         Ozsa\Template\Engine::templateInstaller(array(),$templateArray,$tfiles);
+                         \Ozsa\Template\Engine::templateInstaller(array(),$templateArray,$tfiles);
 
                  }
 
@@ -93,7 +94,7 @@
      }
      public static function templateLoader($options = array(),$file,$arrays)
      {
-          Ozsa\Template\Engine::templateInstaller($options,$arrays,$file);
+          \Ozsa\Template\Engine::templateInstaller($options,$arrays,$file);
      }
      public static function renderFiles(array $filess = array())
      {

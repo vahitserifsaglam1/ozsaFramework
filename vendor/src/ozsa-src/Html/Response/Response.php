@@ -1,5 +1,7 @@
 <?php
 
+  namespace Html;
+
 /**
  * Class Response
  *
@@ -15,6 +17,7 @@
  *  ********************************
  *
  */
+
  class Response
  {
      /**

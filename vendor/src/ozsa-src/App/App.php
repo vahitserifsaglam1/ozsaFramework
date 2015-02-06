@@ -1,4 +1,4 @@
-<?php namespace Ozsa;
+<?php namespace App;
 
     class App
     {
@@ -23,7 +23,7 @@
 
         public function validateAssets()
         {
-             $assets = new \App\Assets(true);
+             $assets = \Desing\Single::make('\App\Assets',true);
         }
        public function setErrorReporting()
        {
@@ -89,7 +89,7 @@
 
               $params = $this->paramsCheck( $ex );
 
-              $render = new \Router();
+              $render = new \App\Router();
 
               if( $view != $appPath && $view != $systemPath && !strstr($_SERVER['REQUEST_URI'], 'public.php'))
               {
@@ -97,14 +97,14 @@
 
                   $path  =  $appPath."/Controller/$view.php";
                   include $path;
-                  $class = new $view();
+                  $class = \Desing\Single::make($view);
                   if(isset($function))call_user_func_array(array($class,$function),$params);
 
                  # $render->render($appPath."/Views/".$view.".php",$configs);
 
               }else{
 
-                  $response = new \Response(404,'bu sayfaya erişim hakınız yok','Lütfen koşarak uzaklaşın');
+                  $response = \Desing\Single::make('Html\Response',404,'bu sayfaya erişim hakınız yok','Lütfen koşarak uzaklaşın');
 
                      $response ->reflesh("index.php")->execute();
 

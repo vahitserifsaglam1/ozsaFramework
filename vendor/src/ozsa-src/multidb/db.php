@@ -17,7 +17,7 @@ Class DB {
     {
         $options  = require APP_PATH.'Configs/databaseConfigs.php';
 
-       extract( $options['Connections'][$options['default']]);
+        extract( $options['Connections'][$options['default']]);
 
 
         $type = $driver;
@@ -33,7 +33,7 @@ Class DB {
             case 'pdo':
 
                 try{
-                    $dbConf = new PDO("$pdoType:host=$host;dbname=$dbname;",$username,$password);
+                    $dbConf =  \Desing\Single::make('PDO',"$pdoType:host=$host;dbname=$dbname;",$username,$password);
 
                 }catch (PDOException $e)
                 {
@@ -44,16 +44,16 @@ Class DB {
                 break;
             case 'mysql':
 
-                $dbConf = new \mysql($host,$dbname,$username,$password,$fetch);
+                $dbConf = \Desing\Single::make('mysql',$host,$dbname,$username,$password,$fetch);
 
                 break;
             default:
-                $dbConf = new \mutlidb\sqlite($database);
+                $dbConf = \Desing\Single::make('mutlidb\sqlite',$database);
                 break;
         }
-        self::$typeStatic = $type;
+        static::$typeStatic = $type;
         $this->dbConf = $dbConf;
-        self::$dbStatic  = $dbConf;
+        static::$dbStatic  = $dbConf;
         return $this->dbConf;
     }
 

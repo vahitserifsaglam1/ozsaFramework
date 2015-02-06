@@ -57,8 +57,8 @@
      public function __construct($table = '',$setlog = false)
      {
          $this->setLog = $setlog;
-         $options = require APP_PATH.'Configs/Configs.php';
-         $options = $options['db'];
+         $options = require APP_PATH.'Configs/databaseConfigs.php';
+         $options = $options['Connections']['mysql'];
          extract($options);
 
          if(class_exists('PDO')){

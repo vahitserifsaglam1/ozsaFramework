@@ -10,7 +10,7 @@
 
       public function __construct()
       {
-           $this->client = new \GuzzleHttp\Client();
+           $this->client = \Desing\Single::make('\GuzzleHttp\Client');
 
 
       }
