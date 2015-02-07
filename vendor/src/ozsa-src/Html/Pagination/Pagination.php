@@ -21,16 +21,14 @@ namespace Html;
         public $standartUrl;
 
         /**
-         * @param string $homeClass
-         * @param string $linkClass
-         * @param bool $records
-         * @param bool $min
-         * @param bool $max
+         * @param null $page
+         * @param null $records
+         *
          */
 
-        public function __construct( $page = null, $records = null )
+        public function __construct( $records = null )
         {
-            $configs = require APP_PATH.'Configs/Pagination.php';
+            $configs = require APP_PATH.'Configs/paginationConfigs.php';
             $standart = require APP_PATH.'Configs/Configs.php';
             $this->standartUrl = $standart['URL'];
 

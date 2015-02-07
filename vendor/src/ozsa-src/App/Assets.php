@@ -15,6 +15,8 @@
       public $get;
       public $files;
       public $configs;
+      public static $getS;
+      public static $postS;
 
       /**
        * @param bool $validate
@@ -29,12 +31,12 @@
           if($_GET)
           {
               $this->get = $_GET;
-              if($validate) $this->setPost(\Validator::validateOzsa($this->get));
+              if($validate) $this->setPost( GUMP::xss_clean(Validator::validateOzsa($this->get)));
           }
           if($_POST)
           {
               $this->post = $_POST;
-              if($validate) $this->setPost(\Validator::validateOzsa($this->post));
+              if($validate) $this->setPost( GUMP::xss_clean(\Validator::validateOzsa($this->post)));
           }
 
           if($_GET['url'] == 'public.php') unset($_GET['url']);
@@ -59,6 +61,18 @@
       {
           return $this->get;
       }
+
+       public static function returnGetStatic()
+       {
+           return static::$getS;
+       }
+
+       public static function returnPostStatic()
+       {
+
+           return static::$postS;
+
+       }
 
       /**
        * @param $name
@@ -87,6 +101,7 @@
           $_POST = array();
           $_POST[] = $post;
           $this->post = $post;
+          static::$postS = $post;
           return $this;
       }
 
@@ -99,11 +114,18 @@
           $_GET = array();
           $_GET[] = $get;
           $this->get = $get;
+          static::$getS = $get;
           return $this;
       }
       public function getName()
       {
           return __CLASS__;
+      }
+
+      public function boot()
+      {
+
+          return new static( true );
       }
 
       /**

@@ -12,6 +12,9 @@ Class DB {
     public static $dbErrors;
 
     public static $typeStatic;
+
+    public $lastQuery;
+
     public function __construct()
 
     {
@@ -44,7 +47,7 @@ Class DB {
                 break;
             case 'mysql':
 
-                $dbConf = \Desing\Single::make('mysql',$host,$dbname,$username,$password,$fetch);
+                $dbConf = \Desing\Single::make('multidb\mysql',$host,$dbname,$username,$password,$fetch);
 
                 break;
             default:
@@ -57,14 +60,52 @@ Class DB {
         return $this->dbConf;
     }
 
+    public function pagination()
+    {
+
+        $string = $this->lastQuery;
+
+        if( isset ( $this->lastQuery->queryString))
+        {
+
+            $query = $this->dbConf->query( $this->lastQuery->queryString );
+            {
+
+                 if( $query )
+                 {
+                     @$sayi = $query->rowCount();
+                     if( $sayi ) {
+
+                         $pagi = new Html\Pagination( $sayi );
+
+                          return $pagi;
+
+                     }
+
+                 }
+
+            }
+
+        }
+
+    }
+
     public function __call($name,$param)
     {
-        return call_user_func_array(array($this->dbConf,$name),$param);
+
+        $return =  call_user_func_array(array($this->dbConf,$name),$param);
+        $this->lastQuery = $return;
+        return $return;
     }
     public static function __callStatic($name,$param)
     {
 
-        if(method_exists(self::$typeStatic,$name)) return call_user_func_array(array(self::$dbStatic,$name),$param);
+        if(method_exists(self::$typeStatic,$name)){
+            $return =  call_user_func_array(array(self::$dbStatic,$name),$param);
+            $s = new static();
+            $s->lastQuery = $return;
+            return $return;
+        }
         else
             throw new Exception(" $name isminde bir method ".__CLASS__." içinde bulunamadı");
     }

@@ -19,6 +19,8 @@ Class FileSystem {
 
     protected $mode;
 
+    protected static $scanAll;
+
     private function __construct() {}
 
 
@@ -41,7 +43,24 @@ Class FileSystem {
 
 
     }
+    public static function publicImg()
+    {
+        $scan = static::scan(_PUBLIC.'img/*.{png,jpg,gif}',GLOB_NOSORT);
 
+        return $scan;
+    }
+    public static function publicJs()
+    {
+        $scan = static::scan(_PUBLIC.'js/*.js',GLOB_NOSORT);
+
+        return $scan;
+    }
+    public static function publicCss()
+    {
+        $scan = static::scan(_PUBLIC.'css/*.css',GLOB_NOSORT);
+
+        return $scan;
+    }
     public function in($dirs)
     {
         $resolvedDirs = array();
@@ -59,6 +78,47 @@ Class FileSystem {
         $this->dirs = array_merge($this->dirs, $resolvedDirs);
 
         return $this;
+    }
+    public static function scanType($path,$type)
+    {
+        $pattern = $path.".{$type}";
+        return glob($pattern,GLOB_BRACE);
+    }
+    public static function scan($path,$type = GLOB_NOSORT,$realpath = false)
+    {
+        $pattern = glob($path,$type);
+        if($realpath) {
+            $pattern = array_map('realpath',$pattern);
+        }
+        return $pattern;
+    }
+    public static function scanAll( $path = false )
+    {
+        if( !$path )
+        {
+            $path = APP_PATH.'Configs/';
+        }
+
+
+
+        $search = glob( $path, GLOB_NOSORT);
+
+        foreach ( $search as $key )
+        {
+
+            if(!is_dir( $key ) )
+            {
+                static::$scanAll[] = $key;
+            }else{
+
+                static::$scanAll[] = static::scanAll($key);
+
+            }
+
+            return static::$scanAll;
+
+        }
+
     }
     public function Read($filename,$remote=false){
         if (!$remote){

@@ -20,7 +20,7 @@
 
           $this->set = $options;
           self::$options = $options;
-          $this->gump = new GUMP;
+          $this->gump =  Desing\Single::make('GUMP');#new GUMP;
           if($this->autoValidate)
           {
               $appFolder = $options['validateFolder'];

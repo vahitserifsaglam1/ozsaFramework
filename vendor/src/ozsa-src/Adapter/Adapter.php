@@ -1,6 +1,6 @@
 <?php
 
-  namespace Adapter\Ozsa;
+  namespace Adapter;
 
    class Adapter
    {
@@ -15,6 +15,16 @@
        {
            $this->page = $page;
            return $this;
+       }
+       public function alLAdabtersBoot()
+       {
+           foreach ( $this->adapter[$this->page]  as $key => $values )
+           {
+
+                $values['adapter']->boot();
+
+           }
+
        }
         public function addAdapter( $adapter, $priority = 0)
         {

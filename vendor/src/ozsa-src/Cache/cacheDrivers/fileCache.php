@@ -9,6 +9,8 @@ namespace Cache;
      public static   $newCacheFile;
      public  static  $cacheFile;
      public static    $initted = false;
+
+
      public static function init()
      {
          $configs = require 'Configs/Configs.php';
@@ -30,10 +32,10 @@ namespace Cache;
              if( is_object($value) )
              {
 
-                 if(filemtime($file) < time() - $value->times){return false; } else{
+
 
                      return $value->content;
-                 }
+
              }
          }else{return false;}
      }
@@ -64,7 +66,7 @@ namespace Cache;
 
              $value = json_encode($values);
 
-             touch($newCacheFile);
+             touch($newCacheFile,time()+$times);
              $ac = fopen($newCacheFile,"w");
              $yaz = fwrite($ac,$value);
              fclose($ac);

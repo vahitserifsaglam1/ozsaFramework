@@ -4,10 +4,12 @@
       public $_modal;
       public $dbA;
       public $_assets;
+      public $_view;
       public function __construct()
       {
          $this->dbA =  parent::__construct();
          $this->_assets = Desing\Single::make('\App\Assets');
+          $this->_view =  Desing\Single::make('\View\Loader');
       }
       public function _modal($name)
       {
@@ -24,6 +26,8 @@
 
       }
 
+
+
       /**
        * @param $name
        * @param $params
@@ -34,7 +38,9 @@
       public function __call($name,$params)
       {
           if(method_exists($this->dbA,$name)) return call_user_func_array(array($this->dbA,$name),$params);
+
           elseif(method_exists($this->_modal,$name)) return call_user_func_array(array($this->_modal,$name),$params);
+
           elseif( method_exists($this->_assets,$name)) return call_user_func_array(array($this->_assets,$name),$params);
       }
 

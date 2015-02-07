@@ -1,8 +1,7 @@
 <?php
 
-/**
- * Class mysql
- */
+  namespace multidb;
+
 class mysql
 {
 

@@ -18,7 +18,7 @@
 
       [
 
-          'type' => 'ozsa',
+          'type' => 'php',
 
             'SessionFolder' => APP_PATH.'Stroge/Session'
 

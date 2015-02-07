@@ -47,7 +47,10 @@
      protected $like;
      protected $join;
      protected $string;
+     protected $configs;
      protected $setLog = false;
+
+     const CONFIG_PATH = APP_PATH.'Configs/ORM/';
 
      /**
       * @param string $table
@@ -63,7 +66,7 @@
 
          if(class_exists('PDO')){
              try{
-                 $this->dbDatabase = new PDO("mysql:host=$host;dbname=$dbname;",$username,$password);
+                 $this->dbDatabase = Desing\Single::make('PDO',"mysql:host=$host;dbname=$dbname;",$username,$password);
 
              }catch(PDOException $e)
              {
@@ -83,6 +86,9 @@
      /**
       * @return mixed
       */
+
+
+
      public function returnTables()
      {
            $tableQuery = $this->dbDatabase->query("SHOW TABLES");
@@ -119,7 +125,27 @@
          if(!file_exists($path)) touch($path);
          file_put_contents($path,$json);
      }
+     public function setArray( Array $array = [])
+     {
+         foreach ( $array as $key => $values )
+         {
 
+             $this->addSet($key,$values);
+
+         }
+     }
+
+     public function getArray ( Array $array = [] )
+     {
+
+         foreach ( $array as $key => $values )
+
+         {
+
+             $this->addGet( $key, $values);
+         }
+
+     }
      /**
       * @param $set
       * @param $value

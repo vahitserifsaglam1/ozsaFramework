@@ -21,7 +21,7 @@
          $array['content'] = $value;
          $array = json_encode($array);
 
-         self::createSesssionFile($name,$array,".json");
+         self::createSesssionFile($name,$array,".json",$time);
 
      }
 
@@ -33,12 +33,9 @@
          $value =  json_decode($don);
          $file = self::createFileName($name).".json";
          $filetime = filemtime($file);
-         if($filetime>$value->time)
-         {
-             self::deleteSessionJson($name);
-         }else{
+
              return $value->content;
-         }
+
      }
 
 
@@ -56,7 +53,7 @@
              unlink(self::$sessionFolder."/".$key);
          }
      }
-     public static function createSesssionFile($name,$ext,$content)
+     public static function createSesssionFile($name,$ext,$content,$time)
      {
          $name = self::createFileName($name);
 
@@ -64,7 +61,7 @@
 
          if(!file_exists($file))
          {
-             touch($file);
+             touch($file,time()+$time);
              chmod($file,0777);
              file::setContent($file,$content);
          }else{

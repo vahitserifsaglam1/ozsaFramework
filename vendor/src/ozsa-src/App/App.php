@@ -15,15 +15,19 @@
             $this->settings = ['path' => $pathOptions,
             'configs'=> $configs];
 
-            $this->validateAssets();
-            $this->sessionStart();
+            $this->adapters = \Desing\Single::make('Adapter\Adapter','start');
+
+            $this->adapters->addAdapter( \Desing\Single::make('\App\Assets'),true);
+
+            $this->adapters->addAdapter( \Desing\Single::make( '\Session\Starter'));
+
+
+
+             #   $this->adapters->alAdabtersBoot();
+
+
             $this->getRequest();
 
-        }
-
-        public function validateAssets()
-        {
-             $assets = \Desing\Single::make('\App\Assets',true);
         }
        public function setErrorReporting()
        {
@@ -32,14 +36,7 @@
            error_reporting($configs['Reporting']);
            return null;
        }
-        public function sessionStart()
-        {
-            $session_name = session_name();
-            if (session_start()) {
-                setcookie($session_name, session_id(), null, '/', null, null, true);
-            }
-            return null;
-        }
+
         public static function urlParse()
         {
             return explode("/",$_GET['url']);

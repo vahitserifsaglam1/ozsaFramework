@@ -73,7 +73,7 @@
            {
                $this->configs = $options;
            }else{
-               $configs = require APP_PATH.'Configs/mail.php';
+               $configs = require APP_PATH.'Configs/mailConfigs.php';
            }
            $this->password = $configs['password'];
            $this->username = $configs['username'];

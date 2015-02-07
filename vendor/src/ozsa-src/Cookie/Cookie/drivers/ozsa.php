@@ -13,7 +13,7 @@
           $array['content'] = $value;
           $value = Ozsa::encode($array);
 
-          self::createCookieFile($name,".ozsa",$value);
+          self::createCookieFile($name,".ozsa",$value,$time);
 
       }
 
@@ -54,7 +54,7 @@
               unlink(self::$CookieFolder."/".$key);
           }
       }
-      public static function createCookieFile($name,$ext,$content)
+      public static function createCookieFile($name,$ext,$content,$time)
       {
           $name = self::createFileName($name);
 
@@ -62,7 +62,7 @@
 
           if(!file_exists($file))
           {
-              touch($file);
+              touch($file,time()+$time);
               chmod($file,0777);
               file::setContent($file,$content);
           }else{

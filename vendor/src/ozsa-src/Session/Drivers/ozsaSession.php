@@ -21,7 +21,7 @@ class ozsaSession implements ozsaSessionInterface {
         $array['content'] = $value;
         $value = Ozsa::encode($array);
 
-        self::createSesssionFile($name,".ozsa",$value);
+        self::createSesssionFile($name,".ozsa",$value,$time);
 
     }
 
@@ -47,7 +47,7 @@ class ozsaSession implements ozsaSessionInterface {
             unlink(self::$sessionFolder."/".$key);
         }
     }
-    public static function createSesssionFile($name,$ext,$content)
+    public static function createSesssionFile($name,$ext,$content,$time)
     {
         $name = self::createFileName($name);
 
@@ -55,7 +55,7 @@ class ozsaSession implements ozsaSessionInterface {
 
         if(!file_exists($file))
         {
-            touch($file);
+            touch($file,time()+$time);
             chmod($file,0777);
             file::setContent($file,$content);
         }else{

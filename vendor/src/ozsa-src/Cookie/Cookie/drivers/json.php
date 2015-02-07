@@ -10,7 +10,7 @@
           $array['content'] = $value;
           $array = json_encode($array);
 
-          self::createCookieFile($name,$array,".json");
+          self::createCookieFile($name,$array,".json",$time);
 
       }
       public static function get($name)
@@ -18,14 +18,10 @@
 
           $don =  self::readCookieFile($name,".json");
           $value =  json_decode($don);
-          $file = self::createFileName($name).".json";
-          $filetime = filemtime($file);
-          if($filetime>$value->time)
-          {
-              self::deleteCookieJson($name);
-          }else{
+
+
               return $value->content;
-          }
+
       }
 
       public static function delete($name)
@@ -42,7 +38,7 @@
               unlink(self::$CookieFolder."/".$key);
           }
       }
-      public static function createCookieFile($name,$ext,$content)
+      public static function createCookieFile($name,$ext,$content,$time)
       {
           $name = self::createFileName($name);
 
@@ -50,7 +46,7 @@
 
           if(!file_exists($file))
           {
-              touch($file);
+              touch($file,time()+$time);
               chmod($file,0777);
               file::setContent($file,$content);
           }else{

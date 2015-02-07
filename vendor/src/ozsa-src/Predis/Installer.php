@@ -1,7 +1,7 @@
 <?php
-  namespace DB;
+  namespace Predis;
 
-  class  predisInstaller
+  class  Installer
 
   {
       protected static $installed = false;
