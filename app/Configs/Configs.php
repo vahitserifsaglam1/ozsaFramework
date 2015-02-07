@@ -1,84 +1,84 @@
 <?php
 
- return [
+return [
 
-     'URL' => 'http://localhost/framework/',
-
-
-     /**
-      *
-      *  Session Ayarları
-      *
-      *
-      *   Desteklenen tipler 'ozsa','php' ,'json'
-      *
-      */
-
-      'Session' =>
-
-      [
-
-          'type' => 'ozsa',
-
-            'SessionFolder' => APP_PATH.'Stroge/Session'
-
-     ],
-
-     /**
-      *
-      *  Önbellekleme Ayarları
-      *
-      *  **********
-      *
-      *   Desteklenen Tipler :  'memcache','apc' ,'file'
-      *
-      */
-
-      'Cache' =>
-      [
-
-        'type' => 'file',
-
-           'CacheFolder' => APP_PATH.'Stroge/Cache'
-
-      ],
+    'URL' => 'http://localhost/framework/',
 
 
-     /**
-      *
-      *  Error bildirme ayarları
-      *
-      *   Dokunmamanız tavsiye edilir
-      *
-      */
+    /**
+     *
+     *  Session Ayarları
+     *
+     *
+     *   Desteklenen tipler 'ozsa','php' ,'json'
+     *
+     */
+
+    'Session' =>
+
+        [
+
+            'type' => 'ozsa',
+
+            'SessionFolder' => APP_PATH . 'Stroge/Session'
+
+        ],
+
+    /**
+     *
+     *  Önbellekleme Ayarları
+     *
+     *  **********
+     *
+     *   Desteklenen Tipler :  'memcache','apc' ,'file'
+     *
+     */
+
+    'Cache' =>
+        [
+
+            'type' => 'file',
+
+            'CacheFolder' => APP_PATH . 'Stroge/Cache'
+
+        ],
 
 
-     'Error' =>
+    /**
+     *
+     *  Error bildirme ayarları
+     *
+     *   Dokunmamanız tavsiye edilir
+     *
+     */
 
 
-            [
-             'Reporting' => 0,
-
-             'logFilePath' => APP_PATH.'Logs/error.log',
-
-              'writeLog' => true
-
-            ]
-
-     /**
-      *   Doğrulama ayarları i
-      *
-      *   autovalidate açık olursa modal larda otomatik doğrulama yapabilirsinşz
-      */
+    'Error' =>
 
 
-     ,'Validate' =>
+        [
+            'Reporting' => 0,
+
+            'logFilePath' => APP_PATH . 'Logs/error.log',
+
+            'writeLog' => true
+
+        ]
+
+    /**
+     *   Doğrulama ayarları i
+     *
+     *   autovalidate açık olursa modal larda otomatik doğrulama yapabilirsinşz
+     */
+
+
+    , 'Validate' =>
 
 
         [
 
-           'autoValidate' => true,
-            'validateFolder' => __DIR__."/Validate"
+            'autoValidate' => true,
+            'validateFolder' => __DIR__ . "/Validate"
         ]
 
 ];

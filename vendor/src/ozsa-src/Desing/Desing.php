@@ -1,34 +1,31 @@
 <?php
-  namespace Desing;
+namespace Desing;
 
-  class Single
-  {
+class Single
+{
 
-      public static $siniflar;
+    public static $siniflar;
 
-      public static $sinifSay = 0;
-
-
-      public static function make ( $sinif, ...$parametres )
-
-      {
-
-          if( !isset (self::$siniflar[$sinif] ) )
-          {
-
-              self::$siniflar[$sinif] = new $sinif(...$parametres);
-              self::$sinifSay++;
-
-          }
-
-          return self::$siniflar[$sinif];
+    public static $sinifSay = 0;
 
 
-      }
+    public static function make($sinif, ...$parametres)
+
+    {
+
+        if (!isset (self::$siniflar[$sinif])) {
+
+            self::$siniflar[$sinif] = new $sinif(...$parametres);
+            self::$sinifSay++;
+
+        }
+
+        return self::$siniflar[$sinif];
 
 
+    }
 
 
-      }
+}
 
 

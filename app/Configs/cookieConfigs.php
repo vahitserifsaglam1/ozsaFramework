@@ -1,10 +1,10 @@
 <?php
 return
 
-   [
+    [
 
-    'type'=>'php',
+        'type' => 'php',
 
-    'CookieFolder' => APP_PATH.'Stroge/Cookie'
+        'CookieFolder' => APP_PATH . 'Stroge/Cookie'
 
     ];

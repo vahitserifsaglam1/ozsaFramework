@@ -1,17 +1,18 @@
 <?php
+
 class Session implements SessionInterface
 {
     /**
      * @var string
      */
-    private  $_session;
+    private $_session;
 
     /**
      * @var array,
      */
 
-    private  $_sessionBase = array(
-        'ozsa' => true,'php' => true,'json' => false,
+    private $_sessionBase = array(
+        'ozsa' => true, 'php' => true, 'json' => false,
     );
 
     /**
@@ -20,7 +21,7 @@ class Session implements SessionInterface
     public function __construct()
     {
         $this->boot();
-        return $this->_session;
+       // return $this->_session;
     }
 
     /**
@@ -28,18 +29,17 @@ class Session implements SessionInterface
      */
     public function boot()
     {
-         $configs = require APP_PATH.'Configs/Configs.php';
+        $configs = require APP_PATH . 'Configs/Configs.php';
 
-         $configs = $configs['Session'];
+        $configs = $configs['Session'];
 
-         $type = $configs['type'];
+        $type = $configs['type'];
 
-        if(isset($this->_sessionBase[$type]))
-        {
+        if (isset($this->_sessionBase[$type])) {
 
-             $this->_session = $type.'Session';
+            $this->_session = $type . 'Session';
 
-        }else{
+        } else {
 
             throw new Exception(" $type Session tipi desteklenmemektedir ");
 
@@ -52,13 +52,12 @@ class Session implements SessionInterface
      * @return mixed
      */
 
-    public static function __callStatic($name,$params)
+    public static function __callStatic($name, $params)
     {
         $s = new static();
 
-        return call_user_func_array(array($s->_session,$name),$params);
+        return call_user_func_array(array($s->_session, $name), $params);
     }
-
 
 
 }

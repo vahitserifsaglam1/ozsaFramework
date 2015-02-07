@@ -1,118 +1,117 @@
 <?php
-  namespace App;
-  /**
-   * Class Assets
-   * @package App
-   */
-  Class Assets
-  {
-      /**
-       * @var $post
-       * @var $get
-       * @var $files
-       */
-      public $post;
-      public $get;
-      public $files;
-      public $configs;
+namespace App;
+/**
+ * Class Assets
+ * @package App
+ */
+Class Assets
+{
+    /**
+     * @var $post
+     * @var $get
+     * @var $files
+     */
+    public $post;
+    public $get;
+    public $files;
+    public $configs;
 
-      /**
-       * @param bool $validate
-       */
-      public function __construct($validate = false)
-      {
-          if($_FILES)
-          {
-              $this->files = $_FILES;
+    /**
+     * @param bool $validate
+     */
+    public function __construct($validate = false)
+    {
+        if ($_FILES) {
+            $this->files = $_FILES;
 
-          }
-          if($_GET)
-          {
-              $this->get = $_GET;
-              if($validate) $this->setPost(\Validator::validateOzsa($this->get));
-          }
-          if($_POST)
-          {
-              $this->post = $_POST;
-              if($validate) $this->setPost(\Validator::validateOzsa($this->post));
-          }
+        }
+        if ($_GET) {
+            $this->get = $_GET;
+            if ($validate) $this->setPost(\Validator::validateOzsa($this->get));
+        }
+        if ($_POST) {
+            $this->post = $_POST;
+            if ($validate) $this->setPost(\Validator::validateOzsa($this->post));
+        }
 
-          if($_GET['url'] == 'public.php') unset($_GET['url']);
-      }
+        if ($_GET['url'] == 'public.php') unset($_GET['url']);
+    }
 
-      /**
-       * @return mixed
-       */
+    /**
+     * @return mixed
+     */
 
-      public function setConfigs( array  $configs = array() )
-      {
-           $this->configs = $configs;
-      }
-      public function returnPost(){
-          return $this->post;
-      }
+    public function setConfigs(array  $configs = array())
+    {
+        $this->configs = $configs;
+    }
 
-      /**
-       * @return mixed
-       */
-      public function returnGet()
-      {
-          return $this->get;
-      }
+    public function returnPost()
+    {
+        return $this->post;
+    }
 
-      /**
-       * @param $name
-       * @param $types
-       * @return bool
-       */
-      public function returnFiles($name,$types)
-      {
-         if($this->files[$name]['type'])
-         {
-             foreach($types as $key)
-             {
-                 if($this->files[$name]['type'] == $types)
-                 {$return[$name] = $types;}
-                 if($return) return $this->files[$name];else return false;
-             }
-         }
-      }
+    /**
+     * @return mixed
+     */
+    public function returnGet()
+    {
+        return $this->get;
+    }
 
-      /**
-       * @param $post
-       * @return $this
-       */
-      public function setPost($post)
-      {
-          $_POST = array();
-          $_POST[] = $post;
-          $this->post = $post;
-          return $this;
-      }
+    /**
+     * @param $name
+     * @param $types
+     * @return bool
+     */
+    public function returnFiles($name, $types)
+    {
+        if ($this->files[$name]['type']) {
+            foreach ($types as $key) {
+                if ($this->files[$name]['type'] == $types) {
+                    $return[$name] = $types;
+                }
+                if ($return) return $this->files[$name]; else return false;
+            }
+        }
+    }
 
-      /**
-       * @param $get
-       * @return $this
-       */
-      public function setGet($get)
-      {
-          $_GET = array();
-          $_GET[] = $get;
-          $this->get = $get;
-          return $this;
-      }
-      public function getName()
-      {
-          return __CLASS__;
-      }
+    /**
+     * @param $post
+     * @return $this
+     */
+    public function setPost($post)
+    {
+        $_POST = array();
+        $_POST[] = $post;
+        $this->post = $post;
+        return $this;
+    }
 
-      /**
-       * @return mixed
-       */
-      public function returnRequest()
-      {
-          if($this->post) $returns['POST'] = $this->post;
-          if($this->get) $returns['GET'] = $this->get;
-          return $returns;
-      }
-  }
+    /**
+     * @param $get
+     * @return $this
+     */
+    public function setGet($get)
+    {
+        $_GET = array();
+        $_GET[] = $get;
+        $this->get = $get;
+        return $this;
+    }
+
+    public function getName()
+    {
+        return __CLASS__;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function returnRequest()
+    {
+        if ($this->post) $returns['POST'] = $this->post;
+        if ($this->get) $returns['GET'] = $this->get;
+        return $returns;
+    }
+}

@@ -1,24 +1,23 @@
 <?php
 
-  namespace Exceptions;
+namespace Exceptions;
 
 
-  class undefinedVariableExcepiton
+class undefinedVariableExcepiton
 
-  {
+{
 
-       public function __construct( $call,  $callSprintf = '' ){
+    public function __construct($call, $callSprintf = '')
+    {
 
-           new \MyException($call);
+        new \MyException($call);
 
-           if(is_callable($callSprintf))
-           {
-               echo $callSprintf();
-           }
-
+        if (is_callable($callSprintf)) {
+            echo $callSprintf();
+        }
 
 
-       }
+    }
 
-  }
+}
 

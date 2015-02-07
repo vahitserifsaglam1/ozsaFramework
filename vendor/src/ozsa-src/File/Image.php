@@ -1,7 +1,9 @@
 <?php
 namespace File\Image;
-trait imagetraits{
-     /**
+
+trait imagetraits
+{
+    /**
      * @var $image
      * @access private
      */
@@ -11,13 +13,14 @@ trait imagetraits{
      * @param $image
      * @return $this
      */
-    public function __construct($image){
+    public function __construct($image)
+    {
         $this->image = $image;
         $this->folder = "uploads";
         $this->size = $image['size'];
         $this->maxsize = (1024 * 4048);
         $this->tmpname = $image['tmp_name'];
-        $this->ext = substr($image['name'],-4,4);
+        $this->ext = substr($image['name'], -4, 4);
         $this->newFileName = md5(uniqid());
         return $this;
     }
@@ -26,7 +29,8 @@ trait imagetraits{
      * @param string $folder
      * @return $this
      */
-    public function setFolder($folder = "uploads" ){
+    public function setFolder($folder = "uploads")
+    {
         $this->folder = $folder;
         return $this;
     }
@@ -44,42 +48,32 @@ trait imagetraits{
     /**
      * @return bool
      */
-    public function uploadFile(){
+    public function uploadFile()
+    {
         $image = $this->image;
-        if($this->size < $this->maxsize)
-        {
-            if($this->ext == ".jpg" || $this->ext == ".png" || $this->ext == ".gif")
-            {
+        if ($this->size < $this->maxsize) {
+            if ($this->ext == ".jpg" || $this->ext == ".png" || $this->ext == ".gif") {
 
-                $this->filePath = $this->folder."/".$this->newFileName.$this->ext;
+                $this->filePath = $this->folder . "/" . $this->newFileName . $this->ext;
 
 
-
-                if(file_exists($this->folder))
-                {
-                    if(move_uploaded_file($this->tmpname, $this->filePath))
-                    {
+                if (file_exists($this->folder)) {
+                    if (move_uploaded_file($this->tmpname, $this->filePath)) {
                         return true;
-                    }
-                    else{
+                    } else {
                         $this->errorInfo = "Php tarafında bir hata oluştu";
                         return false;
                     }
-                }
-                else
-                {
+                } else {
                     mkdir($this->folder);
                     chmod($this->folder, 777);
                 }
 
-            }
-            else
-            {
+            } else {
                 $this->errorInfo = "Dosyanız izin verilen tiplerden biri değil";
                 return false;
             }
-        }
-        else{
+        } else {
             $this->errorInfo = "Dosyanın Boyutu Belirtilen boyuttan büyük";
             return false;
         }
@@ -96,14 +90,14 @@ trait imagetraits{
     /**
      * @return bool|$this
      */
-    public function copy(){
-        $file = $this->folder."/".$this->newFileName."_copied".$this->ext;
-        if(file_exists($this->filePath)){
-           $copy =  copy($this->filePath,$file);
-             $this->filePath = $file;
-             return ($copy) ? $this:false;
-        }
-        else{
+    public function copy()
+    {
+        $file = $this->folder . "/" . $this->newFileName . "_copied" . $this->ext;
+        if (file_exists($this->filePath)) {
+            $copy = copy($this->filePath, $file);
+            $this->filePath = $file;
+            return ($copy) ? $this : false;
+        } else {
             return false;
         }
     }
@@ -114,9 +108,9 @@ trait imagetraits{
      */
     public function setFile($file)
     {
-         $this->filePath = $file;
-         $this->ext = substr($file,-4,4);
-         return $this;
+        $this->filePath = $file;
+        $this->ext = substr($file, -4, 4);
+        return $this;
     }
 
     /**
@@ -124,40 +118,47 @@ trait imagetraits{
      * @param $height
      * @return $this
      */
-    public  function reSize($width,$height)
+    public function reSize($width, $height)
     {
         $dosya = $this->filePath;
-        list($genislik,$yukseklik) = getimagesize($dosya);
+        list($genislik, $yukseklik) = getimagesize($dosya);
 
-        if(strstr($width,"%")){$width = str_replace("%","",$width); $bolw = ( 100 / $width ) ; $width = ($genislik / $bolw);}
-        if(strstr($height,"%")){$height = str_replace("%","",$height); $bolh = (100 / $height);$height = ($yukseklik / $bolh); }
+        if (strstr($width, "%")) {
+            $width = str_replace("%", "", $width);
+            $bolw = (100 / $width);
+            $width = ($genislik / $bolw);
+        }
+        if (strstr($height, "%")) {
+            $height = str_replace("%", "", $height);
+            $bolh = (100 / $height);
+            $height = ($yukseklik / $bolh);
+        }
 
-        $hedef = imagecreatetruecolor($width,$height);
-        $file = $this->folder."/".$this->newFileName."_resized".$this->ext;
+        $hedef = imagecreatetruecolor($width, $height);
+        $file = $this->folder . "/" . $this->newFileName . "_resized" . $this->ext;
         $this->filePath = $file;
-        switch($this->ext)
-        {
+        switch ($this->ext) {
             case '.png':
-               $kaynak = imagecreatefrompng($dosya);
-                imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
-                imagepng($hedef,$file,100);
+                $kaynak = imagecreatefrompng($dosya);
+                imagecopyresampled($hedef, $kaynak, 0, 0, 0, 0, $width, $height, $genislik, $yukseklik);
+                imagepng($hedef, $file, 100);
                 break;
             case '.jpg':
-                 $kaynak = imagecreatefromjpeg($dosya);
-                imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
-                 imagejpeg($hedef,$file,100);
+                $kaynak = imagecreatefromjpeg($dosya);
+                imagecopyresampled($hedef, $kaynak, 0, 0, 0, 0, $width, $height, $genislik, $yukseklik);
+                imagejpeg($hedef, $file, 100);
                 break;
             case '.gif':
-                 $kaynak = imagecreatefromgif($dosya);
-                imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
-                 imagegif($hedef,$file,100);
+                $kaynak = imagecreatefromgif($dosya);
+                imagecopyresampled($hedef, $kaynak, 0, 0, 0, 0, $width, $height, $genislik, $yukseklik);
+                imagegif($hedef, $file, 100);
                 break;
         }
         imagedestroy($hedef);
         imagedestroy($kaynak);
         unlink($dosya);
         $this->filePath = $file;
-       return $this;
+        return $this;
 
     }
 
@@ -169,25 +170,24 @@ trait imagetraits{
     {
         $file_ext = $this->ext;
         $file = $this->filePath;
-        $newFile = $this->folder."/".$this->newFileName."_compressed".$file_ext;
+        $newFile = $this->folder . "/" . $this->newFileName . "_compressed" . $file_ext;
 
 
-        switch($file_ext)
-        {
+        switch ($file_ext) {
             case '.jpg':
-                  $img = imagecreatefromjpeg($file);
-                  imagejpeg($img,$newFile,$quality);
+                $img = imagecreatefromjpeg($file);
+                imagejpeg($img, $newFile, $quality);
                 break;
             case '.png':
-                if($quality>10){
-                    $quality = ceil(100/10);
+                if ($quality > 10) {
+                    $quality = ceil(100 / 10);
                 }
-                 $img = imagecreatefrompng($file);
-                 imagepng($img,$newFile,$quality);
+                $img = imagecreatefrompng($file);
+                imagepng($img, $newFile, $quality);
                 break;
             case '.gif':
                 $img = imagecreatefromgif($file);
-                imagepng($img,$newFile);
+                imagepng($img, $newFile);
                 break;
         }
         imagedestroy($img);
@@ -201,33 +201,32 @@ trait imagetraits{
      * @return $this
      */
     public function imageRotate($x = 90)
-   {
-      $file = $this->filePath;
+    {
+        $file = $this->filePath;
         $file_ext = $this->ext;
-         $newFile = $this->folder."/".$this->newFileName."_rotated".$file_ext;
-          switch($file_ext)
-          {
-              case '.png':
-                    $kaynak = imagecreatefrompng($file);
-                    $rotated = imagerotate($kaynak,$x,0);
-                    imagepng($rotated,$newFile,10);
-                  break;
-              case '.jpg':
-                  $kaynak = imagecreatefromjpeg($file);
-                  $rotated = imagerotate($kaynak,$x,0);
-                  imagejpeg($rotated,$newFile,100);
-                  break;
-              case '.gif':
-                   $kaynak = imagecreatefromgif($file);
-                   $rotated = imagerotate($kaynak,$x,0);
-                   imagegif($rotated,$newFile);
-                  break;
-          }
-       imagedestroy($kaynak);
-       unlink($file);
-       $this->filePath = $newFile;
-       return $this;
-   }
+        $newFile = $this->folder . "/" . $this->newFileName . "_rotated" . $file_ext;
+        switch ($file_ext) {
+            case '.png':
+                $kaynak = imagecreatefrompng($file);
+                $rotated = imagerotate($kaynak, $x, 0);
+                imagepng($rotated, $newFile, 10);
+                break;
+            case '.jpg':
+                $kaynak = imagecreatefromjpeg($file);
+                $rotated = imagerotate($kaynak, $x, 0);
+                imagejpeg($rotated, $newFile, 100);
+                break;
+            case '.gif':
+                $kaynak = imagecreatefromgif($file);
+                $rotated = imagerotate($kaynak, $x, 0);
+                imagegif($rotated, $newFile);
+                break;
+        }
+        imagedestroy($kaynak);
+        unlink($file);
+        $this->filePath = $newFile;
+        return $this;
+    }
 
     /**
      * @param sting $string
@@ -238,19 +237,21 @@ trait imagetraits{
         $this->string = $string;
         return $this;
     }
+
     /**
-    * @param int $boyut
-    * @param int $sol
-    * @param int $yukari
-    * @return $this
-    */
-   public function setImageStringOptions($boyut = 2,$sol = 5,$yukari = 1)
-   {
-       $this->imageStingSol = $sol;
-       $this->imageStringYukari = $yukari;
-       $this->imageStringBoyut = $boyut;
-       return $this;
-   }
+     * @param int $boyut
+     * @param int $sol
+     * @param int $yukari
+     * @return $this
+     */
+    public function setImageStringOptions($boyut = 2, $sol = 5, $yukari = 1)
+    {
+        $this->imageStingSol = $sol;
+        $this->imageStringYukari = $yukari;
+        $this->imageStringBoyut = $boyut;
+        return $this;
+    }
+
     /**
      * @param string $string
      * @return $this
@@ -258,43 +259,40 @@ trait imagetraits{
 
     public function imageString($string = "")
     {
-        $sol = ($this->imageStringSol) ? $this->imageStringSol:5;
-        $yukari = ($this->imageStringYukari) ? $this->imageStringYukari:1;
-        $boyut = ($this->imageStringBoyut) ? $this->imageStringBoyut:2;
+        $sol = ($this->imageStringSol) ? $this->imageStringSol : 5;
+        $yukari = ($this->imageStringYukari) ? $this->imageStringYukari : 1;
+        $boyut = ($this->imageStringBoyut) ? $this->imageStringBoyut : 2;
 
         $file = $this->filePath;
-         if($string == "")
-         {
-              $string = $this->string;
-              if($string == "")
-              {
-                   $string = "OZSAIMAGECLASS";
-              }
+        if ($string == "") {
+            $string = $this->string;
+            if ($string == "") {
+                $string = "OZSAIMAGECLASS";
+            }
 
-         }
-         $file_ext = $this->ext;
-         $newFile = $this->folder."/".$this->newFileName."_stringed".$file_ext;
-           switch($file_ext)
-           {
-               case '.jpg':
-                    $kaynak = imagecreatefromjpeg($file);
-                    $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                    imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                    imagejpeg($kaynak,$newFile,100);
-                   break;
-               case '.png':
-                   $kaynak = imagecreatefrompng($file);
-                   $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                   imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                   imagepng($kaynak,$newFile,10);
-                   break;
-               case '.gif':
-                    $kaynak = imagecreatefromgif($file);
-                    $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                    imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                    imagegif($kaynak,$newFile);
-                   break;
-           }
+        }
+        $file_ext = $this->ext;
+        $newFile = $this->folder . "/" . $this->newFileName . "_stringed" . $file_ext;
+        switch ($file_ext) {
+            case '.jpg':
+                $kaynak = imagecreatefromjpeg($file);
+                $renk = imagecolorallocatealpha($kaynak, 255, 255, 255, 50);
+                imagestring($kaynak, $boyut, $sol, $yukari, $string, $renk);
+                imagejpeg($kaynak, $newFile, 100);
+                break;
+            case '.png':
+                $kaynak = imagecreatefrompng($file);
+                $renk = imagecolorallocatealpha($kaynak, 255, 255, 255, 50);
+                imagestring($kaynak, $boyut, $sol, $yukari, $string, $renk);
+                imagepng($kaynak, $newFile, 10);
+                break;
+            case '.gif':
+                $kaynak = imagecreatefromgif($file);
+                $renk = imagecolorallocatealpha($kaynak, 255, 255, 255, 50);
+                imagestring($kaynak, $boyut, $sol, $yukari, $string, $renk);
+                imagegif($kaynak, $newFile);
+                break;
+        }
         imagedestroy($kaynak);
         unlink($file);
         $this->filePath = $newFile;
@@ -306,7 +304,9 @@ trait imagetraits{
 /**
  * Class image
  */
-class image{
+class image
+{
     use imagetraits;
 }
- ?>
+
+?>

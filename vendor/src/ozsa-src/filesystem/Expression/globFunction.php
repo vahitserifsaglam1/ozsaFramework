@@ -2,7 +2,7 @@
 
 namespace Filesystem\Finder;
 
-class Glob 
+class Glob
 {
     /**
      * @var string
@@ -54,7 +54,7 @@ class Glob
      */
     public function prepend($expr)
     {
-        $this->pattern = $expr.$this->pattern;
+        $this->pattern = $expr . $this->pattern;
 
         return $this;
     }
@@ -77,7 +77,7 @@ class Glob
     public function isExpandable()
     {
         return false !== strpos($this->pattern, '{')
-            && false !== strpos($this->pattern, '}');
+        && false !== strpos($this->pattern, '}');
     }
 
     /**
@@ -140,6 +140,6 @@ class Glob
             $escaping = false;
         }
 
-        return new Regex('^'.$regex.'$');
+        return new Regex('^' . $regex . '$');
     }
 }

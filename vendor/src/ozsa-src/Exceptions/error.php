@@ -1,4 +1,3 @@
-
 <?php
 
 class MyException
@@ -8,15 +7,16 @@ class MyException
     protected $file;
     protected $line;
     protected $template = 'Error/Css/Error.php';
-    public function __construct($message = '', $code = 0,$file = '',$line = '')
+
+    public function __construct($message = '', $code = 0, $file = '', $line = '')
     {
-       $this->message = $message;
+        $this->message = $message;
         $this->code = $code;
-         $this->file = $file;
-          $this->line = $line;
+        $this->file = $file;
+        $this->line = $line;
 
 
-       include_once APP_PATH.$this->template;
+        include_once APP_PATH . $this->template;
     }
 
     public function getMessage()
@@ -28,22 +28,27 @@ class MyException
     {
         return $this->code;
     }
+
     public function getFile()
     {
         return $this->file;
     }
+
     public function getLine()
     {
         return $this->line;
     }
+
     public function getTemplate()
     {
-        return APP_PATH.$this->template;
+        return APP_PATH . $this->template;
     }
+
     public function __toString()
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 
 }
-    ?>
+
+?>

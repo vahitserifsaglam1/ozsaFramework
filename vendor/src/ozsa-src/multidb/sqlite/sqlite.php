@@ -1,6 +1,7 @@
 <?php
 namespace mutlidb;
-class sqlite {
+class sqlite
+{
     public $file;
     public $db;
     public $query;
@@ -11,112 +12,132 @@ class sqlite {
     const ASSOC = 1;
     const NUM = 2;
     const BOTH = 3;
-    function __construct($base, $mode = 0666, $auto = true) {
+
+    function __construct($base, $mode = 0666, $auto = true)
+    {
         $this->db_file = $base;
 //
-        return $auto?$this->open($mode):true;
+        return $auto ? $this->open($mode) : true;
     }
-    function open($mode) {
-        if($this->db) return $this->db;
+
+    function open($mode)
+    {
+        if ($this->db) return $this->db;
 //
-        if(!$this->db_file) return FALSE;
+        if (!$this->db_file) return FALSE;
 //
-        if(!is_file($this->db_file)) return FALSE;
+        if (!is_file($this->db_file)) return FALSE;
 //
-        if($this->db = sqlite_open ($this->db_file, $mode, $error)) {
+        if ($this->db = sqlite_open($this->db_file, $mode, $error)) {
 //
             return $this->db;
-        }
-        else{
+        } else {
             $this->error($error);
             return FALSE;
         }
     }
-    function close() {
+
+    function close()
+    {
         $this->error = '';
         sqlite_close($this->db);
         return true;
     }
-    function query($query) {
+
+    function query($query)
+    {
         $query = preg_replace("/escape_string\((.*?)\)/", $this->escape_string("$1"), $query);
         $this->query = sqlite_query($this->db, $query);
         return $this;
     }
-    function fetch($type=SQLITE_BOTH) {
-        if($type == 1) {
+
+    function fetch($type = SQLITE_BOTH)
+    {
+        if ($type == 1) {
             $type = SQLITE_ASSOC;
-        }
-        elseif($type == 2) {
+        } elseif ($type == 2) {
             $type = SQLITE_NUM;
-        }
-        elseif($type == 3 || $type != SQLITE_BOTH) {
+        } elseif ($type == 3 || $type != SQLITE_BOTH) {
             $type = SQLITE_BOTH;
         }
 //
         return sqlite_fetch_array($this->query, $type);
     }
-    function fetchAll($type=SQLITE_BOTH) {
-        if($type == 1) {
+
+    function fetchAll($type = SQLITE_BOTH)
+    {
+        if ($type == 1) {
             $type = SQLITE_ASSOC;
-        }
-        elseif($type == 2) {
+        } elseif ($type == 2) {
             $type = SQLITE_NUM;
-        }
-        elseif($type == 3 || $type != SQLITE_BOTH) {
+        } elseif ($type == 3 || $type != SQLITE_BOTH) {
             $type = SQLITE_BOTH;
         }
 //
         return sqlite_fetch_all($this->query, $type);
     }
-    function prepare($query) {
+
+    function prepare($query)
+    {
         $this->prepare = $query;
         return $this;
     }
-    function bindParam($bind, $value, $types = '') {
+
+    function bindParam($bind, $value, $types = '')
+    {
 //
-        if($types == 1) {
-            if(preg_match("/^\d+$/", $value)) $to_prepare = $value;
-        }
-        elseif($types == 2) {
-            if(is_string($value)) $to_prepare = '"'.$this->escape_string($value).'"';
-        }
-        elseif(!empty($types)) {
-            if(preg_match($types, $value)) '"'.$this->escape_string($value).'"';
+        if ($types == 1) {
+            if (preg_match("/^\d+$/", $value)) $to_prepare = $value;
+        } elseif ($types == 2) {
+            if (is_string($value)) $to_prepare = '"' . $this->escape_string($value) . '"';
+        } elseif (!empty($types)) {
+            if (preg_match($types, $value)) '"' . $this->escape_string($value) . '"';
         }
 //
-        if(empty($to_prepare)) $to_prepare = '""';
+        if (empty($to_prepare)) $to_prepare = '""';
 //
         $this->prepare = str_replace($bind, $to_prepare, $this->prepare);
 //
         return $this;
     }
-    function execute() {
+
+    function execute()
+    {
 //
         $this->query = sqlite_query($this->db, $this->prepare);
         return $this;
     }
-    function last_insert_id() {
-        return sqlite_last_insert_rowid ($this->db);
+
+    function last_insert_id()
+    {
+        return sqlite_last_insert_rowid($this->db);
     }
-    function rows() {
+
+    function rows()
+    {
         return sqlite_num_rows($this->query);
     }
-    function getColumns($table) {
+
+    function getColumns($table)
+    {
         return $this->query("PRAGMA table_info($table)")->fetchAll(SQLite::ASSOC);
     }
-    function getTables() {
+
+    function getTables()
+    {
         return $this->query("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")->fetchAll(SQLite::ASSOC);
     }
-    function escape_string($string, $quotestyle='both') {
-        if( function_exists('sqlite_escape_string') ){
+
+    function escape_string($string, $quotestyle = 'both')
+    {
+        if (function_exists('sqlite_escape_string')) {
             $string = sqlite_escape_string($string);
-            $string = str_replace("''","'",$string); #- no quote escaped so will work like with no sqlite_escape_string available
+            $string = str_replace("''", "'", $string); #- no quote escaped so will work like with no sqlite_escape_string available
+        } else {
+            $escapes = array("\x00", "\x0a", "\x0d", "\x1a", "\x09", "\\");
+            $replace = array('\0', '\n', '\r', '\Z', '\t', "\\\\");
         }
-        else{
-            $escapes = array("\x00", "\x0a", "\x0d", "\x1a", "\x09","\\");
-            $replace = array('\0', '\n', '\r', '\Z' , '\t', "\\\\");
-        }
-        switch(strtolower($quotestyle)){
+        switch (strtolower($quotestyle)) {
             case 'double':
             case 'd':
             case '"':
@@ -139,17 +160,18 @@ class sqlite {
                 $replace[] = "''";
                 break;
         }
-        return str_replace($escapes,$replace,$string);
+        return str_replace($escapes, $replace, $string);
     }
-    function error($error) {
-        if(!$this->db) {
+
+    function error($error)
+    {
+        if (!$this->db) {
             return '[ERROR] No Db Handler';
         }
-        if(empty($error)) {
-            return sqlite_last_error ($this->db);
+        if (empty($error)) {
+            return sqlite_last_error($this->db);
         }
         return $error;
     }
 }
 
-?>

@@ -6,12 +6,11 @@
  *
  *
  *
- *  @package    file-system
- *  @version    1.0
+ * @package    file-system
+ * @version    1.0
  */
-
-
-Class FileSystem {
+Class FileSystem
+{
 
     private static $instance;
 
@@ -19,13 +18,14 @@ Class FileSystem {
 
     protected $mode;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
 
     public static function getInstance()
     {
-        if (!isset(self::$instance))
-        {
+        if (!isset(self::$instance)) {
             self::$instance = new FileSystem();
         }
 
@@ -36,7 +36,7 @@ Class FileSystem {
     public function getExtension($filename)
     {
 
-        $fileParts = explode(".",$filename);
+        $fileParts = explode(".", $filename);
         return end($fileParts);
 
 
@@ -46,7 +46,7 @@ Class FileSystem {
     {
         $resolvedDirs = array();
 
-        foreach ((array) $dirs as $dir) {
+        foreach ((array)$dirs as $dir) {
             if (is_dir($dir)) {
                 $resolvedDirs[] = $dir;
             } elseif ($glob = glob($dir, GLOB_BRACE | GLOB_ONLYDIR)) {
@@ -60,17 +60,19 @@ Class FileSystem {
 
         return $this;
     }
-    public function Read($filename,$remote=false){
-        if (!$remote){
-            if (file_exists($filename)){
+
+    public function Read($filename, $remote = false)
+    {
+        if (!$remote) {
+            if (file_exists($filename)) {
                 $handle = fopen($filename, "r");
                 $content = fread($handle, filesize($filename));
                 fclose($handle);
                 return $content;
+            } else {
+                return "The specified filename does not exist";
             }
-            else {return "The specified filename does not exist";}
-        }
-        else{
+        } else {
 
             $content = file_get_contents($filename);
             return $content;
@@ -78,9 +80,14 @@ Class FileSystem {
 
     }
 
-    public function Write($data,$filename,$append=false){
-        if (!$append){$mode="w";} else{$mode="a";}
-        if($handle = fopen($filename,$mode)){
+    public function Write($data, $filename, $append = false)
+    {
+        if (!$append) {
+            $mode = "w";
+        } else {
+            $mode = "a";
+        }
+        if ($handle = fopen($filename, $mode)) {
             fwrite($handle, $data);
             fclose($handle);
             return true;
@@ -93,47 +100,49 @@ Class FileSystem {
         $this->mkdir($path);
     }
 
-    private function mkdir($path) {
+    private function mkdir($path)
+    {
         $path = str_replace("\\", "/", $path);
         $path = explode("/", $path);
 
         $rebuild = '';
-        foreach($path AS $p) {
+        foreach ($path AS $p) {
 
             // Check for Windows drive letter
-            if(strstr($p, ":") != false) {
+            if (strstr($p, ":") != false) {
                 $rebuild = $p;
                 continue;
             }
             $rebuild .= "/$p";
             //echo "Checking: $rebuild\n";
-            if(!is_dir($rebuild)) mkdir($rebuild);
+            if (!is_dir($rebuild)) mkdir($rebuild);
         }
     }
 
-    public function Delete($src){
-        if(is_dir($src) && $src != ""){
+    public function Delete($src)
+    {
+        if (is_dir($src) && $src != "") {
             $result = $this->Listing($src);
 
             // Bring maps to back
             // This is need otherwise some maps
             // can't be deleted
             $sort_result = array();
-            foreach($result as $item){
-                if($item['type'] == "file"){
+            foreach ($result as $item) {
+                if ($item['type'] == "file") {
                     array_unshift($sort_result, $item);
-                }else{
+                } else {
                     $sort_result[] = $item;
                 }
             }
 
             // Start deleting
-            while(file_exists($src)){
-                if(is_array($sort_result)){
-                    foreach($sort_result as $item){
-                        if($item['type'] == "file"){
+            while (file_exists($src)) {
+                if (is_array($sort_result)) {
+                    foreach ($sort_result as $item) {
+                        if ($item['type'] == "file") {
                             @unlink($item['fullpath']);
-                        }else{
+                        } else {
                             @rmdir($item['fullpath']);
                         }
                     }
@@ -141,19 +150,21 @@ Class FileSystem {
                 @rmdir($src);
             }
             return !file_exists($src);
-        }else{
+        } else {
             @unlink($src);
             return !file_exists($src);
         }
     }
-    function copy($src, $dest){
+
+    function copy($src, $dest)
+    {
 
         // If source is not a directory stop processing
-        if(!is_dir($src)) return false;
+        if (!is_dir($src)) return false;
 
         // If the destination directory does not exist create it
-        if(!is_dir($dest)) {
-            if(!mkdir($dest)) {
+        if (!is_dir($dest)) {
+            if (!mkdir($dest)) {
                 // If the destination directory could not be created stop processing
                 return false;
             }
@@ -161,26 +172,27 @@ Class FileSystem {
 
         // Open the source directory to read in files
         $i = new DirectoryIterator($src);
-        foreach($i as $f) {
-            if($f->isFile()) {
+        foreach ($i as $f) {
+            if ($f->isFile()) {
                 copy($f->getRealPath(), "$dest/" . $f->getFilename());
-            } else if(!$f->isDot() && $f->isDir()) {
+            } else if (!$f->isDot() && $f->isDir()) {
                 $this->copy($f->getRealPath(), "$dest/$f");
             }
         }
     }
 
-    function move($src, $dest){
+    function move($src, $dest)
+    {
 
         // If source is not a directory stop processing
-        if(!is_dir($src)) {
+        if (!is_dir($src)) {
             rename($src, $dest);
             return true;
         }
 
         // If the destination directory does not exist create it
-        if(!is_dir($dest)) {
-            if(!mkdir($dest)) {
+        if (!is_dir($dest)) {
+            if (!mkdir($dest)) {
                 // If the destination directory could not be created stop processing
                 return false;
             }
@@ -188,10 +200,10 @@ Class FileSystem {
 
         // Open the source directory to read in files
         $i = new DirectoryIterator($src);
-        foreach($i as $f) {
-            if($f->isFile()) {
+        foreach ($i as $f) {
+            if ($f->isFile()) {
                 rename($f->getRealPath(), "$dest/" . $f->getFilename());
-            } else if(!$f->isDot() && $f->isDir()) {
+            } else if (!$f->isDot() && $f->isDir()) {
                 $this->move($f->getRealPath(), "$dest/$f");
                 @unlink($f->getRealPath());
             }
@@ -199,33 +211,38 @@ Class FileSystem {
         @unlink($src);
     }
 
-    public function listing($path) {
+    public function listing($path)
+    {
         $arr = array();
-        if(is_dir($path)) {
+        if (is_dir($path)) {
             // Open the source directory to read in files
             $i = new DirectoryIterator($path);
-            foreach($i as $f) {
-                if(!$f->isDot())
+            foreach ($i as $f) {
+                if (!$f->isDot())
                     $arr[] = $f->getFilename();
             }
             return $arr;
         }
         return false;
     }
-    public function rmdirContent($path) {
+
+    public function rmdirContent($path)
+    {
         // Open the source directory to read in files
         $i = new DirectoryIterator($path);
-        foreach($i as $f) {
-            if($f->isFile()) {
+        foreach ($i as $f) {
+            if ($f->isFile()) {
                 unlink($f->getRealPath());
-            } else if(!$f->isDot() && $f->isDir()) {
+            } else if (!$f->isDot() && $f->isDir()) {
                 rmdir($f->getRealPath());
             }
         }
 
     }
-    public function remove($path) {
-        if(is_dir($path)) {
+
+    public function remove($path)
+    {
+        if (is_dir($path)) {
             rmdir($path);
         } else {
             unlink($path);
@@ -233,13 +250,14 @@ Class FileSystem {
     }
 
 
-    public function findByExtension($path, $ext){
+    public function findByExtension($path, $ext)
+    {
         $arr = array();
         $files = $this->listing($path);
 
         foreach ($files as $f) {
             $info = pathinfo($path . "/$f");
-            if(isset($info['extension']) && $info['extension'] == $ext)
+            if (isset($info['extension']) && $info['extension'] == $ext)
                 $arr[] = $path . "/$f";
         }
         return $arr;

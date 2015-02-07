@@ -1,61 +1,61 @@
 <?php
 
-    return
+return
 
-      [
+    [
 
-          'fetch' => 'object', // for mysql fetch pdo is using already PDO::FETCH_OBJ
+        'fetch' => 'object', // for mysql fetch pdo is using already PDO::FETCH_OBJ
 
-          'default' => 'mysql',
+        'default' => 'mysql',
 
-           'Connections' =>
+        'Connections' =>
 
             [
 
-                  'mysql' =>  [
+                'mysql' => [
 
-                      'host'     => 'localhost',
-                      'dbname'   => 'MVC',
-                      'username' => 'root',
-                      'password' => '',
-                      'driver'   => 'pdo',
-                      'charset'  => 'utf-8',
-                      'pdoType'  => 'mysql'
+                    'host' => 'localhost',
+                    'dbname' => 'MVC',
+                    'username' => 'root',
+                    'password' => '',
+                    'driver' => 'pdo',
+                    'charset' => 'utf-8',
+                    'pdoType' => 'mysql'
 
-                  ],
+                ],
 
-                 'sqlite' => [
+                'sqlite' => [
 
-                     'database' => 'dbname',
+                    'database' => 'dbname',
 
-                 ],
+                ],
 
                 'mssql' => [
 
-                    'host'     => 'hostname',
-                    'dbname'   => 'dbname',
+                    'host' => 'hostname',
+                    'dbname' => 'dbname',
                     'username' => 'root',
                     'password' => '',
-                    'driver'   => 'pdo',
-                    'pdoType'  => 'dblib'
+                    'driver' => 'pdo',
+                    'pdoType' => 'dblib'
 
                 ]
 
-             ],
+            ],
 
-          'predis' => [
+        'predis' => [
 
-              'cluster' => false,
+            'cluster' => false,
 
-              'default' => [
+            'default' => [
 
-                  'scheme'   => 'tcp',
-                  'host'     => '127.0.0.1',
-                  'port'     =>  6379,
-                  'database' =>  0,
+                'scheme' => 'tcp',
+                'host' => '127.0.0.1',
+                'port' => 6379,
+                'database' => 0,
 
-              ]
+            ]
 
-          ]
+        ]
 
-      ];
+    ];

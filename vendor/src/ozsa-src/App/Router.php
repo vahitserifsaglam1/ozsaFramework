@@ -1,174 +1,168 @@
 <?php
 namespace App;
 
- Class Router
+Class Router
 
- {
-      public static $js = array();
-      public static $css = array();
-      public static $template = array();
-      public static $files = array();
-      protected static $templateInstalled = false;
-      public static $templateArray;
+{
+    public static $js = array();
+    public static $css = array();
+    public static $template = array();
+    public static $files = array();
+    protected static $templateInstalled = false;
+    public static $templateArray;
 
-      public function __construct()
-      {
+    public function __construct()
+    {
 
-      }
-     public static function setTemplateArrays($array,$file)
-     {
-         self::$templateArray[$file] = $array;
-         self::templateInstall();
+    }
 
-     }
-     public static function templateInstall()
-     {
-         if(!self::$templateInstalled)
-         {
-             \Ozsa\Template\Engine::Installer();
-             self::$templateInstalled = true;
-         }
-         foreach(self::$templateArray as $key => $value)
-         {
+    public static function setTemplateArrays($array, $file)
+    {
+        self::$templateArray[$file] = $array;
+        self::templateInstall();
 
+    }
 
-                  self::templateLoader(array(),$key,$value);
+    public static function templateInstall()
+    {
+        if (!self::$templateInstalled) {
+            \Ozsa\Template\Engine::Installer();
+            self::$templateInstalled = true;
+        }
+        foreach (self::$templateArray as $key => $value) {
 
 
-         }
-
-     }
-     public static function render($path,array $params = array(),$rendefiles = '', array $templateArray = array())
-     {
-
-         if(isset($params) && !empty($params))
-         {
-             $params = $params;
-         }
-         if(is_array($rendefiles))
-         {
-             $rende = self::renderFiles($rendefiles);
+            self::templateLoader(array(), $key, $value);
 
 
-         }else{
-             $rende = array();
-         }
-         $extra = array_merge($params,$rende);
+        }
 
-         extract($extra);
+    }
 
-         ob_start();
+    public static function render($path, array $params = array(), $rendefiles = '', array $templateArray = array())
+    {
 
-         if( isset($files) && is_string($files) )
-         {
-             file_put_contents($path,$files);
-         }
-         if(isset($rendefiles['templates'])) $templates = $rendefiles['templates'];
+        if (isset($params) && !empty($params)) {
+            $params = $params;
+        }
+        if (is_array($rendefiles)) {
+            $rende = self::renderFiles($rendefiles);
 
-         if(isset($templates))
-         {
 
-             \Ozsa\Template\Engine::Installer();
-             self::$templateInstalled = true;
-             if( is_array($templates) )
-             {
+        } else {
+            $rende = array();
+        }
+        $extra = array_merge($params, $rende);
 
-                 foreach($templates as $tfiles)
-                 {
+        extract($extra);
 
-                         \Ozsa\Template\Engine::templateInstaller(array(),$templateArray,$tfiles);
+        ob_start();
 
-                 }
+        if (isset($files) && is_string($files)) {
+            file_put_contents($path, $files);
+        }
+        if (isset($rendefiles['templates'])) $templates = $rendefiles['templates'];
 
-             }
-         }
+        if (isset($templates)) {
 
-         if(!strstr($path,'.php'))
-         {
-             $path = VIEW_PATH.$path.'.php';
-         }
+            \Ozsa\Template\Engine::Installer();
+            self::$templateInstalled = true;
+            if (is_array($templates)) {
 
-         include $path;
+                foreach ($templates as $tfiles) {
 
-         return null;
-     }
-     public static function templateLoader($options = array(),$file,$arrays)
-     {
-          \Ozsa\Template\Engine::templateInstaller($options,$arrays,$file);
-     }
-     public static function renderFiles(array $filess = array())
-     {
-         $files = array(
-             'css' => array(),
-             'js' => array(),
-             'files' => array()
-         );
+                    \Ozsa\Template\Engine::templateInstaller(array(), $templateArray, $tfiles);
 
-        foreach($filess as $key => $value)
-        {
+                }
 
-            foreach ( $value as $k )
-            {
+            }
+        }
+
+        if (!strstr($path, '.php')) {
+            $path = VIEW_PATH . $path . '.php';
+        }
+
+        include $path;
+
+        return null;
+    }
+
+    public static function templateLoader($options = array(), $file, $arrays)
+    {
+        \Ozsa\Template\Engine::templateInstaller($options, $arrays, $file);
+    }
+
+    public static function renderFiles(array $filess = array())
+    {
+        $files = array(
+            'css' => array(),
+            'js' => array(),
+            'files' => array()
+        );
+
+        foreach ($filess as $key => $value) {
+
+            foreach ($value as $k) {
 
                 $files[$key][] = $k;
             }
         }
 
-         return self::createHead($files);
-     }
+        return self::createHead($files);
+    }
 
-     public static function createHead($files)
- {
+    public static function createHead($files)
+    {
 
 
-       if(isset($files['css']))self::$css = self::createCss($files['css']);
-       if(isset($files['js'])) self::$js = self::createJs($files['js']);
-       if(isset($files['files']) )self::$files = self::createFiles($files['files']);
+        if (isset($files['css'])) self::$css = self::createCss($files['css']);
+        if (isset($files['js'])) self::$js = self::createJs($files['js']);
+        if (isset($files['files'])) self::$files = self::createFiles($files['files']);
 
-      $return =  array(
-          'css' => self::$css,
-          'js' => self::$js,
-          'files' => self::$files
-      );
+        $return = array(
+            'css' => self::$css,
+            'js' => self::$js,
+            'files' => self::$files
+        );
 
-     return $return;
+        return $return;
 
- }
-      public static function createFiles($files)
-      {
+    }
 
-          $s = '<?php ';
+    public static function createFiles($files)
+    {
 
-          foreach($files as $file)
-          {
-              $s .= 'include "'._PUBLIC."files/".$file.'";';
-          }
-          $s .= '?>';
-          return $s;
-      }
-      public static function createCss($files)
-      {
-           $s = '';
-           foreach($files as $key)
-           {
-               $s .= '<link type="text/css" href="'._PUBLIC.'css/'.$key.'"/>'."\n";
-           }
+        $s = '<?php ';
 
-          return $s;
-      }
-     public static function createJs($files)
-     {
-         $s = '';
-         foreach($files as $key)
-         {
-             $s .= '<script type="text/javascript" href="'._PUBLIC.'js/'.$key.'" /></script>'."\n";
-         }
-         return $s;
-     }
+        foreach ($files as $file) {
+            $s .= 'include "' . _PUBLIC . "files/" . $file . '";';
+        }
+        $s .= '?>';
+        return $s;
+    }
 
-     public static function __callStatic($name,$params)
-     {
+    public static function createCss($files)
+    {
+        $s = '';
+        foreach ($files as $key) {
+            $s .= '<link type="text/css" href="' . _PUBLIC . 'css/' . $key . '"/>' . "\n";
+        }
 
-         return call_user_func_array(array('Router',$name),$params);
-     }
- }
+        return $s;
+    }
+
+    public static function createJs($files)
+    {
+        $s = '';
+        foreach ($files as $key) {
+            $s .= '<script type="text/javascript" href="' . _PUBLIC . 'js/' . $key . '" /></script>' . "\n";
+        }
+        return $s;
+    }
+
+    public static function __callStatic($name, $params)
+    {
+
+        return call_user_func_array(array('Router', $name), $params);
+    }
+}
