@@ -120,7 +120,7 @@
 
                    $return =  false;
 
-                   throw new \Exceptions\undefinedTableException( sprintf( "%s Tablosu Veritabanında bulunamadı ",$tableName) );
+                   throw new Database\Exceptions\TableExceptions\undefinedTableException( sprintf( "%s Tablosu Veritabanında bulunamadı ",$tableName) );
 
                }
 

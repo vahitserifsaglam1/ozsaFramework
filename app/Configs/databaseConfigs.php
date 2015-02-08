@@ -15,7 +15,7 @@
                   'mysql' =>  [
 
                       'host'     => 'localhost',
-                      'dbname'   => 'MVC',
+                      'dbname'   => 'mvc',
                       'username' => 'root',
                       'password' => '',
                       'driver'   => 'pdo',
@@ -30,7 +30,7 @@
 
                  ],
 
-                'mssql' => [
+                'pgsql' => [
 
                     'host'     => 'hostname',
                     'dbname'   => 'dbname',

@@ -18,7 +18,7 @@
 
       protected $selectedTable;
 
-      protected $adapter;
+      public $adapter;
 
       protected $limit;
 
@@ -34,7 +34,11 @@
 
       protected $join;
 
-      public function __construct()
+      protected $default;
+
+      protected $with;
+
+      public function __construct( $selectedTable = '')
       {
           $this->adapter = \Desing\Single::make( 'Adapter\Adapter','Database' );
 
@@ -43,14 +47,16 @@
           $this->adapter->addAdapter(\Desing\Single::make('\Database\Finder\tableFinder',$this->adapter->Connector));
 
           $this->adapter->alLAdaptersBoot();
+
+          $this->selectedTable = $selectedTable;
       }
 
 
-      public static function boot()
+      public static function boot( $selectedTable = '' )
       {
 
 
-         return new static();
+         return new static( $selectedTable );
 
 
       }
@@ -106,6 +112,21 @@
 
           }
 
+      }
+      /*
+        *  [ 'INNER JOIN' => [
+        *    'yazarlar','id','id'
+        *   ]
+        * reset($where);
+        * list ($key1, $val1) = each($where);
+       */
+
+
+      public function with( $wid = '')
+      {
+          $this->with[$this->selectedTable] = $wid;
+
+          return $this;
       }
 
       public function setArray( Array $array = [] )
@@ -183,6 +204,18 @@
 
       }
 
+      public function wither($with,$where)
+      {
+          reset($where);
+
+          list($key,$value) = each($where);
+
+          return $this->joiner( ['INNER JOIN' => [
+               $with,$key,$key
+          ]]);
+
+      }
+
       public function mixer(array $array,$end)
       {
           $s = "";
@@ -207,9 +240,9 @@
           $s = "";
           foreach ( $array as $whereKey => $whereValue)
           {
-              $s .= $whereKey.'='."'$whereValue' AND";
+              $s .= $whereKey.'='."'$whereValue' AND ";
           }
-          return rtrim($s," AND");
+          return rtrim($s," AND ");
       }
 
       /**
@@ -230,6 +263,10 @@
       /**
        * @param $join
        * @return string
+       *
+       *  [ 'INNER JOIN' => [
+       *    'yazarlar','id','id'
+       *   ]
        */
       public function joiner($join)
       {
@@ -326,8 +363,7 @@
           $like  = $this->like[$table];
           $join  = $this->join[$table];
           $limit = $this->limit[$table];
-
-
+          $with =  $this->with[$table];
 
           //where baslangic
 
@@ -346,9 +382,13 @@
 
           //join baslangic
 
-          if(is_array($join))
+          if(is_array($join) && !$with && !is_string($with) )
           {
               $join = $this->joiner($join);
+          }elseif( $with && is_string($with) ){
+
+              $join = $this->wither($with,$where);
+
           }
 
           //join son
@@ -455,6 +495,13 @@
           }
 
 
+
+      }
+
+      public function __set( $name, $value )
+      {
+
+           $this->set[$this->selectedTable][$name] = $value;
 
       }
 

@@ -13,7 +13,7 @@
         public function __construct( $userTable )
         {
             $this->userTable = $userTable;
-            return $this;
+
         }
 
         public function setTable($table)

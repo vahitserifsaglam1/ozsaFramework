@@ -9,6 +9,7 @@
 
      public $connectionAdapter;
 
+
      public function __construct( $databaseConfigs = null)
 
      {
@@ -49,6 +50,7 @@
 
          $adapterName = $default.'Connector';
 
+
          $this->connectionAdapter = \Desing\Single::make('Database\Connector\Conntector'.$default,$defaultConnection);
 
          return $this->connectionAdapter;
@@ -57,6 +59,7 @@
 
      public function __call( $name ,$params)
      {
+
          $return =  call_user_func_array(array($this->connectionAdapter,$name),$params);
          if(  $return )
          {
@@ -64,7 +67,7 @@
               return $return;
 
          }else{
-             throw new \Database\Exceptions\MethodExceptions\undefinedMethodException( sprintf(" %s sınıfı için yaptığınız %s method çağırması başarısız oldu",$this->connectionAdapter->getName(),$name));
+             throw new \Database\Exceptions\MethodExceptions\undefinedMethodException( sprintf(" %s sınıfı için yaptığınız %s method çağırması başarısız oldu, Dönen yanıt : %s",$this->connectionAdapter->getName(),$name,$this->connectionAdapter->errorInfo()[2]));
          }
 
      }

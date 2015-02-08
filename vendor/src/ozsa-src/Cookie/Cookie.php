@@ -12,10 +12,6 @@
         public  function __construct($return = false)
         {
             $this->boot();
-            if($return)
-            {
-                return $this->_cookie;
-            }
         }
 
         public function boot()
@@ -53,7 +49,7 @@
         {
             $s = new static(true);
 
-            return call_user_func_array(array($s,$name),$params);
+            return call_user_func_array(array($s->_cookie,$name),$params);
 
         }
 

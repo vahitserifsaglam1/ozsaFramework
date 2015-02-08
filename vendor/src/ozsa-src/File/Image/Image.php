@@ -1,7 +1,12 @@
 <?php
-namespace File\Image;
-trait imagetraits{
-     /**
+namespace File;
+
+
+/**
+ * Class image
+ */
+class Image{
+    /**
      * @var $image
      * @access private
      */
@@ -99,9 +104,9 @@ trait imagetraits{
     public function copy(){
         $file = $this->folder."/".$this->newFileName."_copied".$this->ext;
         if(file_exists($this->filePath)){
-           $copy =  copy($this->filePath,$file);
-             $this->filePath = $file;
-             return ($copy) ? $this:false;
+            $copy =  copy($this->filePath,$file);
+            $this->filePath = $file;
+            return ($copy) ? $this:false;
         }
         else{
             return false;
@@ -114,9 +119,9 @@ trait imagetraits{
      */
     public function setFile($file)
     {
-         $this->filePath = $file;
-         $this->ext = substr($file,-4,4);
-         return $this;
+        $this->filePath = $file;
+        $this->ext = substr($file,-4,4);
+        return $this;
     }
 
     /**
@@ -138,26 +143,26 @@ trait imagetraits{
         switch($this->ext)
         {
             case '.png':
-               $kaynak = imagecreatefrompng($dosya);
+                $kaynak = imagecreatefrompng($dosya);
                 imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
                 imagepng($hedef,$file,100);
                 break;
             case '.jpg':
-                 $kaynak = imagecreatefromjpeg($dosya);
+                $kaynak = imagecreatefromjpeg($dosya);
                 imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
-                 imagejpeg($hedef,$file,100);
+                imagejpeg($hedef,$file,100);
                 break;
             case '.gif':
-                 $kaynak = imagecreatefromgif($dosya);
+                $kaynak = imagecreatefromgif($dosya);
                 imagecopyresampled($hedef,$kaynak,0,0,0,0,$width,$height,$genislik,$yukseklik);
-                 imagegif($hedef,$file,100);
+                imagegif($hedef,$file,100);
                 break;
         }
         imagedestroy($hedef);
         imagedestroy($kaynak);
         unlink($dosya);
         $this->filePath = $file;
-       return $this;
+        return $this;
 
     }
 
@@ -175,15 +180,15 @@ trait imagetraits{
         switch($file_ext)
         {
             case '.jpg':
-                  $img = imagecreatefromjpeg($file);
-                  imagejpeg($img,$newFile,$quality);
+                $img = imagecreatefromjpeg($file);
+                imagejpeg($img,$newFile,$quality);
                 break;
             case '.png':
                 if($quality>10){
                     $quality = ceil(100/10);
                 }
-                 $img = imagecreatefrompng($file);
-                 imagepng($img,$newFile,$quality);
+                $img = imagecreatefrompng($file);
+                imagepng($img,$newFile,$quality);
                 break;
             case '.gif':
                 $img = imagecreatefromgif($file);
@@ -201,33 +206,33 @@ trait imagetraits{
      * @return $this
      */
     public function imageRotate($x = 90)
-   {
-      $file = $this->filePath;
+    {
+        $file = $this->filePath;
         $file_ext = $this->ext;
-         $newFile = $this->folder."/".$this->newFileName."_rotated".$file_ext;
-          switch($file_ext)
-          {
-              case '.png':
-                    $kaynak = imagecreatefrompng($file);
-                    $rotated = imagerotate($kaynak,$x,0);
-                    imagepng($rotated,$newFile,10);
-                  break;
-              case '.jpg':
-                  $kaynak = imagecreatefromjpeg($file);
-                  $rotated = imagerotate($kaynak,$x,0);
-                  imagejpeg($rotated,$newFile,100);
-                  break;
-              case '.gif':
-                   $kaynak = imagecreatefromgif($file);
-                   $rotated = imagerotate($kaynak,$x,0);
-                   imagegif($rotated,$newFile);
-                  break;
-          }
-       imagedestroy($kaynak);
-       unlink($file);
-       $this->filePath = $newFile;
-       return $this;
-   }
+        $newFile = $this->folder."/".$this->newFileName."_rotated".$file_ext;
+        switch($file_ext)
+        {
+            case '.png':
+                $kaynak = imagecreatefrompng($file);
+                $rotated = imagerotate($kaynak,$x,0);
+                imagepng($rotated,$newFile,10);
+                break;
+            case '.jpg':
+                $kaynak = imagecreatefromjpeg($file);
+                $rotated = imagerotate($kaynak,$x,0);
+                imagejpeg($rotated,$newFile,100);
+                break;
+            case '.gif':
+                $kaynak = imagecreatefromgif($file);
+                $rotated = imagerotate($kaynak,$x,0);
+                imagegif($rotated,$newFile);
+                break;
+        }
+        imagedestroy($kaynak);
+        unlink($file);
+        $this->filePath = $newFile;
+        return $this;
+    }
 
     /**
      * @param sting $string
@@ -239,18 +244,18 @@ trait imagetraits{
         return $this;
     }
     /**
-    * @param int $boyut
-    * @param int $sol
-    * @param int $yukari
-    * @return $this
-    */
-   public function setImageStringOptions($boyut = 2,$sol = 5,$yukari = 1)
-   {
-       $this->imageStingSol = $sol;
-       $this->imageStringYukari = $yukari;
-       $this->imageStringBoyut = $boyut;
-       return $this;
-   }
+     * @param int $boyut
+     * @param int $sol
+     * @param int $yukari
+     * @return $this
+     */
+    public function setImageStringOptions($boyut = 2,$sol = 5,$yukari = 1)
+    {
+        $this->imageStingSol = $sol;
+        $this->imageStringYukari = $yukari;
+        $this->imageStringBoyut = $boyut;
+        return $this;
+    }
     /**
      * @param string $string
      * @return $this
@@ -263,50 +268,43 @@ trait imagetraits{
         $boyut = ($this->imageStringBoyut) ? $this->imageStringBoyut:2;
 
         $file = $this->filePath;
-         if($string == "")
-         {
-              $string = $this->string;
-              if($string == "")
-              {
-                   $string = "OZSAIMAGECLASS";
-              }
+        if($string == "")
+        {
+            $string = $this->string;
+            if($string == "")
+            {
+                $string = "OZSAIMAGECLASS";
+            }
 
-         }
-         $file_ext = $this->ext;
-         $newFile = $this->folder."/".$this->newFileName."_stringed".$file_ext;
-           switch($file_ext)
-           {
-               case '.jpg':
-                    $kaynak = imagecreatefromjpeg($file);
-                    $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                    imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                    imagejpeg($kaynak,$newFile,100);
-                   break;
-               case '.png':
-                   $kaynak = imagecreatefrompng($file);
-                   $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                   imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                   imagepng($kaynak,$newFile,10);
-                   break;
-               case '.gif':
-                    $kaynak = imagecreatefromgif($file);
-                    $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
-                    imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
-                    imagegif($kaynak,$newFile);
-                   break;
-           }
+        }
+        $file_ext = $this->ext;
+        $newFile = $this->folder."/".$this->newFileName."_stringed".$file_ext;
+        switch($file_ext)
+        {
+            case '.jpg':
+                $kaynak = imagecreatefromjpeg($file);
+                $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
+                imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
+                imagejpeg($kaynak,$newFile,100);
+                break;
+            case '.png':
+                $kaynak = imagecreatefrompng($file);
+                $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
+                imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
+                imagepng($kaynak,$newFile,10);
+                break;
+            case '.gif':
+                $kaynak = imagecreatefromgif($file);
+                $renk = imagecolorallocatealpha($kaynak,255,255,255,50);
+                imagestring($kaynak,$boyut,$sol,$yukari,$string,$renk);
+                imagegif($kaynak,$newFile);
+                break;
+        }
         imagedestroy($kaynak);
         unlink($file);
         $this->filePath = $newFile;
         return $this;
     }
 
-}
-
-/**
- * Class image
- */
-class image{
-    use imagetraits;
 }
  ?>

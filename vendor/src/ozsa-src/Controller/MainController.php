@@ -1,6 +1,6 @@
 <?php
 
-  class MainController extends DB {
+  class MainController extends Database {
       public $_modal;
       public $dbA;
       public $_assets;

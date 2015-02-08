@@ -20,7 +20,7 @@ class Session implements SessionInterface
     public function __construct()
     {
         $this->boot();
-        return $this->_session;
+
     }
 
     /**

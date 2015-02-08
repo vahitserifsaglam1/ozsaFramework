@@ -218,7 +218,7 @@
             $newFileName = $this->fileName.".pdf";
             $desc = "ozsaClass";
             if(is_string($content) || is_numeric($content)) {
-                $fpdf = new FPDF();
+                $fpdf = new \File\Excel\FPDF();
                 $fpdf->AddPage();
                 $fpdf->SetFont('Arial', 'b', 10);
                 $fpdf->Cell(40, 10, $content);

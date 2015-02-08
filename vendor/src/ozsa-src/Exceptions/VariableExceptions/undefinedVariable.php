@@ -1,22 +1,15 @@
 <?php
 
-  namespace Exceptions;
+  namespace Exceptions\VariableExceptions;
 
 
-  class undefinedVariableExcepiton
+  class undefinedVariableExcepiton extends \Exception
 
   {
 
-       public function __construct( $call,  $callSprintf = '' ){
+       public function __construct( $message = '' ){
 
-           new \MyException($call);
-
-           if(is_callable($callSprintf))
-           {
-               echo $callSprintf();
-           }
-
-
+           $this->message = $message;
 
        }
 

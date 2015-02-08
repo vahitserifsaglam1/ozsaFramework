@@ -86,7 +86,6 @@
 
               $params = $this->paramsCheck( $ex );
 
-              $render = new \App\Router();
 
               if( $view != $appPath && $view != $systemPath && !strstr($_SERVER['REQUEST_URI'], 'public.php'))
               {
