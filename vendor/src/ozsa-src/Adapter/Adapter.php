@@ -16,7 +16,7 @@
            $this->page = $page;
            return $this;
        }
-       public function alLAdabtersBoot()
+       public function alLAdaptersBoot()
        {
            foreach ( $this->adapter[$this->page]  as $key => $values )
            {
@@ -113,5 +113,13 @@
        {
            return $this->adapter[$this->page];
        }
+
+       public function __get($name)
+       {
+
+           return $this->adapter[$this->page][$name]['adapter'];
+       }
+
+
 
    }

@@ -125,7 +125,7 @@
 
                   if(is_array($value))
                   {
-                      self::validatorOzsa($value);
+                      self::validateOzsa($value);
                   }else{
 
                       $return = filter_var(str_replace(array('<script>',"'",'"','</script>','<?','?>',' = ','=',"or","select"),'',htmlentities(htmlspecialchars(strip_tags($value)))),FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);

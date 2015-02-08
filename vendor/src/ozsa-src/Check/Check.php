@@ -1,4 +1,5 @@
-<?php namespace Human;
+<?php
+namespace Check;
 
       class Validate
       {

@@ -28,15 +28,15 @@
               $this->files = $_FILES;
 
           }
-          if($_GET)
+          if($_GET && is_array($_GET))
           {
               $this->get = $_GET;
-              if($validate) $this->setPost( GUMP::xss_clean(Validator::validateOzsa($this->get)));
+              if($validate) $this->setPost( \GUMP::xss_clean($this->get));
           }
           if($_POST)
           {
               $this->post = $_POST;
-              if($validate) $this->setPost( GUMP::xss_clean(\Validator::validateOzsa($this->post)));
+              if($validate) $this->setPost( \GUMP::xss_clean($this->post));
           }
 
           if($_GET['url'] == 'public.php') unset($_GET['url']);
