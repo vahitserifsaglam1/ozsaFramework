@@ -1,64 +1,34 @@
 <?php
-class Session implements SessionInterface
-{
-    /**
-     * @var string
-     */
-    private  $_session;
 
-    /**
-     * @var array,
-     */
+  class Session{
 
-    private  $_sessionBase = array(
-        'ozsa' => true,'php' => true,'json' => false,
-    );
+         public $configs;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->boot();
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function boot()
-    {
-         $configs = require APP_PATH.'Configs/Configs.php';
-
-         $configs = $configs['Session'];
-
-         $type = $configs['type'];
-
-        if(isset($this->_sessionBase[$type]))
-        {
-
-             $this->_session = $type.'Session';
-
-        }else{
-
-            throw new Exception(" $type Session tipi desteklenmemektedir ");
-
-        }
-    }
-
-    /**
-     * @param $name
-     * @param $params
-     * @return mixed
-     */
-
-    public static function __callStatic($name,$params)
-    {
-        $s = new static();
-
-        return call_user_func_array(array($s->_session,$name),$params);
-    }
+         public $manager;
 
 
+         public function __construct()
+         {
 
-}
+             $this->configs = require APP_PATH.'Configs/strogeConfigs.php';
+
+             $this->manager = \Desing\Single::make('\Session\SessionManager',$this->configs);
+
+             $this->manager->boot();
+
+         }
+
+      public function __call($name, $params)
+      {
+
+         return call_user_func_array(array($this->manager->connector,$name),$params);
+
+      }
+
+      public static function __callStatic($name,$params)
+      {
+          $s = new static;
+          return call_user_func_array(array($s->manager->connector,$name),$params);
+      }
+
+  }

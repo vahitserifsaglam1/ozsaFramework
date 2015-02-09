@@ -41,6 +41,27 @@
             );
         }
 
+        public static function Http_Auth( $metin = "OzsaFramework")
+
+        {
+
+            if (!isset($_SERVER['PHP_AUTH_USER'])) {
+                header('WWW-Authenticate: Basic realm="'.$metin.'"');
+                header('HTTP/1.0 401 Unauthorized');
+                echo 'Doğrulamayı Pas geçtiniz';
+                exit;
+            } else {
+                if( static::attempt(['email' => $_SERVER['PHP_AUTH_USER'],
+                'passoword' => $_SERVER['PHP_AUTH_PW']]))
+                {
+                  #echo "giriş doğru";
+                }else{
+                   # echo "giriş yanlış";
+                }
+
+            }
+        }
+
         public static function attempt ( Array $array = array() )
         {
 

@@ -38,13 +38,13 @@
 
       }
 
-     public function append ( String $string = '' )
+     public function append (  $string = '' )
      {
           $this->string .= $string;
          return $this;
      }
 
-      public function prepend ( String $substring = '' )
+      public function prepend (  $substring = '' )
       {
           $this->string = $substring.$this->string;
           return $this;
@@ -129,6 +129,13 @@
          return $this->string;
      }
 
+     public static function boot( $string = null )
+     {
+
+         return new static($string);
+
+     }
+
      public function crypter( $metin, $kontrol = false )
      {
           if( !$kontrol )
@@ -144,6 +151,7 @@
              }
          }
      }
+
 
 
  }

@@ -50,8 +50,9 @@
 
          $adapterName = $default.'Connector';
 
+        # $this->connectionAdapter = \Desing\Single::make('Database\Connector\Conntector'.$default,$defaultConnection);
 
-         $this->connectionAdapter = \Desing\Single::make('Database\Connector\Conntector'.$default,$defaultConnection);
+         $this->connectionAdapter = \Support\Classer\Classer::make('\Database\Connector\Connector'.$default,$defaultConnection);
 
          return $this->connectionAdapter;
 

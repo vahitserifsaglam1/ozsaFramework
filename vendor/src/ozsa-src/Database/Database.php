@@ -16,6 +16,8 @@
 
       const FETCH_BOTH = 4;
 
+      const EXTENDTABLE = 'table_name';
+
       protected $selectedTable;
 
       public $adapter;
@@ -38,6 +40,14 @@
 
       protected $with;
 
+      protected $lastQuery;
+
+      protected $pagination;
+
+      protected $lastFetch;
+
+      protected $extentedClass;
+
       public function __construct( $selectedTable = '')
       {
           $this->adapter = \Desing\Single::make( 'Adapter\Adapter','Database' );
@@ -48,7 +58,30 @@
 
           $this->adapter->alLAdaptersBoot();
 
-          $this->selectedTable = $selectedTable;
+          $this->extentedClass = get_called_class();
+
+          if($selectedTable === '' )
+          {
+              $this->selectedTable = $selectedTable;
+          }else{
+
+
+
+              $vars = get_class_vars($this->extentedClass);
+
+              if( isset($vars[static::EXTENDTABLE]))
+
+              {
+
+                  $this->selectedTable = $vars[static::EXTENDTABLE];
+
+              }
+
+
+
+          }
+
+
       }
 
 
@@ -126,6 +159,8 @@
       {
           $this->with[$this->selectedTable] = $wid;
 
+          $this->que($this->read(false),true);
+
           return $this;
       }
 
@@ -160,6 +195,7 @@
 
           $this->select[$this->selectedTable] = $select;
 
+
           return $this;
       }
 
@@ -167,6 +203,8 @@
       {
 
           $this->like[$this->selectedTable]=$array;
+
+          $this->que($this->read(false),true);
 
           return $this;
 
@@ -177,6 +215,8 @@
 
           $this->join[$this->selectedTable] = $join;
 
+          $this->que($this->read(false),true);
+
           return $this;
 
       }
@@ -186,21 +226,28 @@
 
           $this->where[$this->selectedTable] = $where;
 
+          $this->que($this->read(false),true);
+
           return $this;
 
       }
 
 
 
-      public function find( Array $int = array() )
+      public function find(  $int  )
 
       {
 
-
+           if(!is_array($int))
+           {
+               $int = array($int);
+           }
 
             $this->limit[$this->selectedTable] = $int;
 
-           return $this;
+            $this->que($this->read(false),true);
+
+            return $this;
 
       }
 
@@ -356,7 +403,7 @@
       /**
        * @return $this
        */
-      public function read()
+      public function read($que = true)
       {
           $table = $this->selectedTable;
           $where = $this->where[$table];
@@ -430,12 +477,15 @@
               $msg .= ' LIMIT '.$limit;
           }
 
-          return $this->que( $msg, true);
+          return ($que) ? $this->que($msg):$msg;
 
       }
 
       public function que($msg ,$fetch = false)
       {
+
+
+           $this->lastQuery = $msg;
 
 
 
@@ -446,7 +496,9 @@
               if( $fetch  )
               {
 
-                  $query = $query->fetchAll(static::FETCH_OBJ);
+                  $query = $query->fetch(static::FETCH_OBJ);
+
+                  $this->lastFetch = $query;
 
               }
 
@@ -456,10 +508,21 @@
               return false;
           }
 
+
+
           return  $query;
 
 
 
+
+      }
+
+      public function pagination()
+      {
+
+        $this->pagination =  Desing\Single::make('\Html\Pagination',$this->adapter->Connector->query($this->lastQuery)->rowCount());
+
+          return $this->pagination->execute(true);
 
       }
 
@@ -496,6 +559,12 @@
 
 
 
+      }
+
+      public function __get( $name )
+      {
+
+        return (isset($this->lastFetch) && is_object($this->lastFetch)) ? $this->lastFetch->$name:false;
       }
 
       public function __set( $name, $value )

@@ -2,55 +2,40 @@
 
 
     class Cookie{
-        private  $_cookie;
-
-
-        private  $_cookieBase = array(
-            'ozsa' => true,'json' => true,'php' => false,
-        );
-
-        public  function __construct($return = false)
+		
+        public static function flush()
         {
-            $this->boot();
-        }
+			
 
-        public function boot()
-        {
-            $configs = require APP_PATH.'Configs/cookieConfigs.php';
-
-
-            $type = $configs['type'];
-
-
-
-            if(isset($this->_cookieBase[$type]))
+            foreach($_COOKIE as  $key => $value)
+			
             {
-
-
-
-                 $className = $type.'Cookie';
-
-                 $this->_cookie = $className;
-
-
-
-            }else{
-                throw new Exception($type. 'Bu sınıf desteklenmemektedir');
+				
+                static::delete($key);
+				
             }
+			
         }
 
-        public function __call($name,$params)
+        public static function set($name,$value,$time=false)
         {
-
-            return call_user_func_array(array($this->_cookie,$name),$params);
-
+			
+            setcookie($name,$value,time()+$time);
+			
         }
-        public static function __callStatic($name,$params)
+
+        public static function get($name)
         {
-            $s = new static(true);
-
-            return call_user_func_array(array($s->_cookie,$name),$params);
-
+			
+            if(isset($_Cookie[$name])) return $_COOKIE[$name];else return false;
+			
         }
 
+
+        public static function delete($name)
+        {
+			
+            if(isset($_Cookie[$name])) setcookie($name,'',time()-29556466);else throw new Exception(" $name diye bir cookie bulunamadı ");
+			
+        }
     }

@@ -22,7 +22,7 @@
 
         }
 
-       public  function create( $configs = null)
+       public static  function create( $configs = null)
        {
            if(static::$installed == false) static::boot();
            if($configs == null)
@@ -33,7 +33,7 @@
 
            try{
 
-               $redis = new PredisClient( $configs );
+               $redis = new \PredisClient( $configs );
 
            }catch(\Exception $e)
            {

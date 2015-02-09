@@ -43,21 +43,21 @@ Class FilesystemLocal {
 
 
     }
-    public static function publicImg()
+    public  function publicImg()
     {
-        $scan = static::scan(_PUBLIC.'img/*.{png,jpg,gif}',GLOB_NOSORT);
+        $scan = $this->scan(_PUBLIC.'img/*.{png,jpg,gif}',GLOB_NOSORT);
 
         return $scan;
     }
-    public static function publicJs()
+    public  function publicJs()
     {
-        $scan = static::scan(_PUBLIC.'js/*.js',GLOB_NOSORT);
+        $scan = $this->scan(_PUBLIC.'js/*.js',GLOB_NOSORT);
 
         return $scan;
     }
-    public static function publicCss()
+    public  function publicCss()
     {
-        $scan = static::scan(_PUBLIC.'css/*.css',GLOB_NOSORT);
+        $scan = $this->scan(_PUBLIC.'css/*.css',GLOB_NOSORT);
 
         return $scan;
     }
@@ -79,12 +79,12 @@ Class FilesystemLocal {
 
         return $this;
     }
-    public static function scanType($path,$type)
+    public  function scanType($path,$type)
     {
         $pattern = $path.".{$type}";
         return glob($pattern,GLOB_BRACE);
     }
-    public static function scan($path,$type = GLOB_NOSORT,$realpath = false)
+    public  function Scan($path,$type = GLOB_NOSORT,$realpath = false)
     {
         $pattern = glob($path,$type);
         if($realpath) {
@@ -92,8 +92,17 @@ Class FilesystemLocal {
         }
         return $pattern;
     }
+
+    public function exists($path)
+    {
+
+        return ( file_exists($path ) ) ? true:false;
+
+    }
+
     public static function scanAll( $path = false )
     {
+
         if( !$path )
         {
             $path = APP_PATH.'Configs/';
@@ -153,7 +162,21 @@ Class FilesystemLocal {
         $this->mkdir($path);
     }
 
-    private function mkdir($path) {
+    public function Create($path)
+    {
+
+        if(!file_exists($path))
+        {
+
+            touch($path);
+
+        }
+
+        return $path;
+
+    }
+
+    public  function Mkdir($path) {
         $path = str_replace("\\", "/", $path);
         $path = explode("/", $path);
 
@@ -169,6 +192,8 @@ Class FilesystemLocal {
             //echo "Checking: $rebuild\n";
             if(!is_dir($rebuild)) mkdir($rebuild);
         }
+
+        return true;
     }
 
     public function Delete($src){
@@ -206,7 +231,7 @@ Class FilesystemLocal {
             return !file_exists($src);
         }
     }
-    function copy($src, $dest){
+    function Copy($src, $dest){
 
         // If source is not a directory stop processing
         if(!is_dir($src)) return false;
@@ -220,7 +245,7 @@ Class FilesystemLocal {
         }
 
         // Open the source directory to read in files
-        $i = new DirectoryIterator($src);
+        $i = new \DirectoryIterator($src);
         foreach($i as $f) {
             if($f->isFile()) {
                 copy($f->getRealPath(), "$dest/" . $f->getFilename());
@@ -230,7 +255,7 @@ Class FilesystemLocal {
         }
     }
 
-    function move($src, $dest){
+    function Move($src, $dest){
 
         // If source is not a directory stop processing
         if(!is_dir($src)) {
@@ -247,7 +272,7 @@ Class FilesystemLocal {
         }
 
         // Open the source directory to read in files
-        $i = new DirectoryIterator($src);
+        $i = new \DirectoryIterator($src);
         foreach($i as $f) {
             if($f->isFile()) {
                 rename($f->getRealPath(), "$dest/" . $f->getFilename());
@@ -259,7 +284,7 @@ Class FilesystemLocal {
         @unlink($src);
     }
 
-    public function listing($path) {
+    public function Listing($path) {
         $arr = array();
         if(is_dir($path)) {
             // Open the source directory to read in files
@@ -274,7 +299,7 @@ Class FilesystemLocal {
     }
     public function rmdirContent($path) {
         // Open the source directory to read in files
-        $i = new DirectoryIterator($path);
+        $i = new \DirectoryIterator($path);
         foreach($i as $f) {
             if($f->isFile()) {
                 unlink($f->getRealPath());
@@ -284,7 +309,7 @@ Class FilesystemLocal {
         }
 
     }
-    public function remove($path) {
+    public function Remove($path) {
         if(is_dir($path)) {
             rmdir($path);
         } else {

@@ -107,7 +107,13 @@
      {
          if($name=="setOpt")
          {
-             self::$options[$params[0]] = $params[1];
+             foreach($params as $key => $value )
+             {
+
+                 self::$options[$key] = $value;
+
+             }
+
          }
      }
 

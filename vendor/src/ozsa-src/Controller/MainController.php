@@ -2,12 +2,12 @@
 
   class MainController extends Database {
       public $_modal;
-      public $dbA;
+      public $db;
       public $_assets;
       public $_view;
       public function __construct()
       {
-         $this->dbA =  parent::__construct();
+         $this->db =  parent::__construct();
          $this->_assets = Desing\Single::make('\App\Assets');
           $this->_view =  Desing\Single::make('\View\Loader');
       }
@@ -37,7 +37,7 @@
        */
       public function __call($name,$params)
       {
-          if(method_exists($this->dbA,$name)) return call_user_func_array(array($this->dbA,$name),$params);
+          if(method_exists($this->db,$name)) return call_user_func_array(array($this->db,$name),$params);
 
           elseif(method_exists($this->_modal,$name)) return call_user_func_array(array($this->_modal,$name),$params);
 

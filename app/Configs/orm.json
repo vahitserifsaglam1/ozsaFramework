@@ -1,1 +1,0 @@
-{"tables":{"deneme":[["id","int(11)","NO","PRI",null,"auto_increment"],["texttable","text","YES","",null,""],["varchartable","varchar(255)","YES","",null,""]],"post":[["post_id","int(11)","NO","",null,""]],"tablename":[["aaaa","datetime","NO","",null,""]]}}

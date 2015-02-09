@@ -47,6 +47,13 @@ namespace Html;
             return $this;
         }
 
+        public static function boot( $records = null )
+        {
+
+            return new static( $records );
+
+        }
+
         /**
          * @param bool $return
          * @return string
@@ -82,6 +89,7 @@ namespace Html;
         {
             return '</div>';
         }
+
 
         /**
          * ****
@@ -124,6 +132,8 @@ namespace Html;
                  $msg .=  $this->linkAndMessageCreator($this->standartUrl,$i,$end);
 
             }
+
+
             return $msg;
         }
 

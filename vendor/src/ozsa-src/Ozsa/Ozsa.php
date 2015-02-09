@@ -16,6 +16,8 @@
  */
 Class Ozsa
 {
+
+
     public static function encode($array)
     {
         $ozsa = "#";
@@ -55,6 +57,8 @@ Class Ozsa
         }
         return $ozsa;
     }
+
+
     public static function decode($value)
     {
         $d = array();
@@ -77,5 +81,6 @@ Class Ozsa
         return $return;
 
     }
+
 }
 ?>
