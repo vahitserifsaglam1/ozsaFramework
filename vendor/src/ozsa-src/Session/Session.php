@@ -18,6 +18,13 @@
 
          }
 
+      public static function boot()
+      {
+
+          return new static();
+
+      }
+
       public function __call($name, $params)
       {
 

@@ -35,9 +35,3 @@
                            fclose($ac);
            }
      }
-
-  function array_get($names, $id, $message = 'No name')
-  {
-      $name = isset($names[$id]) ? $names[$id] : $message ;
-      return $name;
-  }

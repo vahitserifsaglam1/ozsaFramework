@@ -5,7 +5,7 @@
  class Schema
  {
 
-     public static function create( $tableName, $callAble )
+     public static function table( $tableName, $callAble )
      {
          $table = \Database\Schema\Blueprint::boot( $tableName );
 
@@ -29,6 +29,15 @@
          $finder->returnDatabases();
 
          return $finder->changeName( $oldname,$newname );
+
+     }
+
+     public static function drop( $tableName )
+     {
+
+          $database = \Database::boot('');
+
+          $database->query("DROP TABLE $tableName");
 
      }
 

@@ -62,7 +62,7 @@
             }
         }
 
-        public static function attempt ( Array $array = array() )
+        public static function attempt ( Array $array = array(), $remember = false)
         {
 
             $creator = static::creator($array);
@@ -81,6 +81,14 @@
                    if ( $src->rowCount() )
                    {
 
+                       if($remember)
+                       {
+                           Session::set('login', $key[0]);
+                           $time =  \Carbon\Carbon::now()->addHour(5);
+                           Cookie::set('login',$key[0], $time);
+
+                       }
+
                        return true;
 
                    }  else{
@@ -92,8 +100,6 @@
 
                    return false;
                }
-
-            Session::set('login', $key[0]);
 
             static::$key = $values[0];
 

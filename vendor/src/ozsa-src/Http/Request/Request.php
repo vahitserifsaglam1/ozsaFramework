@@ -8,7 +8,9 @@
       protected $client;
       protected $responseGet;
       protected $responsePost;
-      protected $_uri  =  null;
+      private $_queryString;
+      private $_uri;
+      private $_requestMethod;
 
       public function __construct()
       {
@@ -24,6 +26,65 @@
 
           return self::$_singleton;
       }
+
+      public function getQueryString()
+      {
+          if ($this->_queryString === null) {
+              $this->_queryString = self::getVar('QUERY_STRING', false);
+          }
+          return $this->_queryString;
+      }
+      public function isHttps()
+      {
+          return (array_key_exists('HTTPS', $_SERVER) || $_SERVER['HTTPS'] === 'off');
+      }
+      public function isGet()
+      {
+          return $this->_requestMethod === 'GET';
+      }
+      public function isPost()
+      {
+          return $this->_requestMethod === 'POST';
+      }
+      public function isDelete()
+      {
+          return $this->_requestMethod === 'DELETE';
+      }
+      public function isPut()
+      {
+          return $this->_requestMethod === 'PUT';
+      }
+      public function isHead()
+      {
+          return $this->_requestMethod === 'HEAD';
+      }
+      public function isAjax()
+      {
+          return ($_SERVER['X_REQUESTED_WITH'] !== null && $_SERVER['X_REQUESTED_WITH'] === 'XMLHttpRequest');
+      }
+      public function httpGet($index = null)
+      {
+          if ($index === null) {
+              return $_GET;
+          }
+          return (array_key_exists($index, $_GET)) ? $_GET[$index] : null;
+      }
+      public function httpPost($index = null)
+      {
+          if ($index === null) {
+              return $_POST;
+          }
+          return (array_key_exists($index, $_POST)) ? $_POST[$index] : null;
+      }
+      public static function redirect($url, $status = 303)
+      {
+          Response::this()
+              ->status($status)
+              ->header('Location', $url)
+              ->write($url)
+              ->send();
+      }
+
 
       public function getUri()
       {
@@ -60,19 +121,28 @@
       {
           $req = $this->client->createRequest('GET', $url, $params);
           $cek = $this->client->send($req);
-              return  $this;
+              return  $cek;
 
       }
       public function post($url,$params = array() )
       {
           $req = $this->client->createRequest('POST', $url, $params);
           $cek = $this->client->send($req);
-          return $this;
+          return $cek;
       }
 
       public function __call($name,$params)
       {
-          return call_user_func_array(array($this->client,$name),$params);
+          if(self::$_singleton === null)
+          {
+
+              $thi =  static::this();
+              return call_user_func_array(array($thi->client,$name),$params);
+
+          }else{
+              return call_user_func_array(array($this->client,$name),$params);
+          }
+
       }
 
   }

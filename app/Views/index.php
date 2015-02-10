@@ -1,5 +1,7 @@
 <?php
 
 
-   print_r(Desing\Single::$siniflar);
+
+
+ print_r(Redirect::intended('dashboard'));
 

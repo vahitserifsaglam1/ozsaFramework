@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Stringy\\' => array($vendorDir . '/danielstjules/stringy/src'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'GuzzleHttp\\Stream\\' => array($vendorDir . '/guzzlehttp/streams/src'),

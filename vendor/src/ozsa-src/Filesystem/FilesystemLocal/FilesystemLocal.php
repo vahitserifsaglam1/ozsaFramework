@@ -13,7 +13,7 @@
 
 Class FilesystemLocal {
 
-    private static $instance;
+    public static $instance;
 
     public $dirs;
 
@@ -21,7 +21,7 @@ Class FilesystemLocal {
 
     protected static $scanAll;
 
-    private function __construct() {}
+    public function __construct() {}
 
 
     public static function getInstance()
@@ -32,6 +32,13 @@ Class FilesystemLocal {
         }
 
         return self::$instance;
+    }
+
+    public function getName()
+    {
+
+        return "FilesystemLocal";
+
     }
 
 

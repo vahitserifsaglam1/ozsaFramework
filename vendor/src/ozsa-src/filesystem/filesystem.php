@@ -40,8 +40,8 @@
        }
        public function __call( $name, $params )
        {
-
-           return call_user_func_array(array($this->adapter,$name),$params);
+           $namef = "Filesystem".$this->disk;
+           return call_user_func_array(array($this->adapter->$namef,$name),$params);
 
        }
 

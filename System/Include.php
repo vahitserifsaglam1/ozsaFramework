@@ -8,7 +8,6 @@
     * Sunucunun Yüklenme Zamanı
     */
 
-    define('OZSA_START',microtime(true));
 
      /**
      *  Sınfılarda Kullanılacak app/ konumunun sabiti
@@ -52,7 +51,15 @@
      * Hata Sınıfı
      */
 
-    require_once APP_PATH."Error/errorException.php";
+    require_once APP_PATH.'Error/errorException.php';
+
+    /**
+    *
+     *  Yardımcı Fonksiyonlar
+    *
+    */
+
+    require_once APP_PATH.'Lib/Helpers/helpers.php';
 
     /**
     * Fonksion dosyaları
