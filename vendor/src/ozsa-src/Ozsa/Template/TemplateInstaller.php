@@ -2,7 +2,7 @@
 /**
  *  ***************************************************
  *
- *   Ozsaframework Template Engine ( Twig )
+ *   Myfc Framework Template Engine ( Twig )
  *
  *   *****************************************************
  */
@@ -13,14 +13,17 @@ namespace Ozsa\Template;
  */
  class Engine
  {
+
      /**
       * @var $loader
       */
+
      public static $loader;
 
      /**
       * @return mixed $loader
       */
+
      public static function Installer()
      {
          \Twig_Autoloader::register();
@@ -34,6 +37,7 @@ namespace Ozsa\Template;
       * @param $file
       * @return mixed
       */
+
      public static function templateInstaller($options = array(),array $array,$file)
      {
 

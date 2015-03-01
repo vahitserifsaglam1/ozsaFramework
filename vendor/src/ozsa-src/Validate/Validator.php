@@ -11,30 +11,53 @@
   class Validator
   {
       public  $gump;
-      public  $autoValidate;
+      public  $autoValidate = true;
       public static $options;
       public static $functions;
+      protected $validateParams;
 
-      public function __construct($options)
+      /**
+       * @param string $options
+       *
+       *  Validate Klasörünün belirlenmesi ve gerekli klasörün çekilmesi
+       */
+
+      public function __construct( )
       {
-
+          $options = require APP_PATH.'Configs/validateConfigs.php';
           $this->set = $options;
           self::$options = $options;
-          $this->gump =  Desing\Single::make('GUMP');#new GUMP;
+          $this->gump =  Desing\Single::make('\GUMP');#new GUMP;
           if($this->autoValidate)
           {
-              $appFolder = $options['validateFolder'];
+               $appFolder = $options['validateFolder'];
 
                $files = glob($appFolder."/*",GLOB_NOSORT);
 
+
+               $types = [];
+
               foreach($files as $key)
               {
-                  $types[str_replace(".php","",end(explode('/',$key)))] = require $key;
+                  $notphp = str_replace(".php","",$key);
+                  $explode = explode("/",$notphp);
+                  $end = end($explode);
+                  $types[ $end ] = require $key;
               }
             $this->validateParams = $types;
 
 
+
           }
+
+      }
+
+
+
+      public static function boot(   )
+      {
+
+          return new static();
 
       }
       public static function make($veri,array $filters = array(),array $rules = array())
@@ -65,23 +88,24 @@
        * @param $param
        * @return bool
        * @throws Exception
+       *
+       *  İsme göre dosyadan değerler okunup kontrol edilmesi
        */
       public function validate($veri,$param)
       {
           $files = $this->validateParams;
 
-          $veri = $this->gump->filter($veri, $this->validateParams[$param]['filters']);
+          $veri = $this->gump->filter($veri, $files[$param]['filters']);
 
           $validated = $this->gump->validate(
-              $veri, $this->validateParams[$param]['rules']
+              $veri, $files[$param]['rules']
           );
 
           if($validated)
           {
               return true;
           }else{
-              print_r($validated);
-              return false;
+              return $validated;
           }
 
       }

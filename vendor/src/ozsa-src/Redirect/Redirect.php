@@ -1,18 +1,29 @@
 <?php
 
 
- use Http\Request;
+   use Http\Request;
 
-  use Redirect\Genarator\UrlGenarator;
+   use Redirect\Generator as urlGenarator;
 
-  class Redirect extends  Request
+   use Redirect\Redirecter;
+
+   use Exceptions\ClassExceptions\MethodExceptions\undefinedMethodException;
+
+
+  class Reditect
   {
 
-    protected $generator;
+      protected $generator;
 
-    protected $request;
+      protected $request;
 
-    protected static $static;
+      protected static $static;
+
+      protected $message;
+
+      protected  $reditecter;
+
+      protected static $boot;
 
 
      public function  __construct()
@@ -30,11 +41,19 @@
        {
 
 
-          $this->generator = UrlGenarator::boot($this->getUri());
+          $this->generator = UrlGenarator::boot($this->request->getUri());
 
        }
 
+         if(! $this->reditecter )
+         {
+
+             $this->reditecter = Redirecter::boot();
+
+         }
+
      }
+
 
     public static function boot(){
 
@@ -44,7 +63,12 @@
 
     }
 
-    public static function  intended( $url )
+      /**
+       * @param $url
+       * @param int $time
+       */
+
+    public static function  intended( $url, $time=0 )
     {
 
        if( !static::$static )
@@ -61,8 +85,36 @@
 
         }
 
+        if( $time>0 )
+        {
+            static::$static->reditecter->header($url,$time);
+        }else{
+
+            static::$static->reditecter->location($url);
+        }
+
+
+
+
 
     }
+
+      public function __call( $name, $params )
+      {
+
+          if( method_exists($this->reditecter,$name))
+          {
+
+              return call_user_func_array(array($this->reditecter,$name),$params);
+
+          }
+          else{
+
+              throw new undefinedMethodException(  "$name  adında bir fonksiyon bulunamadı");
+
+          }
+
+      }
 
 
   }

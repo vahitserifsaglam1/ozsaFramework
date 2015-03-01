@@ -9,6 +9,8 @@
 
      public $connectionAdapter;
 
+     protected $creator;
+
 
      public function __construct( $databaseConfigs = null)
 
@@ -24,8 +26,21 @@
              $this->databaseConfigs = require APP_PATH.'Configs/databaseConfigs.php';
          }
 
-     }
+         if( $this->databaseConfigs['autoCreateModals'] === true )
+         {
 
+             $this->creatorStarter();
+
+         }
+
+     }
+     protected function creatorStarter()
+     {
+
+       $this->creator = \Desing\Single::make('\Database\Schema\Creator',APP_PATH.'Configs/');
+
+
+     }
      public function addConnection( Array $array = [] )
      {
 
@@ -50,9 +65,8 @@
 
          $adapterName = $default.'Connector';
 
-        # $this->connectionAdapter = \Desing\Single::make('Database\Connector\Conntector'.$default,$defaultConnection);
+        $this->connectionAdapter = \Desing\Single::make('Database\Connector\Conntector'.$default,$defaultConnection);
 
-         $this->connectionAdapter = \Support\Classer\Classer::make('\Database\Connector\Connector'.$default,$defaultConnection);
 
          return $this->connectionAdapter;
 

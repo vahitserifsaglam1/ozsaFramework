@@ -8,6 +8,7 @@
  */
 class Route
 {
+
     private static $_singleton;
     private $_prefix;
     private $_routeCollection = array();

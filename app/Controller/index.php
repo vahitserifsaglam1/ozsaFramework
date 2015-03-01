@@ -15,8 +15,10 @@
        public function __construct()
        {
           parent::__construct();
-           View::render('index');
+           $this->_view->load('index',true);
        }
+
+
 
   }
 

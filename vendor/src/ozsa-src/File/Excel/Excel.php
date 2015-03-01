@@ -7,7 +7,7 @@
  *
  *  ****************************
  *
- *  OzsaFramework excel oluşturma sınıfı
+ *  Myfc Framework excel oluşturma sınıfı
  *
  *
  *   *************************
@@ -46,8 +46,8 @@
         /**
          * @return mixed $this;
          */
-        public function __construct(){
-            $this->fileName = "excel_class";
+        public function __construct($fileName = 'excel_class'){
+            $this->fileName = $fileName;
             $this->ext = ".xls";
             $this->tableNames = "";
             $this->tableValues = "";

@@ -16,7 +16,7 @@
  *
  * @packpage PHPmailer
  *
- * @link https://github.com/PHPMailer/PHPMailer
+ * @see https://github.com/PHPMailer/PHPMailer
  *
  *
  */
@@ -77,6 +77,7 @@
            }else{
                $configs = require APP_PATH.'Configs/mailConfigs.php';
            }
+           $configs = $configs['mailer'];
            $this->password = $configs['password'];
            $this->username = $configs['username'];
            $this->host = $configs['host'];

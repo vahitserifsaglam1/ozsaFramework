@@ -12,10 +12,7 @@ class Image{
      */
     private $image;
 
-    /**
-     * @param $image
-     * @return $this
-     */
+
     public function __construct($image){
         $this->image = $image;
         $this->folder = "uploads";
@@ -24,7 +21,7 @@ class Image{
         $this->tmpname = $image['tmp_name'];
         $this->ext = substr($image['name'],-4,4);
         $this->newFileName = md5(uniqid());
-        return $this;
+
     }
 
     /**

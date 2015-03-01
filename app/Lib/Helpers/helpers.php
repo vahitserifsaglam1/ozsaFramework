@@ -337,7 +337,65 @@ if ( ! function_exists('class_basename'))
 	}
 }
 
-if ( ! function_exists('class_uses_recursive'))
+ if( !function_exists('csrf_creator'))
+ {
+
+     function csrf_creator()
+     {
+
+
+
+         if(function_exists('session_id'))
+         {
+
+             $ip = session_id();
+
+         }
+
+         $base64 = base64_encode($ip);
+
+         $sha1 = sha1($base64);
+
+         $md5 = md5($sha1);
+
+         return $md5;
+
+
+
+     }
+ }
+
+ if( ! function_exists('crsf_control'))
+ {
+
+
+  function crsf_control()
+  {
+
+      if(function_exists('session_id'))
+      {
+
+          $ip = session_id();
+
+          $base64 = base64_encode($ip);
+
+          $sha1 = sha1($base64);
+
+          $md5 = md5($sha1);
+
+          if($md5 && isset( $md5 ) && !empty( $md5 ) )
+
+          return ($md5) ? true:false;
+
+      }
+
+  }
+
+
+ }
+
+if ( ! function_exists('class_uses_recursive'
+))
 {
 	/**
 	 * Returns all traits used by a class, it's subclasses and trait of their traits

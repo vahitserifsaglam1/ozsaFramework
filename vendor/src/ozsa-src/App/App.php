@@ -1,7 +1,11 @@
-<?php namespace App;
+<?php
+    namespace App;
 
     class App
     {
+        /**
+         * @var array|bool Ayarların tutulacağı değişken
+         */
         protected $settings = false;
         private $db = false;
         private $request;
@@ -9,6 +13,13 @@
         public $validator;
         public $boots;
         protected $adapters;
+
+        /***
+         * @param $pathOptions
+         * @param $configs
+         *
+         *  Başlatıcı fonksiyon: Adapatera gerekli adapterların eklenmesi
+         */
 
         public function __construct($pathOptions,$configs)
         {
@@ -20,6 +31,8 @@
             $this->adapters->addAdapter( \Desing\Single::make('\App\Assets'),true);
 
             $this->adapters->addAdapter( \Desing\Single::make( '\Session\Starter'));
+
+            $this->adapters->addAdapter( \Desing\Single::make( '\Http\Server') );
 
 
 
@@ -37,6 +50,11 @@
            return null;
        }
 
+        /**
+         * @return array
+         *  Urli ayarıma fonksionu
+         */
+
         public static function urlParse()
         {
             return explode("/",$_GET['url']);
@@ -45,27 +63,44 @@
         public function requestControl()
         {
 
-            if(!isset($_GET['url'])) $_GET['url'] = 'index';
-            if(strstr($_GET['url'],'.php')) $_GET['url'] = str_replace('.php','',$_GET['url']);
+             $url = $this->adapters->Assets->returnGet()['url']; #Assets::returnGetStatic()['url'];
 
-            if(!strstr($_GET['url'],'/')) $_GET['url'] .= "/";
 
-            $ex = explode("/",$_GET['url']);
+            if(!isset($url)) $url = 'index';
 
-            define('URL',$_GET['url']);
+            if(strstr($url,'.php'))
+            {
+                $url = str_replace('.php','',$url);
+            }
+
+            if(!strstr($_GET['url'],'/'))
+            {
+                $url .= "/";
+            }
+
+            $ex = explode("/",$url);
+
+            define('URL',$url);
 
             return $ex;
         }
 
         public function paramsCheck( $ex )
         {
-            if(isset($ex[1]))$function = $ex[1];
-            if(isset($ex[2])){
+            if(isset($ex[1]))
+            {
+                $function = $ex[1];
+            }
+            if(isset($ex[2]))
+            {
                 unset($ex[0]);
                 unset($ex[1]);
                 $params=$ex;
 
-            }else { $params = array(); }
+            }else
+            {
+                $params = array();
+            }
 
             return $params;
         }
@@ -84,7 +119,10 @@
 
               @$view = $ex[0];
 
+              @$function = $ex[1];
+
               $params = $this->paramsCheck( $ex );
+
 
 
               if( $view != $appPath && $view != $systemPath && !strstr($_SERVER['REQUEST_URI'], 'public.php'))
@@ -92,20 +130,59 @@
 
 
                   $path  =  $appPath."/Controller/$view.php";
-                  include $path;
-                  $class = \Desing\Single::make($view);
-                  if(isset($function))call_user_func_array(array($class,$function),$params);
+
+                  if(isset( $path ) && file_exists($path) )
+                  {
+
+
+                      include $path;
+                      $class = \Desing\Single::make($view);
+
+                      if( count($params)> 1)
+                      {
+
+                          if(isset($function))call_user_func_array(array($class,$function),$params);
+
+                      }else{
+
+
+                          $class->$function();
+
+                      }
+
+
+
+                  }else{
+
+                      $response = \Desing\Single::make('\Http\Response','Böyle bir sayfa bulunamadı',404);
+
+                      $url = \Config::get('Configs','URL');
+
+                      $response ->reflesh($url."index");
+
+                  }
+
+
 
                  # $render->render($appPath."/Views/".$view.".php",$configs);
 
               }else{
 
-                  $response = \Desing\Single::make('Html\Response',404,'bu sayfaya erişim hakınız yok','Lütfen koşarak uzaklaşın');
+                  $response = \Desing\Single::make('\Http\Response','Bu sayfalara giremezsiniz',404);
 
-                     $response ->reflesh("index.php")->execute();
+                  $url = \Config::get('Configs','URL');
+
+                  $response ->reflesh($url."index");
 
 
               }
+        }
+
+        public static function controllerCheck($name)
+        {
+
+            return (file_exists( APP_PATH."/Controller/$name.php")) ? true:false;
+
         }
         public function __destruct()
         {

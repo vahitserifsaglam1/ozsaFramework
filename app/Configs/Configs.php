@@ -2,68 +2,9 @@
 
  return [
 
-     'URL' => 'http://localhost/framework/',
+     'URL' => 'http://localhost/ses/',
 
 
-     /**
-      *
-      *  Session Ayarları
-      *
-      *
-      *   Desteklenen tipler 'ozsa','php' ,'json'
-      *
-      */
-
-      'Session' =>
-
-      [
-
-          'type' => 'php',
-
-            'SessionFolder' => APP_PATH.'Stroge/Session'
-
-     ],
-
-     /**
-      *
-      *  Önbellekleme Ayarları
-      *
-      *  **********
-      *
-      *   Desteklenen Tipler :  'memcache','apc' ,'file'
-      *
-      */
-
-      'Cache' =>
-      [
-
-        'type' => 'file',
-
-           'CacheFolder' => APP_PATH.'Stroge/Cache'
-
-      ],
-
-
-     /**
-      *
-      *  Error bildirme ayarları
-      *
-      *   Dokunmamanız tavsiye edilir
-      *
-      */
-
-
-     'Error' =>
-
-
-            [
-             'Reporting' => 0,
-
-             'logFilePath' => APP_PATH.'Logs/error.log',
-
-              'writeLog' => true
-
-            ]
 
      /**
       *   Doğrulama ayarları i
@@ -72,7 +13,7 @@
       */
 
 
-     ,'Validate' =>
+     'Validate' =>
 
 
         [

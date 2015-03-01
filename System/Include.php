@@ -51,6 +51,8 @@
      * Hata Sınıfı
      */
 
+    define('URL', $dbConfigs['URL']);
+
     require_once APP_PATH.'Error/errorException.php';
 
     /**

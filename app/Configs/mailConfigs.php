@@ -23,8 +23,10 @@
  return
 
      [
-
-     'username' => 'mailadresiniz@adres.com',
+	 
+	 'mailer' => [
+	 
+	 'username' => 'mailadresiniz@adres.com',
 
      'password' => 'mailsifreniz',
 
@@ -33,5 +35,19 @@
      'host' => 'host',
 
      'secure' => 'tls',
+	 
+	 
+	 ],
+	 
+	 'mailgun' => [
+	   
+	    'domain' => 'your mailgun domain',
+		'secret' => 'your mailgun secret'
+	   
+	 ]
+
+
+	 
+
 
    ];

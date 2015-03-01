@@ -48,8 +48,18 @@
 
       protected $extentedClass;
 
+      protected static $boot;
+
+      protected $specialWhere = false;
+
+      /**
+       * @param string $selectedTable
+       *
+       *  Başlatıcı sınıf, seçili olan tabloyu ayarlar ve adapter leri kullanıma hazırlar
+       */
       public function __construct( $selectedTable = '')
       {
+
           $this->adapter = \Desing\Single::make( 'Adapter\Adapter','Database' );
 
           $this->adapter->addAdapter(\Desing\Single::make('\Database\Connector\Connector'));
@@ -58,14 +68,14 @@
 
           $this->adapter->alLAdaptersBoot();
 
-          $this->extentedClass = get_called_class();
-
-          if($selectedTable === '' )
+          if($selectedTable !== '' )
           {
+
               $this->selectedTable = $selectedTable;
+
           }else{
 
-
+              $this->extentedClass = get_called_class();
 
               $vars = get_class_vars($this->extentedClass);
 
@@ -81,8 +91,10 @@
 
           }
 
+          static::$boot = $this;
 
       }
+
 
 
       public static function boot( $selectedTable = '' )
@@ -144,6 +156,24 @@
                $this->get[$this->selectedTable][ $name ];
 
           }
+
+      }
+
+
+      public function addSpecialWhere(array $array = array()){
+
+          foreach($array as $key)
+          {
+
+              $this->specialWhere[$this->selectedTable][] = $key;
+
+          }
+
+      }
+
+      public function addSpecial($ilk,$orta,$son){
+
+          $this->specialWhere[$this->selectedTable][] = func_get_args();
 
       }
       /*
@@ -234,7 +264,7 @@
 
 
 
-      public function find(  $int  )
+      public  function find(  $int  )
 
       {
 
@@ -278,6 +308,18 @@
 
       }
 
+      public function specialer( array $special = array() )
+      {
+          $s = "";
+
+         foreach($special as $array ){
+
+             $s .= $array[0].$array[1]."'{$array[2]}' AND ";
+
+         }
+          return rtrim($s," AND ");
+      }
+
       /**
        * @param $array
        * @return string
@@ -285,11 +327,21 @@
       public function wherer($array)
       {
           $s = "";
-          foreach ( $array as $whereKey => $whereValue)
+
+          foreach ( $array as $whereKey => $whereValue) {
+              $s .= $whereKey . '=' . "'$whereValue' AND ";
+          };
+          if(is_array($this->specialWhere[$this->selectedTable]))
           {
-              $s .= $whereKey.'='."'$whereValue' AND ";
+              $s .= $this->specialer($this->specialWhere[$this->selectedTable]);
+              $return = $s;
+          }else{
+              $return = rtrim($s," AND ");
           }
-          return rtrim($s," AND ");
+
+         return $return;
+
+
       }
 
       /**
@@ -371,7 +423,7 @@
       {
           $table = $this->selectedTable;
 
-          $msg = ' INSERT INTO '.$this->selectedTable.' SET '.$this->wherer($this->set[$table]);
+          $msg = ' INSERT INTO '.$this->selectedTable.' SET '.$this->mixer($this->set[$table],',');
 
           return $this->que( $msg, false);
 
@@ -384,7 +436,6 @@
       {
           $table = $this->selectedTable;
           $where = $this->where[$table];
-
           $msg = ' UPDATE '.$table.' SET '.$this->mixer($this->set[$table],', ').' WHERE '.$this->wherer($where);
           return $this->que( $msg, false);
       }
@@ -403,6 +454,14 @@
       /**
        * @return $this
        */
+
+      public function returnValues()
+      {
+
+        return $this->lastFetch;
+
+      }
+
       public function read($que = true)
       {
           $table = $this->selectedTable;
@@ -557,6 +616,8 @@
               return call_user_func_array(array( $this->adapter->Connector,$name),$params);
           }
 
+          return $this;
+
 
 
       }
@@ -571,6 +632,8 @@
       {
 
            $this->set[$this->selectedTable][$name] = $value;
+
+          return  $this;
 
       }
 

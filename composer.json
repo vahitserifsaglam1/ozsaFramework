@@ -8,10 +8,11 @@
         "vendor/wixel/gump",
         "vendor/twig",
         "vendor/predis/predis",
-        "vendor/redbeanphp",
         "vendor/guzzlehttp",
 		"vendor/nesbot/carbon",
-		"vendor/danielstjules"
+		"vendor/danielstjules",
+		"vendor/mailgun",
+		"app/Lib/Zend/Http"
     ]
 },
     "require": {
@@ -22,8 +23,8 @@
         "guzzlehttp/guzzle": "~5.0",
 		"symfony/http-foundation": "3.0.*@dev",
 		"nesbot/carbon": "dev-master",
-		"phpunit/phpunit": "4.5.*",
-		"danielstjules/Stringy":"dev-master"
+		"danielstjules/Stringy":"dev-master",
+		"mailgun/mailgun-php":"dev-master"
        
     }
 }

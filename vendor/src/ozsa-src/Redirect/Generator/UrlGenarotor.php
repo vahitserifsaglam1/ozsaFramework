@@ -1,29 +1,30 @@
 <?php
 
- namespace Redirect\Genarator;
+ namespace Redirect;
 
-
- class UrlGenarator
+ class Generator
  {
 
-  public $baseurl;
+     public $baseurl;
 
-  private $url;
+     private $url;
 
      private $base;
+
+     protected $server;
 
   protected $filesystem;
 
   public function __construct( $baseurl = '')
   {
 
-    $this->baseurl = $baseurl;
+        $this->server = \Desing\Single::make( '\Http\Server' );
 
-    $this->filesystem = \Filesystem::boot('Local');
+        $this->filesystem = \Filesystem::boot('Local');
 
-      $base = require APP_PATH.'Configs/Configs.php';
+        $base = require APP_PATH.'Configs/Configs.php';
 
-      $this->base = $base['URL'];
+        $this->base = $this->server->returnUrl();
 
 
 
@@ -66,7 +67,7 @@
 
     $name = $kontrol.'.php';
 
-     if( $this->filesystem->exists(APP_PATH.'Controller/'.$name))
+     if( \App\App::controllerCheck($name))
      {
 
           $return = true;

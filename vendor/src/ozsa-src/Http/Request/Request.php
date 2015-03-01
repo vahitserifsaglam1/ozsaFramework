@@ -2,8 +2,18 @@
 
  namespace Http;
 
+
   class Request
   {
+
+      /** they are http versions */
+      const VERSION_11 = "HTTP/1.1";
+      const VERSION_10 = "HTTP/1.0";
+      /**
+       * @var
+       *
+       *  Instance of __CLASS__
+       */
       private static $_singleton;
       protected $client;
       protected $responseGet;
@@ -11,22 +21,37 @@
       private $_queryString;
       private $_uri;
       private $_requestMethod;
+      protected $server;
 
+      /**
+       *
+       *  Class Starter method
+       *
+       */
       public function __construct()
       {
            $this->client = \Desing\Single::make('\GuzzleHttp\Client');
 
       }
+
+      /**
+       * @return Request
+       *
+       *  Return the __CLASS__ instance
+       */
       public static function this()
       {
           if (self::$_singleton === null) {
-              self::$_singleton = false;
               self::$_singleton = new self;
           }
 
           return self::$_singleton;
       }
 
+      /**
+       * @return null
+       *  Return Query String
+       */
       public function getQueryString()
       {
           if ($this->_queryString === null) {
@@ -34,13 +59,27 @@
           }
           return $this->_queryString;
       }
+
+      /**
+       * @return bool
+       *  Check request HTTP or Https
+       */
+
       public function isHttps()
       {
           return (array_key_exists('HTTPS', $_SERVER) || $_SERVER['HTTPS'] === 'off');
       }
+
+      /**
+       * @return bool
+       *
+       *  Check request method
+       *
+       *  if method = GET return true else false
+       */
       public function isGet()
       {
-          return $this->_requestMethod === 'GET';
+          return ($this->_requestMethod === 'GET') ? true:false;
       }
       public function isPost()
       {

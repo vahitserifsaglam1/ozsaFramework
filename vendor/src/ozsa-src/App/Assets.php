@@ -4,12 +4,18 @@
    * Class Assets
    * @package App
    */
+
+   use GUMP;
+
   Class Assets
   {
       /**
        * @var $post
        * @var $get
        * @var $files
+       * @var $configs
+       * @var static $getS
+       * @var static $postS
        */
       public $post;
       public $get;
@@ -21,8 +27,10 @@
       /**
        * @param bool $validate
        */
-      public function __construct($validate = false)
+      public function __construct($validate = true)
       {
+
+
           if($_FILES)
           {
               $this->files = $_FILES;
@@ -30,13 +38,22 @@
           }
           if($_GET && is_array($_GET))
           {
-              $this->get = $_GET;
-              if($validate) $this->setPost( \GUMP::xss_clean($this->get));
+
+              if($validate) {
+                  $this->setGet( $_GET );
+              }else{
+                  $this->get = $_GET;
+              }
           }
           if($_POST)
           {
-              $this->post = $_POST;
-              if($validate) $this->setPost( \GUMP::xss_clean($this->post));
+
+              if($validate){
+                  $this->setPost( $_POST );
+              }else{
+                  $this->post = $_POST;
+              }
+
           }
 
           if($_GET['url'] == 'public.php') unset($_GET['url']);
@@ -50,6 +67,10 @@
       {
            $this->configs = $configs;
       }
+
+      /**
+       * @return mixed
+       */
       public function returnPost(){
           return $this->post;
       }
@@ -60,6 +81,13 @@
       public function returnGet()
       {
           return $this->get;
+      }
+
+      public function xss_clean( array $params )
+      {
+
+           return \GUMP::xss_clean($params);
+
       }
 
        public static function returnGetStatic()
@@ -96,13 +124,47 @@
        * @param $post
        * @return $this
        */
+
+
+      public function checkPost()
+      {
+
+          if( $this->post && isset($this->post) && is_array($this->post) )
+          {
+
+              return true;
+
+          }else{
+
+              return false;
+
+          }
+
+      }
+
+      public function checkGet()
+      {
+
+          if( $this->get && isset($this->get) && is_array($this->get) )
+          {
+
+              return true;
+
+          }else{
+
+              return false;
+
+          }
+
+      }
       public function setPost($post)
       {
+          $post = $this->xss_clean( (array) $post);
           $_POST = array();
           $_POST[] = $post;
           $this->post = $post;
           static::$postS = $post;
-          return $this;
+
       }
 
       /**
@@ -111,15 +173,15 @@
        */
       public function setGet($get)
       {
-          $_GET = array();
-          $_GET[] = $get;
+          $get = $this->xss_clean( (array) $get);
+          $_GET = $get;
           $this->get = $get;
           static::$getS = $get;
-          return $this;
+
       }
       public function getName()
       {
-          return __CLASS__;
+          return "Assets";
       }
 
       public function boot()

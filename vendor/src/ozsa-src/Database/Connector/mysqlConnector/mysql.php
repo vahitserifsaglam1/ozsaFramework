@@ -69,6 +69,16 @@
       }
 
       /**
+       * @param string $aranan
+       * @param $degiscek
+       */
+
+      public function bindParam($aranan = ':',$degiscek)
+      {
+         $this->queryString =  $this->ret($aranan,$degiscek);
+      }
+
+      /**
        * @param $aranan
        * @param $degiscek
        * @param string $metin

@@ -6,13 +6,13 @@
   class Classer{
 
 
-      public static function make($classname,...$options)
+      public static function make($classname)
       {
 
           if(class_exists($classname,false))
           {
-
-              return new $classname(...$options);
+              $parametres = \Desing\Single::unsetter(func_get_args());
+              (new \ReflectionClass($classname))->newInstanceArgs($parametres);
 
           }else{
 

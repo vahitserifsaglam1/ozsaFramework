@@ -1,13 +1,15 @@
 <?php
 
- namespace Curl\Basic;
+ namespace Curl;
+ use Symfony\Component\Validator\Constraints\File;
+
  /**
   * Class Curl
   * @package Curl\Basic
   *
   *  *********************************
   *
-  *  Ozsaframework basit curl sınıfı, static ;
+  *  Myfc framework  basit curl sınıfı, static ;
   *
   *
   *  ///////////////////////////////
@@ -18,10 +20,19 @@
   *
   *  Curl::get('http://www.google.com');
   */
- class Curl implements \curlBasicInterface
+ class Basic
  {
      public static $options;
+
      public static $ch;
+
+     /**
+      *
+      *  Static olarak sınıfın başlatılması
+      *
+      *  Curl\Basic::init()
+      *
+      */
      public static function init()
      {
          self::$ch = curl_init();
@@ -36,6 +47,11 @@
          );
      }
 
+     /**
+      * @param $url
+      * @return mixed
+      */
+
      public static function get($url)
      {
          $class = get_class();
@@ -48,6 +64,12 @@
          return curl_exec(self::$ch);
 
      }
+
+     /**
+      * @param $url
+      * @param array $params
+      * @return mixed
+      */
 
      public static function post($url, $params = array() )
      {
@@ -71,9 +93,24 @@
 
      }
 
+     /**
+      * @param $url
+      * @param string $path
+      * @return mixed
+      */
+
      public static function download($url,$path = "downloads")
      {
          if(!self::$ch) Curl::init();
+
+         $filesystem = \Filesystem::boot('local');
+
+          if(!$filesystem->exists($path))
+          {
+
+              $filesystem->createDirectory($path);
+
+          }
 
          $file = fopen($path,"w+");
 
@@ -85,6 +122,11 @@
 
          return curl_exec(self::$ch);
      }
+
+     /**
+      * @param $params
+      */
+
      public static function addPost($params)
      {
          $fields = "";
@@ -94,14 +136,27 @@
 
          self::$options[CURLOPT_POSTFIELDS] = $fields;
      }
+
+     /**
+      * @param $url
+      */
+
      public static function setUrl($url)
      {
          self::$options[CURLOPT_URL] = str_replace(" ","%20",$url);
      }
+     /**
+      *
+      */
      public static function close()
      {
          curl_close(self::$ch);
      }
+
+     /**
+      * @param $name
+      * @param $params
+      */
 
      public static function __callString($name,$params)
      {

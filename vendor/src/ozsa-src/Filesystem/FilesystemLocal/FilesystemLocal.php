@@ -41,7 +41,6 @@ Class FilesystemLocal {
 
     }
 
-
     public function getExtension($filename)
     {
 
@@ -171,6 +170,7 @@ Class FilesystemLocal {
 
     public function Create($path)
     {
+
 
         if(!file_exists($path))
         {

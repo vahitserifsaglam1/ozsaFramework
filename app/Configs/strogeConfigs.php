@@ -1,6 +1,8 @@
 <?php 
 
   return [
+
+
       'Cache' => [
 	      'driver'        => 'memcache',
 		  'path'          => APP_PATH.'Stroge/Cache',
@@ -13,7 +15,13 @@
 		'path'   =>  APP_PATH.'Stroge/Session',
 		'defaultDriver' => 'php'
 		
-	  ]
+	  ],
+
+      'Cookie' => [
+
+
+
+      ]
 	  
   ]
  

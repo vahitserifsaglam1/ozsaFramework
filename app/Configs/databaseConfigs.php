@@ -8,6 +8,8 @@
 
           'default' => 'mysql',
 
+          'autoCreateModals' => true, // User::find vs şeklinde kullanmak için modal üretmenize gerek kalmaz otomatik üretilir
+
            'Connections' =>
 
             [
@@ -15,7 +17,7 @@
                   'mysql' =>  [
 
                       'host'     => 'localhost',
-                      'dbname'   => 'mvc',
+                      'dbname'   => 'ses',
                       'username' => 'root',
                       'password' => '',
                       'driver'   => 'pdo',

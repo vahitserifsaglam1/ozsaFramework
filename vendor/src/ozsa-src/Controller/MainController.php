@@ -1,10 +1,18 @@
 <?php
 
   class MainController extends Database {
-      public $_modal;
 
+      /**
+       *
+       *  main controller dosyası
+       *
+       * @var string
+       *
+       */
+      public $_modal;
       public $_assets;
       public $_view;
+
       public function __construct()
       {
          $this->_assets = Desing\Single::make('\App\Assets');
@@ -13,12 +21,14 @@
       public function _modal($name)
       {
           $modalPath = APP_PATH.'Modals/'.$name.'.php';
-          $modalName = $name."_modal.php";
+          $modalName = $name;
 
           if(file_exists($modalPath)){
+
+              include $modalPath;
               if(class_exists($modalName))
               {
-                  include $modalPath;
+
                   $this->_modal = new $modalName();
               }
           }

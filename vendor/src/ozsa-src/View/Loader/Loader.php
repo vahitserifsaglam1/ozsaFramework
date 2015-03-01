@@ -43,7 +43,7 @@
 
           {
 
-              include $this->viewPath.$path;
+              include $path;
 
           }
       }

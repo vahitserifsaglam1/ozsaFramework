@@ -1,37 +1,74 @@
 <?php
 
+/**
+ * Class Auth
+ *  Myfc Framework Auth sınıfı
+ *
+ *  Kullanıcılarla ilgili işlem yapmak için kullanılır
+ */
+    use Http\Request;
 
-    class Auth extends DB
+    class Auth
     {
 
-        public  $userTable;
+        public  $userTable = 'user';
 
         public static $booted;
 
         public static $key;
 
-        public function __construct( $userTable )
+        protected static $boot;
+
+        /**
+         * @param string $userTable
+         *
+         *  Başlatıcı sınıf, seçilecek tabloyu ayarlar, standart olarak User Seçilidir.
+         */
+        public function __construct( $userTable='user' )
         {
             $this->userTable = $userTable;
 
+            $this->database = Database::boot($this->userTable);
+
         }
 
-        public function setTable($table)
+        /**
+         * @param string $table
+         *  Sonradan Tablo seçilmek istenirse
+         */
+
+        public function setTable($table = 'user')
         {
            $this->userTable = $table;
         }
 
+        /**
+         * @param string $userTable
+         * @return mixed
+         *  Static olarak sınıfı başlatmak için kullanılır
+         *
+         * @see ::boot('user')
+         */
         public static function boot( $userTable = 'user' )
         {
-          return new static($userTable);
+            if(!static::$boot)
+            {
+
+                static::$boot = new static($userTable);
+
+            }
+
+          return static::$boot;
 
         }
 
-        private static function creator($array)
+
+
+        private  function creator($array)
         {
              $msg = '';
              $value = array();
-          foreach ( $array as list($key,$values)){
+          foreach ( $array as $key => $values){
               $msg .= $key.'= ? AND ';
               $value[] = $values;
           }
@@ -41,44 +78,58 @@
             );
         }
 
-        public static function Http_Auth( $metin = "OzsaFramework")
+        public  function Http_Auth( $metin = "OzsaFramework")
 
         {
 
             if (!isset($_SERVER['PHP_AUTH_USER'])) {
                 header('WWW-Authenticate: Basic realm="'.$metin.'"');
-                header('HTTP/1.0 401 Unauthorized');
+                header(Request::VERSION_10.' 401 Unauthorized');
                 echo 'Doğrulamayı Pas geçtiniz';
                 exit;
             } else {
-                if( static::attempt(['email' => $_SERVER['PHP_AUTH_USER'],
+                if( $this->attempt(['email' => $_SERVER['PHP_AUTH_USER'],
                 'passoword' => $_SERVER['PHP_AUTH_PW']]))
                 {
-                  #echo "giriş doğru";
+                  return true;
                 }else{
-                   # echo "giriş yanlış";
+                   return false;
                 }
 
             }
         }
 
-        public static function attempt ( Array $array = array(), $remember = false)
+        public function register( Array $array = array() )
+        {
+
+            $veri = $this->database
+                ->setArray($array)
+                ->create();
+
+            return  $veri;
+
+
+        }
+
+        public  function attempt ( Array $array = array(), $remember = false,$callAble = '')
         {
 
             $creator = static::creator($array);
+
 
               $key = $creator['key'];
 
               $values = $creator['value'];
 
-              $query = parent::query($key);
+              $query = $this->database->prepare("SELECT * FROM $this->userTable WHERE $key");
 
-              $src =  $query->execute($values);
 
-               if( $src )
+              $query->execute($values);
+
+               if( $query )
                {
 
-                   if ( $src->rowCount() )
+                   if ( $query->rowCount() )
                    {
 
                        if($remember)
@@ -86,6 +137,15 @@
                            Session::set('login', $key[0]);
                            $time =  \Carbon\Carbon::now()->addHour(5);
                            Cookie::set('login',$key[0], $time);
+
+                       }
+
+                       if( is_callable($callAble) )
+                       {
+
+                           $reditect = \Desing\Single::make('\Reditect');
+
+                           $callAble($reditect);
 
                        }
 
@@ -105,7 +165,7 @@
 
         }
 
-        public static function check()
+        public  function check()
         {
             $get = Session::get('login');
 
@@ -129,6 +189,26 @@
             }else{
                 return false;
             }
+
+        }
+
+
+        public static function __callStatic( $name, $params )
+        {
+
+            $boot = static::boot();
+
+            if($boot)
+            {
+
+               return call_user_func_array(array($boot,$name),$params);
+
+            }else{
+
+                throw new Exception(" Sınıf başlatılmamış ");
+
+            }
+
 
         }
 

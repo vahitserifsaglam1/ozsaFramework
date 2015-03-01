@@ -1,6 +1,12 @@
 <?php
-namespace Curl\Full;
-class Curl {
+namespace Curl;
+
+/**
+ * Class Full
+ * @package Curl
+ *  ZebraCurl sınıfı
+ */
+class Full {
 
     public $pause_interval;
     public $threads;
