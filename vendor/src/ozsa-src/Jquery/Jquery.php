@@ -1,205 +1,168 @@
 <?php
+namespace Myfc;
 
-class Jquery {
-    /**
-     * @var string
-     */
-    public static $queryString;
+use Myfc\JqueryApp;
+/**
+ *
+ * @author vahitþerif
+ *        
+ */
+class Jquery
+{
+    
+    public $start = "<script> \n  $(function(){ \n";
+    
+    public $end   = "}) \n</script>";
+    
+    public $content = "";
+    
+    public $app;
+    
+    const DATA = 'data';
 
     /**
-     *  return null;
+     *  
+     *    Baþlatýcý fonksiyon
+     * 
      */
-    public static function extract()
+    public function __construct($div = '')
     {
-        echo  "<script> \n
-             $(function(){ ";
-        echo self::$queryString;
-        echo "}); </script>";
-        return null;
-    }
+        
+        $this->clean();
+        $this->app = new JqueryApp($div);
 
-    public static function clear()
-    {
-        self::$queryString = "";
+       
+        
     }
-
+    
+    
     /**
-     * @param $url
-     * @param $formid
-     * @param string $returnid
-     * @param bool $return
-     * @return string
+     * Static olarak sýnýfý baþlatmak için kullanýlýr
+     * @param string $div
+     * @return \Myfc\Jquery
      */
-    public static function post($url,$formid,$returnid = ".sonuc",$return = false){
-
-        if(is_array($formid))
+    
+    public static function boot( $div = '' )
+    {
+        
+        return new static($div);
+        
+    }
+    
+    public static function  addJquery($return = false)
+    {
+        
+        $jquery = "<script src='https://code.jquery.com/jquery-2.1.3.min.js' type='text/javascript'></script>";
+        
+        if($return)
         {
-            $d = "";
-            foreach ($formid as $key => $value)
-            {
-                $d .= "$key=$value&";
-            }
-            $string = rtrim($d,"&");
+            
+            return $jquery;
+            
         }else{
-            $string = "$('".$formid."').serialize()";
+            
+            echo $jquery;
+            
         }
-        $metin ="
-
-             var url = '".$url."';
-             var data = '".$string."';
-
-             $.post(url,data,";
-        if(strstr($returnid, "{")){
-            $metin .= $returnid.")";
-        }else{
-            $metin  .= "$('".$returnid."').html(data);";
-        }
-        if($return) return $metin;else self::$queryString .= $metin;
     }
-
+    
     /**
-     * @param $name
-     * @param $variables
-     * @param $func
-     * @param bool $return
-     * @return string
+     *  
+     *   Ýçeriði temizler
+     *  
      */
-
-    public static function func($name,$variables,$func,$return = true)
+    
+    public function clean()
     {
-        if(is_array($variables)){
-            foreach($variables as $key)
-            {
-                $variables = "";
-                $variables .= "$key,";
-            }
-            $variables = rtrim($variables,",");
-        }
-        $metin = "function $name($variables){
-           $func
-         }";
-        if($return) return $metin;else self::$queryString .= $metin;
+        
+        $this->content = "";
+        
     }
-
+    
+   
+    
     /**
-     * @param $url
-     * @param $formid
-     * @param string $returnid
-     * @param bool $return
-     * @return string
+     * Div deðiþtirme iþleminde kullanýlýr
+     * @param string $div
+     * @return \Myfc\Jquery
      */
-    public static function get($url,$formid,$returnid = ".sonuc",$return = false)
+    
+    public function setDiv($div = '')
     {
-        if(is_array($formid))
+        
+        $this->app->setDiv($div);
+        
+        return $this;
+        
+    }
+    
+  
+    public function execute($return = true)
+    {
+        $this->content = $this->start.$this->content.$this->end;
+        
+        if($return)
         {
-            $d = "";
-            foreach ($formid as $key => $value)
-            {
-                $d .= "$key=$value&";
-            }
-            $string = rtrim($d,"&");
+            
+            return $this->content;
+            
         }else{
-            $string = "$('".$formid."').serialize()";
+            
+            echo $this->content;
+            
         }
-
-        $metin ="
-
-            var url = '".$url."';
-             var data = '".$string."';
-
-             $.get(url,data,";
-        if(strstr($returnid, "{")){
-            $metin .= $returnid.")";
-        }else{
-            $metin  .= "$('".$returnid."').html(data);";
+        
+    }
+    
+    /**
+     *  
+     *   ->div þeklinde div atamasý yapýlabilir
+     * 
+     *    @param string $name
+     */
+    
+    public function __get($name = '')
+    {
+        
+        $this->setDiv($name);
+        
+        return $this;
+        
+    }
+    
+    /**
+     * Sýnýfda olmayan fonksiyonlarý kullanmak için otomatik olarak JqueryApp a yönlendirilmesi
+     * @param unknown $name
+     * @param unknown $params
+     * @return \Myfc\Jquery
+     */
+    
+    public function __call($name,$params)
+    {
+        
+        $call = call_user_func_array(array($this->app,$name), $params);
+        
+        if(is_string($call))
+        {
+            
+            $this->content .= $call;
+            
         }
-        if($return) return $metin;else self::$queryString .= $metin;
+        
+        if(is_object($call))
+        {
+            
+            $this->content .= $call->getContent();
+            
+        }
+        
+        return $this;
+        
     }
-
-    /**
-     * @param $class
-     * @param $newclass
-     * @param bool $return
-     * @return string
-     */
-    public static function addClass($class,$newclass,$return = false)
-    {
-        $metin =  "
-               $('".$class."').addClass('".$newclass."');
-          ";
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-
-    /**
-     * @param $class
-     * @param $removedclass
-     * @param bool $return
-     * @return string
-     */
-    public static function removeClass($class,$removedclass,$return = false)
-
-    {
-        $metin =  "
-
-            $('".$class."').removeClass('".$removedclass."');
-
-         ";
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-
-    /**
-     * @param $class
-     * @param $toggleClass
-     * @param bool $return
-     * @return string
-     */
-
-    public static function toggleClass($class,$toggleClass,$return = false)
-    {
-        $metin = "
-          $('".$class."').toggleClass('".$toggleClass."');
-      ";
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-    /**
-     * @param $url
-     * @param $returnid
-     * @param bool $return
-     * @return mixed
-     */
-    public function load($url,$returnid,$return = false)
-    {
-        $metin =  "
-          $('".$returnid."').load('".$url."');
-         ";
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-
-    public static function setAttr($id,$attr,$value,$return = false)
-    {
-        $metin =  "
-           $('".$id."').attr('".$id."','".$attr."','".$value."');
-          ";
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-    /**
-     * @param $id
-     * @param $html
-     * @param bool $return
-     * @return mixed
-     */
-
-    public static function html($id,$html,$return = false)
-
-    {
-
-        $metin = "
-           $('".$id."').html('".$html."');";
-
-        if($return) return $metin;else self::$queryString .= $metin;
-    }
-
+    
+    
+    
+    
 }
-
 
 ?>

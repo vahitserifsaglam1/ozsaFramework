@@ -63,6 +63,16 @@
           }
 
       }
+      public function boot()
+      {
+
+      }
+      public function getName()
+      {
+
+          return "Socket";
+
+      }
 
   }
 

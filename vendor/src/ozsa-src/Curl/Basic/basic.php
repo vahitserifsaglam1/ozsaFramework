@@ -1,7 +1,8 @@
 <?php
 
  namespace Curl;
- use Symfony\Component\Validator\Constraints\File;
+
+
 
  /**
   * Class Curl

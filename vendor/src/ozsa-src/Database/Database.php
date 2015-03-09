@@ -96,6 +96,9 @@
       }
 
 
+       /**
+          * Statik olarak sınıf başlatma desteği
+        */
 
       public static function boot( $selectedTable = '' )
       {
@@ -133,7 +136,7 @@
 
            return $this;
       }
-
+       /** Veri tabanında güncelleme veya ekleme işlemi için değer atama  */
       public function addSet( $name,$value )
       {
 
@@ -146,7 +149,7 @@
           }
 
       }
-
+       /** Veri tabanından veri çekme işlemi için çekilecek verilerin seçilmesi  */
       public function addGet( $name )
       {
 
@@ -159,7 +162,7 @@
 
       }
 
-
+     /** Where ekleme işleminde aradaki = i istediğiniz yapıya sokabilme desteğis */
       public function addSpecialWhere(array $array = array()){
 
           foreach($array as $key)

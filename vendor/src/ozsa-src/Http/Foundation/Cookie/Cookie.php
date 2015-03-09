@@ -1,8 +1,16 @@
 <?php
 
+
   namespace Http\Foundation;
 
   use Symfony\Component\HttpFoundation\Cookie as CookieBar;
+
+  /**
+   * Class Cookie
+   * @package Http\Foundation
+   *
+   *  Smyfony Cookie Sınıfı
+   */
 
    class  Cookie
 

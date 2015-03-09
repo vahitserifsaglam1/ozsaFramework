@@ -6,7 +6,7 @@
   class Classer{
 
 
-      public static function make($classname)
+      public static function make($classname, $parametres = array())
       {
 
           if(class_exists($classname,false))

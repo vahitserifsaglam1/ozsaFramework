@@ -7,7 +7,10 @@
       protected  $configs;
 
       protected  $url;
-
+      /**
+       * @var array
+       *  Özel arama terimleri
+       */
       protected  $array = [
 
           'useragent' => 'HTTP_USER_AGENT',
@@ -15,16 +18,14 @@
           'host'      => 'HTTP_HOST',
           'reditect'  => 'REDIRECT_URL',
           'serverip'  => 'SERVER_ADDR',
-          'REMOTE_ADDR' => 'userip'
+          'userip'    => 'REMOTE_ADDR'
 
       ];
 
       public function __construct(){
 
 
-      $this->configs =  require APP_PATH.'Configs/Configs.php';
-
-          $this->url = $this->configs['URL'];
+      $this->configs =  \Config::get('Configs');
 
 
       }

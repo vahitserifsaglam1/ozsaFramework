@@ -20,7 +20,15 @@
 
            'autoValidate' => true,
             'validateFolder' => __DIR__."/Validate"
-        ]
+        ],
+
+     'alias' =>
+
+     [
+
+         'test' => 'vendor/src/ozsa-src/Support/Facede/test.php'
+
+     ]
 
 ];
 

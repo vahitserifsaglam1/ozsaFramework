@@ -5,6 +5,7 @@
  *
  *   Sınıflar içinden configleri çekmek için kullanılacak sınıf
  */
+
   class Config{
 
       protected $check;
@@ -21,6 +22,7 @@
        *
        *   configs dosyalarının yolunu gösterir
        */
+
       public function __construct()
       {
 
@@ -57,6 +59,7 @@
        * @return bool|mixed
        *  Conif i çekmek için kullanılır
        */
+
       public static  function get($name,$config = null)
       {
 

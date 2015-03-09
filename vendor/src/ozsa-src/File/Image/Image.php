@@ -12,6 +12,33 @@ class Image{
      */
     private $image;
 
+    protected $name;
+
+    protected $folder;
+
+    protected $ext;
+
+    protected $tmpname;
+
+    protected $newFileName;
+
+    protected $size;
+
+    const RESIZE = '_resize';
+
+    const COPY = '_copied';
+
+    const COMPORESS = '_compressed';
+
+    const ROTATE = '_rotated';
+
+    const STRING = '_stringed';
+
+    protected $blockedExts = array(
+
+        '.php','.html','.css','.asp','.php5','.php4','.php3'
+
+    );
 
     public function __construct($image){
         $this->image = $image;
@@ -21,6 +48,16 @@ class Image{
         $this->tmpname = $image['tmp_name'];
         $this->ext = substr($image['name'],-4,4);
         $this->newFileName = md5(uniqid());
+
+    }
+
+
+    protected function checkBlockedExt()
+    {
+
+        $array = $this->blockedExts;
+
+        $fileName = $this->name;
 
     }
 
@@ -99,7 +136,7 @@ class Image{
      * @return bool|$this
      */
     public function copy(){
-        $file = $this->folder."/".$this->newFileName."_copied".$this->ext;
+        $file = $this->folder."/".$this->newFileName.static::COPY.$this->ext;
         if(file_exists($this->filePath)){
             $copy =  copy($this->filePath,$file);
             $this->filePath = $file;
@@ -135,7 +172,7 @@ class Image{
         if(strstr($height,"%")){$height = str_replace("%","",$height); $bolh = (100 / $height);$height = ($yukseklik / $bolh); }
 
         $hedef = imagecreatetruecolor($width,$height);
-        $file = $this->folder."/".$this->newFileName."_resized".$this->ext;
+        $file = $this->folder."/".$this->newFileName.static::RESIZE.$this->ext;
         $this->filePath = $file;
         switch($this->ext)
         {
@@ -157,8 +194,6 @@ class Image{
         }
         imagedestroy($hedef);
         imagedestroy($kaynak);
-        unlink($dosya);
-        $this->filePath = $file;
         return $this;
 
     }
@@ -171,7 +206,7 @@ class Image{
     {
         $file_ext = $this->ext;
         $file = $this->filePath;
-        $newFile = $this->folder."/".$this->newFileName."_compressed".$file_ext;
+        $newFile = $this->folder."/".$this->newFileName.static::COMPORESS.$file_ext;
 
 
         switch($file_ext)
@@ -193,8 +228,6 @@ class Image{
                 break;
         }
         imagedestroy($img);
-        unlink($file);
-        $this->filePath = $newFile;
         return $this;
     }
 
@@ -206,7 +239,7 @@ class Image{
     {
         $file = $this->filePath;
         $file_ext = $this->ext;
-        $newFile = $this->folder."/".$this->newFileName."_rotated".$file_ext;
+        $newFile = $this->folder."/".$this->newFileName.static::ROTATE.$file_ext;
         switch($file_ext)
         {
             case '.png':
@@ -226,8 +259,6 @@ class Image{
                 break;
         }
         imagedestroy($kaynak);
-        unlink($file);
-        $this->filePath = $newFile;
         return $this;
     }
 
@@ -270,12 +301,12 @@ class Image{
             $string = $this->string;
             if($string == "")
             {
-                $string = "OZSAIMAGECLASS";
+                $string = "MYFC Framework";
             }
 
         }
         $file_ext = $this->ext;
-        $newFile = $this->folder."/".$this->newFileName."_stringed".$file_ext;
+        $newFile = $this->folder."/".$this->newFileName.static::STRING.$file_ext;
         switch($file_ext)
         {
             case '.jpg':
@@ -298,10 +329,55 @@ class Image{
                 break;
         }
         imagedestroy($kaynak);
-        unlink($file);
-        $this->filePath = $newFile;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+
+    public function getReSizedPath()
+    {
+
+        return $this->folder."/".$this->newFileName.static::RESIZE.$this->ext;
+
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getCompressedPath()
+    {
+
+        return $this->folder."/".$this->newFileName.static::COMPORESS.$this->ext;
+
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getStringedPath()
+    {
+
+        return $this->folder.'/'.$this->newFileName.static::STRING.$this->ext;
+
+    }
+
+
+    /**
+     * @return string
+     */
+
+    public function getRotatedPath()
+
+    {
+
+        return $this->folder.'/'.$this->newFileName.static::ROTATE.$this->ext;
+
+    }
+
 
 }
  ?>

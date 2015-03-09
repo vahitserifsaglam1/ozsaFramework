@@ -12,7 +12,9 @@ class Full {
     public $threads;
     private $_htmlentities;
     private $_info;
+    protected $options;
     private $_queue;
+    protected $cache;
     private $_multi_handle;
     private $_response_messages = array(
         0   =>  'CURLE_OK',

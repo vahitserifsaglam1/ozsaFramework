@@ -1,5 +1,7 @@
 <?php
-    namespace App;
+     namespace App;
+
+
 
     class App
     {
@@ -7,12 +9,21 @@
          * @var array|bool Ayarların tutulacağı değişken
          */
         protected $settings = false;
+
         private $db = false;
+
         private $request;
+
         private $data = null;
+
         public $validator;
+
         public $boots;
+
         protected $adapters;
+        
+
+        protected static $ins;
 
         /***
          * @param $pathOptions
@@ -23,8 +34,9 @@
 
         public function __construct($pathOptions,$configs)
         {
-            $this->settings = ['path' => $pathOptions,
-            'configs'=> $configs];
+            $this->settings = [
+                'path' => $pathOptions,
+                'configs'=> $configs ];
 
             $this->adapters = \Desing\Single::make('Adapter\Adapter','start');
 
@@ -34,26 +46,15 @@
 
             $this->adapters->addAdapter( \Desing\Single::make( '\Http\Server') );
 
+            #   $this->adapters->alAdabtersBoot();
+             $this->getRequest();
 
 
-             #   $this->adapters->alAdabtersBoot();
 
-
-            $this->getRequest();
+             static::$ins = $this;
 
         }
-       public function setErrorReporting()
-       {
-           $configs = require APP_PATH.'Configs/Error.php';
 
-           error_reporting($configs['Reporting']);
-           return null;
-       }
-
-        /**
-         * @return array
-         *  Urli ayarıma fonksionu
-         */
 
         public static function urlParse()
         {
@@ -79,8 +80,6 @@
             }
 
             $ex = explode("/",$url);
-
-            define('URL',$url);
 
             return $ex;
         }
@@ -187,6 +186,13 @@
         public function __destruct()
         {
             \Session::flush();
+        }
+
+        public static function getInstance()
+        {
+
+            return static::$ins;
+
         }
 
     }

@@ -1,6 +1,6 @@
 <?php
-   namespace File;
 
+ namespace File;
 /**
  * Class Excel
  * @package File
@@ -43,6 +43,13 @@
          */
         public $type;
 
+        const EXCEL = 'excel';
+
+        const PDF = 'pdf';
+
+        const XML = 'xml';
+
+        const WORD = 'word';
         /**
          * @return mixed $this;
          */
@@ -141,20 +148,22 @@
             $tableValues = $this->tableValues;
             $n = "";
             $v = "";
+			
+			
             foreach ($tableNames as $key) {
                 $n .= "$key \t";
-
-                $n .= "\n";
-                for ($i = 0; $i < count($tableValues[0]); $i++) {
+              
+            }
+			  for ($i = 0; $i < count($tableValues[0]); $i++) {
                     foreach ($tableValues[0][$i] as $ke) {
                         $v .= "$ke \t";
                     }
                     $v .= "\n";
                 }
 
-                echo $n . $v;
-
-            }
+			 $n .= "\n";
+			 
+			 echo $n.$v;
         }
 
         /**
