@@ -121,7 +121,7 @@
 
               $values = $creator['value'];
 
-              $query = $this->database->prepare("SELECT * FROM $this->userTable WHERE $key");
+              $query = $this->database->prepare("SELECT * FROM {$this->userTable} WHERE $key");
 
 
               $query->execute($values);

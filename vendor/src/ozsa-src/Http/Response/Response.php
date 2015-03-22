@@ -7,6 +7,10 @@
 
      use Symfony\Component\HttpFoundation\Response as Res;
 
+     use Desing\Single;
+
+     use View;
+
      /**
       * Class Response
       * @package Http
@@ -34,7 +38,7 @@
           public function __construct($content = '', $status = 200, array $headers = array())
           {
 
-               $this->factory = new Factory( new Res(),new \View(),\Desing\Single::make('\Redirect'));
+               $this->factory = new Factory( new Res(),new View(),Single::make('\Reditect'));
 
               if($content !== '')
               {

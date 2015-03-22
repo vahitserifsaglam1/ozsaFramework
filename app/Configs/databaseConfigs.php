@@ -8,7 +8,7 @@
 
           'default' => 'mysql',
 
-          'autoCreateModals' => true, // User::find vs şeklinde kullanmak için modal üretmenize gerek kalmaz otomatik üretilir
+          'autoCreateModals' => false, // User::find vs şeklinde kullanmak için modal üretmenize gerek kalmaz otomatik üretilir
 
            'Connections' =>
 

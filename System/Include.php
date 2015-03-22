@@ -4,6 +4,10 @@
     *********************************************************
     *  Gerekli sabitlerin tanımlanması ve gerekli dosyaların yüklenmezi
     *******************************************************
+    *
+    * Sunucunun Yüklenme Zamanı
+    */
+
 
      /**
      *  Sınfılarda Kullanılacak app/ konumunun sabiti
@@ -49,8 +53,7 @@
 
     define('URL', $dbConfigs['URL']);
 
-
-    require_once APP_PATH.'Error/error.php';
+    require_once APP_PATH.'Error/errorException.php';
 
     /**
     *

@@ -15,7 +15,7 @@
 
    {
 
-       new MyException($errstr,$errno,$errline,$errfile);
+       error::newError(array($errstr,$errno,$errline,$errfile));
 
    }
 

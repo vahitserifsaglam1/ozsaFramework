@@ -56,7 +56,7 @@
 
           }
 
-          if($_GET['url'] == 'public.php') unset($_GET['url']);
+          if(isset($_GET['url'])) if( $_GET['url'] == 'public.php') unset($_GET['url']);
       }
 
       /**

@@ -3,7 +3,8 @@
   namespace Database\Schema;
 
 
-  use ComposerAutoloaderInitda18c4bd1705684ddaf489bab9be3c9b as Composer;
+  use Composer\Autoload\ClassLoader as Composer;
+  use Filesystem;
 
   class Creator{
 
@@ -21,17 +22,20 @@
 
        public function __construct( $ormPath )
        {
-
-        $this->fileSytem = \Desing\Single::make('\Filesystem','local');
+           $this->fileSytem = Filesystem::boot('Local');
 
            $ormName = $this->ormName;
 
-           if( !$this->fileSystem->exists($ormPath) )
+           $this->ormPath = $ormPath;
+
+
+
+           if( !$this->fileSystem->exists($this->ormPath) )
            {
              throw new \Exception( sprintf(" %s yolunda %s bulunamadı",$ormPath,$ormName));
            }
 
-           $this->ormPath = $ormPath;
+
 
            $this->ormInc = include $this->ormPath;
 

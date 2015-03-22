@@ -2,7 +2,7 @@
 
  return [
 
-     'URL' => 'http://localhost/ses/',
+     'URL' => 'http://localhost/framework/',
 
 
 
@@ -18,17 +18,10 @@
 
         [
 
-           'autoValidate' => true,
+            'autoValidate' => true,
+
             'validateFolder' => __DIR__."/Validate"
-        ],
-
-     'alias' =>
-
-     [
-
-         'test' => 'vendor/src/ozsa-src/Support/Facede/test.php'
-
-     ]
+        ]
 
 ];
 

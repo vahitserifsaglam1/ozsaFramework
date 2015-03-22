@@ -1,8 +1,7 @@
 <?php
 
  namespace Curl;
-
-
+ use Symfony\Component\Validator\Constraints\File;
 
  /**
   * Class Curl
@@ -104,7 +103,7 @@
      {
          if(!self::$ch) Curl::init();
 
-         $filesystem = \Filesystem::boot('local');
+         $filesystem = \Filesystem::boot('Local');
 
           if(!$filesystem->exists($path))
           {

@@ -36,7 +36,7 @@
          '.php','.html',
      ];
 
-     public function __construct( array $file = [], $uploadsPath = _PUBLIC.'files/uploads', $maxsize = null )
+     public function __construct( array $file = [], $uploadsPath ='Public/files/uploads', $maxsize = null )
      {
 
          $this->file = $file;
@@ -81,7 +81,7 @@
 
      }
 
-     public function setUploadsPath( $path = _PUBLIC.'/files/upload' )
+     public function setUploadsPath( $path = 'Public/files/upload' )
      {
 
          $this->uploadsPath = $path;
@@ -90,7 +90,7 @@
      }
 
 
-     public static function boot(  array $file = [], $uploadsPath = _PUBLIC.'files/uploads', $maxsize = null )
+     public static function boot(  array $file = [], $uploadsPath = 'Public/files/upload', $maxsize = null )
      {
 
          if( !static::$ins )
@@ -180,7 +180,7 @@
          if( !file_exists( $this->uploadsPath ) )
          {
 
-             \Filesystem::boot('local')
+             \Filesystem::boot('Local')
                  ->createDirectory($this->uploadsPath);
 
          }

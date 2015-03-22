@@ -9,7 +9,9 @@
  use Myfc\App\Submiter;
  use Myfc\App\Clicker;
  use Closure;
- 
+ use Myfc\App\Keyer;
+use Myfc\App\Functioner;
+   
  class JqueryApp
  
  {
@@ -85,6 +87,19 @@
      }
      
      /**
+      * Seçili divi deðiþtirir
+      * @param string $classorid
+      * @return \Myfc\JqueryApp
+      */
+        
+     public function set($classorid = '')
+     {
+         
+         return $this->setDiv($classorid);
+         
+     }
+     
+     /**
       * Sýnýfa yeni fonksiyon atamasý yapar
       * @param unknown $name
       * @param callable $call
@@ -103,15 +118,211 @@
      }
      
      /**
+      * @see http://api.jquery.com/slideDown
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     
+     public function slideDown($time,callable $callback)
+     {
+         
+         $animate = new Animater($this);
+         
+         $content = $animate->slideDown($this->selectedDiv, $time, $callback)->getContent();
+         
+         $this->content .= $content;
+         
+         return $this;
+         
+     }
+     
+     /**
+      * @see http://api.jquery.com/slideUp
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     
+     public function slideUp($time,callable $callback)
+     {
+          
+         $animate = new Animater($this);
+          
+         $content = $animate->slideUp($this->selectedDiv, $time, $callback)->getContent();
+          
+         $this->content .= $content;
+          
+         return $this;
+          
+     }
+     
+     /**
+      * @see http://api.jquery.com/slideToggle
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     public function slideToggle($time,callable $callback)
+     {
+     
+         $animate = new Animater($this);
+     
+         $content = $animate->slideToggle($this->selectedDiv, $time, $callback)->getContent();
+     
+         $this->content .= $content;
+     
+         return $this;
+     
+     }
+     
+     /**
+      * @see http://api.jquery.com/fadeIn
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     public function fadeIn($time, callable $callback)
+     {
+         
+         $animate = new Animater($this);
+         
+         $content  = $animate->fadeIn($this->selectedDiv, $time, $callback)->getContent();
+         
+         $this->content .= $content;
+         
+         return $this;
+         
+     }
+     
+     /**
+      * @see http://api.jquery.com/fadeOut
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     public function fadeOut($time, callable $callback)
+     {
+          
+         $animate = new Animater($this);
+          
+         $content  = $animate->fadeOut($this->selectedDiv, $time, $callback)->getContent();
+          
+         $this->content .= $content;
+          
+         return $this;
+          
+     }
+     
+     /**
+      * @see http://api.jquery.com/fadeTo
+      * @param unknown $time
+      * @param callable $callback
+      * @return \Myfc\JqueryApp
+      */
+     public function fadeTo($time, callable $callback)
+     {
+          
+         $animate = new Animater($this);
+          
+         $content  = $animate->fadeTo($this->selectedDiv, $time, $callback)->getContent();
+          
+         $this->content .= $content;
+          
+         return $this;
+          
+     }
+      
+      
+     /**
+      * Javascript fonksiyonu oluþturmak için kullanýlýr
+      * @param string $name
+      * @param array $parameters
+      * @param unknown $callable
+      */
+     
+     public function func($name = '', array $parameters = array(), $callable)
+     {
+         
+         $function = new Functioner($this);
+         
+         $content =  $function->func($div,$name,$parameters, $callable)->getContent();
+         
+         $this->content .= $content;
+         
+         return $this;
+         
+         
+     }
+     
+     /**
+      * http://api.jquery.com/html/
+      * @param string $data
+      * @return \Myfc\JqueryApp
+      */
+     
+     public function html($data = null)
+     {
+         
+         if($data !== null) $this->content .= "$('$this->selectedDiv').html($data); \n";
+         else $this->content .= "$('$this->selectedDiv').html(); \n";
+         
+         return $this;
+         
+     }
+     
+     /**
+      * @see http://api.jquery.com/show/
+      * @param string $text
+      * @return \Myfc\Jquery
+      */
+     
+     
+     public function show($ms = null)
+     {
+         
+         if($ms === null)$this->content .= "$('$this->selectedDiv').show(); \n";
+         else $this->content .= "$('$this->selectedDiv').show($ms); \n";
+             
+         return $this;
+         
+     }
+     
+     /**
+      * @see http://api.jquery.com/hide/
+      * @param string $text
+      * @return \Myfc\Jquery
+      */
+        
+     
+     public function hide($ms = null)
+     {
+         
+        if($ms === null)$this->content .= "$('$this->selectedDiv').hide(); \n";
+         else $this->content .= "$('$this->selectedDiv').hide($ms); \n";
+             
+         return $this;
+         
+     }
+     
+     /**
       * @see http://api.jquery.com/text/
       * @param string $text
       * @return \Myfc\Jquery
       */
      
-     public function text($text = '')
+     public function text($text = null)
      {
      
-         $this->content .= "$('$this->selectedDiv').text('$text'); \n";
+         if($text === null)
+         {
+             $this->content .= "$('$this->selectedDiv').text(); \n";
+         }else{
+             
+             $this->content .= "$('$this->selectedDiv').text('$text'); \n";
+             
+         }
+         
          return $this;
      
      }
@@ -138,10 +349,20 @@
       * @return \Myfc\Jquery
       */
      
-     public function css($css,$properity)
+     public function css($css,$properity = null)
      {
      
-         $this->content .= "$('$this->selectedDiv').css('$css','$properity'); \n";
+         if($properity !== null)
+         {
+             
+             $this->content .= "$('$this->selectedDiv').css('$css','$properity'); \n";
+             
+         }else{
+             
+             $this->content .= "$('$this->selectedDiv').css('$css'); \n";
+         }
+         
+        
          return $this;
      
      }
@@ -470,6 +691,69 @@
      }
      
      /**
+      * @see http://api.jquery.com/keypress/
+      * @param callable $callable
+      * @return \Myfc\JqueryApp
+      */
+     
+     public function keypress(callable $callable)
+     {
+         
+         $div = $this->selectedDiv;
+         
+         $key = new Keyer($this);
+         
+         $content = $key->keypress($div, $callable)->getContent();
+         
+         $this->content .= $content;
+         
+         return $this;
+         
+     }
+     
+     /**
+      * @see http://api.jquery.com/keydown/
+      * @param callable $callable
+      * @return \Myfc\JqueryApp
+      */
+      
+     public function keydown(callable $callable)
+     {
+          
+         $div = $this->selectedDiv;
+          
+         $key = new Keyer($this);
+          
+         $content = $key->keydown($div, $callable)->getContent();
+          
+         $this->content .= $content;
+          
+         return $this;
+          
+     }
+     
+     /**
+      * @see http://api.jquery.com/keyup/
+      * @param callable $callable
+      * @return \Myfc\JqueryApp
+      */
+      
+     public function keyup(callable $callable)
+     {
+          
+         $div = $this->selectedDiv;
+          
+         $key = new Keyer($this);
+          
+         $content = $key->keyup($div, $callable)->getContent();
+          
+         $this->content .= $content;
+          
+         return $this;
+          
+     }
+     
+     /**
       * Girilen veriyi jquery nin  anlayacaðý formata döndürür
       * @param array $encoder
       * @return string
@@ -510,7 +794,11 @@
          return $s;
      
      }
-     
+     /**
+      * dizi içindeki fonksiyonlarý ayýrmak için kullanýlýr
+      * @param array $encode
+      * @return string
+      */
      public function functionEncoder( array $encode = array () )
      {
          
@@ -534,9 +822,33 @@
          
      }
      
-     public function __call($name, $params)
+     /**
+      * Parametre parçalamak için kullanýlýr
+      * @param array $array
+      */
+     
+     public function parametersParser( array $array = array() )
      {
          
+         $s = "";
+         
+         foreach ($array as $key){
+             
+             $s .= "$key,";
+             
+             
+         }
+         
+         $s = rtrim($s,",");
+         
+         return $s;
+         
+         
+     }
+     
+     public function __call($name, $params)
+     {
+     
          return call_user_func_array(array($this->makro,$name), $params);
          
      }

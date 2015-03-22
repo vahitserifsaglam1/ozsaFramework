@@ -1,6 +1,8 @@
 <?php
  namespace Database\Connector;
 
+  use Database\Schema\Creator;
+
  class Connector
  {
 

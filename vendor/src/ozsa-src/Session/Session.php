@@ -10,7 +10,7 @@
          public function __construct()
          {
 
-             $this->configs = require APP_PATH.'Configs/strogeConfigs.php';
+             $this->configs = Config::get('strogeConfigs');
 
              $this->manager = \Desing\Single::make('\Session\SessionManager',$this->configs);
 

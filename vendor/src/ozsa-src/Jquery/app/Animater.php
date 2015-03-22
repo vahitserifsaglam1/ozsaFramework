@@ -56,6 +56,178 @@ class Animater
          return $this;
         
     }
+    
+    public function fadeIn($div, $time,$callback)
+    {
+        
+        $app = $this->app;
+        
+
+        
+        $this->clear();
+        
+        if(!is_numeric($time))
+        {
+            
+            $time = "'$time'";
+            
+        }
+        
+        $content = "";
+        
+        $content .= "$('$div').fadeIn($time,function(){";
+        
+        $content .= $callback($app)->getContent();
+        
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+    }
+    
+    public function fadeOut($div,$time,$callback)
+    {
+        
+        $app = $this->app;
+              
+        $this->clear();
+        
+        if(!is_numeric($time))
+        {
+        
+            $time = "'$time'";
+        
+        }
+        
+        $content = "";
+        
+        $content .= "$('$div').fadeOut($time,function(){";
+        
+        $content .= $callback($app)->getContent();
+        
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+        
+    }
+    
+    public function fadeTo($div,$time,$opacity,$callback)
+    {
+    
+        $app = $this->app;
+    
+    
+        $this->clear();
+    
+        if(!is_numeric($time))
+        {
+    
+            $time = "'$time'";
+    
+        }
+        
+        $content = "";
+    
+        $content .= "$('$div').fadeTo($time,$opacity,function(){";
+    
+        $content .= $callback($app)->getContent();
+    
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+    
+    }
+    
+    public function slideDown($div,$time,$callback)
+    {
+    
+        $app = $this->app;
+    
+    
+        $this->clear();
+    
+        if(!is_numeric($time))
+        {
+    
+            $time = "'$time'";
+    
+        }
+        
+        $content = "";
+    
+        $content .= "$('$div').slideDown($time,function(){";
+    
+        $content .= $callback($app)->getContent();
+    
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+    
+    }
+    
+    public function slideUp($div,$time,$callback)
+    {
+    
+        $app = $this->app;
+    
+    
+        $this->clear();
+    
+        if(!is_numeric($time))
+        {
+    
+            $time = "'$time'";
+    
+        }
+        
+        $content = "";
+    
+        $content .= "$('$div').slideUp($time,function(e){";
+    
+        $content .= $callback($app)->getContent();
+    
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+    
+    }
+    
+    public function slideToggle($div,$time,$callback)
+    {
+    
+        $app = $this->app;
+    
+        $this->clear();
+    
+        if(!is_numeric($time))
+        {
+    
+            $time = "'$time'";
+    
+        }
+        
+        $content = "";
+    
+        $content .= "$('$div').slideToggle($time,function(e){";
+    
+        $content .= $callback($app)->getContent();
+    
+        $content .= "}); \n";
+        
+        $this->content .= $content;
+        
+        return $this;
+    
+    }
 }
 
 ?>

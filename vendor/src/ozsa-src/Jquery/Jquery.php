@@ -1,5 +1,5 @@
 <?php
-namespace Myfc;
+
 
 use Myfc\JqueryApp;
 /**
@@ -12,7 +12,7 @@ class Jquery
     
     public $start = "<script> \n  $(function(){ \n";
     
-    public $end   = "}) \n</script>";
+    public $end   = "}); \n</script>";
     
     public $content = "";
     

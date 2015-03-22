@@ -1,7 +1,5 @@
 <?php
-     namespace App;
-
-
+    namespace App;
 
     class App
     {
@@ -9,21 +7,12 @@
          * @var array|bool Ayarların tutulacağı değişken
          */
         protected $settings = false;
-
         private $db = false;
-
         private $request;
-
         private $data = null;
-
         public $validator;
-
         public $boots;
-
         protected $adapters;
-        
-
-        protected static $ins;
 
         /***
          * @param $pathOptions
@@ -34,9 +23,8 @@
 
         public function __construct($pathOptions,$configs)
         {
-            $this->settings = [
-                'path' => $pathOptions,
-                'configs'=> $configs ];
+            $this->settings = ['path' => $pathOptions,
+            'configs'=> $configs];
 
             $this->adapters = \Desing\Single::make('Adapter\Adapter','start');
 
@@ -46,15 +34,26 @@
 
             $this->adapters->addAdapter( \Desing\Single::make( '\Http\Server') );
 
-            #   $this->adapters->alAdabtersBoot();
-             $this->getRequest();
 
 
+             #   $this->adapters->alAdabtersBoot();
 
-             static::$ins = $this;
+
+            $this->getRequest();
 
         }
+       public function setErrorReporting()
+       {
+           $configs = require APP_PATH.'Configs/Error.php';
 
+           error_reporting($configs['Reporting']);
+           return null;
+       }
+
+        /**
+         * @return array
+         *  Urli ayarıma fonksionu
+         */
 
         public static function urlParse()
         {
@@ -74,12 +73,14 @@
                 $url = str_replace('.php','',$url);
             }
 
-            if(!strstr($_GET['url'],'/'))
+            if(!strstr($url,'/'))
             {
                 $url .= "/";
             }
 
             $ex = explode("/",$url);
+
+
 
             return $ex;
         }
@@ -188,10 +189,12 @@
             \Session::flush();
         }
 
-        public static function getInstance()
+        public static function baseCreator()
         {
 
-            return static::$ins;
+            $url = \Config::get('Configs','URL');
+
+            return "<base href='$url' />";
 
         }
 

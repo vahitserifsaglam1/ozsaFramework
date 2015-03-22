@@ -63,39 +63,33 @@
       public static  function get($name,$config = null)
       {
 
-          if(!static::$ins)  new static();
+          if(!static::$ins)  static::boot();
 
-          if( static::$configs === null )
+          $path = static::$configPath.'/'.$name.'.php';
+
+
+          if(!isset(static::$configs[$name]))
           {
-              $path = static::$configPath.'/'.$name.'.php';
 
-              if( file_exists( $path ) )
-              {
+              $configs = include $path;
 
-                  $configs = require $path;
+              static::$configs[$name] = $configs;
 
-                  static::$configs = $configs;
 
-                  if( $config !== null )
-                  {
-
-                      $configs = $configs[$config];
-
-                  }
-
-                  return $configs;
-
-              }else{
-
-                  return false;
-
-              }
-
-          }else{
-
-              return static::$configs[$name];
 
           }
+
+          $configs = static::$configs[$name];
+
+          if($config !== null){
+
+
+              $configs = $configs[$config];
+
+
+          }
+
+          return $configs;
 
 
 

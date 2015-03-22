@@ -3,7 +3,7 @@
    namespace Http\Response\Factory;
 
 
-
+   use Reditect;
 
    class ResponseFactory{
 
@@ -17,7 +17,7 @@
 
 
 
-       public function __construct( $response, $view, \Redirect $reditect )
+       public function __construct( $response, $view, Reditect $reditect )
        {
 
            $this->response = $response;

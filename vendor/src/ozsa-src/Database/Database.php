@@ -1,7 +1,6 @@
 <?php
 
-
-
+  use Desing\Single;
 
 
   class Database
@@ -60,11 +59,11 @@
       public function __construct( $selectedTable = '')
       {
 
-          $this->adapter = \Desing\Single::make( 'Adapter\Adapter','Database' );
+          $this->adapter = Single::make( 'Adapter\Adapter','Database' );
 
-          $this->adapter->addAdapter(\Desing\Single::make('\Database\Connector\Connector'));
+          $this->adapter->addAdapter(Single::make('\Database\Connector\Connector'));
 
-          $this->adapter->addAdapter(\Desing\Single::make('\Database\Finder\tableFinder',$this->adapter->Connector));
+          $this->adapter->addAdapter(Single::make('\Database\Finder\tableFinder',$this->adapter->Connector));
 
           $this->adapter->alLAdaptersBoot();
 
@@ -148,17 +147,22 @@
 
           }
 
+          return $this;
+
       }
        /** Veri tabanından veri çekme işlemi için çekilecek verilerin seçilmesi  */
       public function addGet( $name )
       {
 
+
           if( !isset( $this->get[$this->selectedTable][ $name ]) )
           {
 
-               $this->get[$this->selectedTable][ $name ];
+               $this->get[$this->selectedTable][] = $name;
 
           }
+
+          return $this;
 
       }
 
@@ -172,12 +176,15 @@
 
           }
 
+          return $this;
+
       }
 
       public function addSpecial($ilk,$orta,$son){
 
           $this->specialWhere[$this->selectedTable][] = func_get_args();
 
+          return $this;
       }
       /*
         *  [ 'INNER JOIN' => [
@@ -465,7 +472,7 @@
 
       }
 
-      public function read($que = true)
+      public function read($query = true)
       {
           $table = $this->selectedTable;
           $where = $this->where[$table];
@@ -539,11 +546,11 @@
               $msg .= ' LIMIT '.$limit;
           }
 
-          return ($que) ? $this->que($msg):$msg;
+          return ($query) ? $this->que($msg):$msg;
 
       }
 
-      public function que($msg ,$fetch = false)
+      public function que($msg ,$fetch = true)
       {
 
 
@@ -582,7 +589,7 @@
       public function pagination()
       {
 
-        $this->pagination =  Desing\Single::make('\Html\Pagination',$this->adapter->Connector->query($this->lastQuery)->rowCount());
+        $this->pagination =  Single::make('\Html\Pagination',$this->adapter->Connector->query($this->lastQuery)->rowCount());
 
           return $this->pagination->execute(true);
 
